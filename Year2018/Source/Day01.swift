@@ -26,14 +26,14 @@ public struct Day01 {
             .repeating
             .lazy
             .compactMap { Int($0.string) }
-			.makeIterator()
+            .makeIterator()
 
-		while !frequencies.contains(frequency) {
-			frequencies.insert(frequency)
-			frequency += lines.next()!
-		}
+        while !frequencies.contains(frequency) {
+            frequencies.insert(frequency)
+            frequency += lines.next()!
+        }
 
-		return frequency
+        return frequency
     }
 }
 

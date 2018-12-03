@@ -100,6 +100,7 @@
 				24DD574821B3FDF800A9E99B /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		24DD574821B3FDF800A9E99B /* Products */ = {
 			isa = PBXGroup;
