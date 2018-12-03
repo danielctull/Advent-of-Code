@@ -18,28 +18,22 @@ public struct Day01 {
 
     public func part2(input: Input) -> Int {
 
-        var frequencies: Set<Int> = [0]
+        var frequencies: Set<Int> = []
         var frequency = 0
 
-        let lines = input
+        var lines = input
             .lines
             .repeating
             .lazy
             .compactMap { Int($0.string) }
+			.makeIterator()
 
-        for line in lines {
+		while !frequencies.contains(frequency) {
+			frequencies.insert(frequency)
+			frequency += lines.next()!
+		}
 
-            frequency += line
-
-            guard frequencies.contains(frequency) else {
-                frequencies.insert(frequency)
-                continue
-            }
-
-            return frequency
-        }
-
-        fatalError()
+		return frequency
     }
 }
 
