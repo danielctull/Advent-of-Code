@@ -25,13 +25,19 @@ public struct Day02 {
 
     public func part2(input: Input) -> String {
 
-        return input
+        let strings = input
             .lines
             .compactMap { $0.string }
-            .squared(ignoringSameIndex: true)
-            .reduce("") { result, tuple in
 
-            let sharedCharacters = zip(tuple.0, tuple.1).compactMap { tuple -> Character? in
+        let repeating = strings.enumerated().repeating
+        let repeatingElements = strings.enumerated().repeatingElements(strings.count)
+        return zip(repeating, repeatingElements).reduce("") { result, tuple in
+
+            let (lhs, rhs) = tuple
+
+            guard lhs.offset != rhs.offset else { return result }
+
+            let sharedCharacters = zip(lhs.element, rhs.element).compactMap { tuple -> Character? in
 
                 guard tuple.0 == tuple.1 else { return nil }
 
@@ -70,48 +76,6 @@ extension Sequence where Element: Hashable {
         return reduce(into: [:]) { result, element in
             result[element, default: 0] += 1
         }
-    }
-}
-
-// MARK: -
-
-extension Collection {
-
-    func squared(ignoringSameIndex: Bool = false) -> SquaredSequence<Self> {
-        return SquaredSequence(base: self, ignoringSameIndex: ignoringSameIndex)
-    }
-}
-
-struct SquaredSequence<Base: Collection>: Sequence, IteratorProtocol {
-
-    private let base: Base
-    private let ignoringSameIndex: Bool
-    private var iterator: Zip2Sequence<RepeatingSequence<EnumeratedSequence<Base>>, RepeatingElementsSequence<EnumeratedSequence<Base>>>.Iterator
-
-    init(base: Base, ignoringSameIndex: Bool) {
-        self.base = base
-        self.ignoringSameIndex = ignoringSameIndex
-        let repeatingElements = base.enumerated().repeatingElements(base.count)
-        let repeating = base.enumerated().repeating
-        iterator = zip(repeating, repeatingElements).makeIterator()
-    }
-
-    mutating func next() -> (Base.Element, Base.Element)? {
-
-        guard var next = iterator.next() else { return nil }
-
-        guard ignoringSameIndex else {
-            return (next.0.element, next.1.element)
-        }
-
-        if next.0.offset == next.1.offset {
-
-            guard let n = iterator.next() else { return nil }
-
-            next = n
-        }
-
-        return (next.0.element, next.1.element)
     }
 }
 
