@@ -18,6 +18,27 @@ public struct Day03 {
             .filter { $0 > 1 }
             .count
     }
+
+    public func part2(input: Input) -> String {
+
+        let claims = input
+            .lines
+            .map { $0.string }
+            .compactMap(Claim.init)
+
+        let soloClaimLocations = claims
+            .flatMap { $0.locations }
+            .countByElements
+            .filter { $0.value == 1 }
+            .keys
+
+        let solo = Set(soloClaimLocations)
+
+        return claims
+            .filter { Set($0.locations).isSubset(of: solo) }
+            .first?
+            .name ?? ""
+    }
 }
 
 struct Claim {
