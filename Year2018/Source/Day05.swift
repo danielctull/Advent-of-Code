@@ -13,7 +13,7 @@ public struct Day05 {
             .first?
             .string
             .map {$0}
-            .reducingPolymers
+            .reducingPolymer
             .count ?? 0
     }
 
@@ -34,7 +34,7 @@ public struct Day05 {
 
             return characters
                 .filter { $0.lowercased != character }
-                .reducingPolymers
+                .reducingPolymer
                 .count
 
         }.min() ?? 0
@@ -46,52 +46,23 @@ extension Character {
     var lowercased: Character {
         return Character(String(self).lowercased())
     }
+
+    fileprivate func isPolarOpposite(to character: Character) -> Bool{
+        return self != character && self.lowercased == character.lowercased
+    }
 }
 
 extension Array where Element == Character {
 
-    var reducingPolymers: [Character] {
+    fileprivate var reducingPolymer: [Character] {
 
-        var result = self
-        var previousResult: [Character] = []
+        return reduce(into: []) { result, character in
 
-        while result.count != previousResult.count {
-            previousResult = result
-            result = previousResult.removingPairs(shouldRemove: { lhs, rhs -> Bool in
-                return lhs != rhs && lhs.lowercased == rhs.lowercased
-            })
-        }
-
-        return result
-    }
-}
-
-
-extension Sequence {
-
-    func removingPairs(shouldRemove: (Element, Element) -> Bool) -> [Element] {
-
-        var previousValue: Element?
-        
-        var result: [Element] = reduce(into: []) { result, value in
-
-            guard let previous = previousValue else {
-                previousValue = value
-                return
-            }
-
-            if shouldRemove(previous, value) {
-                previousValue = nil
+            if let previous = result.last, previous.isPolarOpposite(to: character) {
+                result.removeLast()
             } else {
-                result.append(previous)
-                previousValue = value
+                result.append(character)
             }
         }
-
-        if let previousValue = previousValue {
-            result.append(previousValue)
-        }
-
-        return result
     }
 }
