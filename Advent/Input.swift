@@ -23,7 +23,7 @@ extension Input {
         let data = try Data(contentsOf: url)
         guard let string = String(data: data, encoding: .utf8) else { throw Error() }
 
-        lines = string.components(separatedBy: .newlines).map(Line.init)
+        lines = string.components(separatedBy: .newlines).filter { !$0.isEmpty }.map(Line.init)
     }
 }
 
