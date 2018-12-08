@@ -60,8 +60,35 @@ public struct Day06 {
             .max() ?? 0
     }
 
-    public func part2(input: Input) -> Int {
-        return 0
+    public func part2(input: Input, size: Int) -> Int {
+
+        let coordinates = input
+            .lines
+            .map { $0.string }
+            .map(Coordinate.init)
+
+        let xs = coordinates.map { $0.x }
+        let ys = coordinates.map { $0.y }
+
+        let minX = xs.min()!
+        let maxX = xs.max()!
+
+        let minY = ys.min()!
+        let maxY = ys.max()!
+
+        let x = ((minX-1)...(maxX+1)).repeating
+        let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
+
+        return zip(x, y)
+            .map(Coordinate.init)
+            .map { location in
+
+                return coordinates.reduce(into: 0) { result, coordinate in
+                    result += coordinate.distance(to: location)
+                }
+            }
+            .filter { $0 < size }
+            .count
     }
 }
 
