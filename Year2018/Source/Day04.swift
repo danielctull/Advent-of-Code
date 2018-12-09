@@ -165,15 +165,3 @@ extension Event.Kind {
         }
     }
 }
-
-// MARK: - Grouping
-
-extension Sequence {
-
-    func group<Key: Hashable>(by key: (Element) -> Key) -> [Key: [Element]] {
-
-        return reduce(into: [:]) { result, element in
-            result[key(element), default: []] += [element]
-        }
-    }
-}

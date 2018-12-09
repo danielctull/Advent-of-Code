@@ -40,3 +40,19 @@ extension Sequence where Element: Hashable {
         }
     }
 }
+
+// MARK: - Grouping
+
+extension Sequence {
+
+    /// Returns a dictionary grouping elements by a key.
+    ///
+    /// - Parameter key: A closure to fetch a key for the given element.
+    /// - Returns: A dictionary of keys to an array of elements.
+    public func group<Key: Hashable>(by key: (Element) -> Key) -> [Key: [Element]] {
+
+        return reduce(into: [:]) { result, element in
+            result[key(element), default: []] += [element]
+        }
+    }
+}
