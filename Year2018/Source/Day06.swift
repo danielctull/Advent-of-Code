@@ -36,7 +36,7 @@ public struct Day06 {
             let closest = distances.min { $0.1 < $1.1 }!
 
             // Make sure there is only one coordinate that shares this closeness
-            guard distances.map({ $0.1 }).countByElements[closest.1] == 1 else {
+            guard distances.map({ $0.1 }).countByElement[closest.1] == 1 else {
                 return
             }
 
@@ -55,7 +55,7 @@ public struct Day06 {
 
         return winningCoordinates
             .filter { !ignored.contains($0) }
-            .countByElements
+            .countByElement
             .values
             .max() ?? 0
     }

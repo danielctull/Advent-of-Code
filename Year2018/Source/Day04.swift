@@ -12,7 +12,7 @@ public struct Day04 {
 
         let maxGuard = minutesAsleep
             .map { $0.guard }
-            .countByElements
+            .countByElement
             .max { $0.value < $1.value }
             .map { $0.key }
 
@@ -20,7 +20,7 @@ public struct Day04 {
 
         let maxMinute = minutesAsleep
             .filter { $0.guard == maximumGuard }
-            .countByElements
+            .countByElement
             .max { $0.value < $1.value }
             .map { $0.key.minute.value }
 
@@ -38,7 +38,7 @@ public struct Day04 {
             .mapValues { minutesGuardAsleep in
 
                 return minutesGuardAsleep
-                    .countByElements
+                    .countByElement
                     .max { $0.value < $1.value }!
             }
             .values

@@ -13,7 +13,7 @@ public struct Day03 {
             .map { $0.string }
             .compactMap(Claim.init)
             .flatMap { $0.locations }
-            .countByElements
+            .countByElement
             .values
             .filter { $0 > 1 }
             .count
@@ -28,7 +28,7 @@ public struct Day03 {
 
         let soloClaimLocations = claims
             .flatMap { $0.locations }
-            .countByElements
+            .countByElement
             .filter { $0.value == 1 }
             .keys
 
