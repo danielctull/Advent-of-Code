@@ -24,19 +24,3 @@ public struct Day01 {
             .firstDuplicate!
     }
 }
-
-// MARK: - First Duplicate
-
-extension Sequence where Element: Hashable {
-
-    var firstDuplicate: Element? {
-
-        var elements: Set<Element> = []
-
-        return first { element -> Bool in
-            let contains = elements.contains(element)
-            elements.insert(element)
-            return contains
-        }
-    }
-}
