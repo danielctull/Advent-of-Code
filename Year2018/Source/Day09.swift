@@ -17,6 +17,25 @@ public struct Day09 {
         let playerCount = Int(components[0])!
         let marbleCount = Int(components[6])!
 
+        return calculateScore(players: playerCount, marbles: marbleCount)
+    }
+
+    public func part2(input: Input) -> Int {
+
+        let components = input
+            .lines
+            .first!
+            .string
+            .components(separatedBy: " ")
+
+        let playerCount = Int(components[0])!
+        let marbleCount = Int(components[6])!
+
+        return calculateScore(players: playerCount, marbles: marbleCount * 100)
+    }
+
+    private func calculateScore(players playerCount: Int, marbles marbleCount: Int) -> Int {
+
         let players = (0..<playerCount).repeating
         let marbles = (1...marbleCount)
 
@@ -44,10 +63,6 @@ public struct Day09 {
         }
 
         return scores.values.max()!
-    }
-
-    public func part2(input: Input) -> Int {
-        return 0
     }
 }
 

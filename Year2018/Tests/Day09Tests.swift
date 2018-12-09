@@ -42,15 +42,10 @@ final class Day09Tests: XCTestCase {
         XCTAssertEqual(result, 429287)
     }
 
-    func testPart2Example() {
-        let result = Day09().part2(input: "+1, -1")
-        XCTAssertEqual(result, 0)
-    }
-
     func testPart2Puzzle() throws {
         let day = Day09()
         let file = try Input(named: "Day09")
         let result = day.part2(input: file)
-        XCTAssertEqual(result, 0)
+        XCTAssertEqual(result, 3624387659)
     }
 }
