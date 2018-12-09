@@ -33,13 +33,13 @@ final class Day07Tests: XCTestCase {
             "Step B must be finished before step E can begin.",
             "Step D must be finished before step E can begin.",
             "Step F must be finished before step E can begin."
-        ])
-        XCTAssertEqual(result, 0)
+        ], workers: 2, baseTime: 0)
+        XCTAssertEqual(result, 15)
     }
 
     func testPart2Puzzle() throws {
         let file = try Input(named: "Day07")
-        let result = Day07().part2(input: file)
-        XCTAssertEqual(result, 0)
+        let result = Day07().part2(input: file, workers: 5, baseTime: 60)
+        XCTAssertEqual(result, 959)
     }
 }
