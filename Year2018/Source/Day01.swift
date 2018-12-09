@@ -25,50 +25,6 @@ public struct Day01 {
     }
 }
 
-// MARK: - RepeatingSequence
-
-extension Sequence {
-
-    var repeating: RepeatingSequence<Self> {
-        return RepeatingSequence(base: self)
-    }
-}
-
-struct RepeatingSequence<Base: Sequence> {
-    let base: Base
-}
-
-extension RepeatingSequence: Sequence {
-
-    func makeIterator() -> Iterator {
-        return Iterator(base: Array(base))
-    }
-}
-
-extension RepeatingSequence {
-
-    struct Iterator {
-        let base: [Element]
-        var iterator: Array<Element>.Iterator
-
-        init(base: [Element]) {
-            self.base = base
-            self.iterator = base.makeIterator()
-        }
-    }
-}
-
-extension RepeatingSequence.Iterator: IteratorProtocol {
-
-    mutating func next() -> Base.Element? {
-
-        if let element = iterator.next() { return element }
-
-        iterator = base.makeIterator()
-        return iterator.next()
-    }
-}
-
 // MARK: - AccumulatingSequence
 
 extension Sequence {
