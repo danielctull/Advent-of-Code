@@ -7,50 +7,71 @@ public struct Day10 {
     public init() {}
 
     public func part1(input: Input) -> String {
+        return stages(input: input).last?.output ?? ""
+    }
 
-        var lights = input
+    public func part2(input: Input) -> Int {
+        return stages(input: input).dropFirst().count
+    }
+
+    private func stages(input: Input) -> [[Light]] {
+
+        let lights = input
             .lines
             .map { $0.string }
             .map(Light.init)
 
-        func calculateSize(of lights: [Light]) -> Coordinate {
-            let xs = lights.map { $0.position.x }
-            let ys = lights.map { $0.position.y }
-            let x = xs.max()! - xs.min()! + 1
-            let y = ys.max()! - ys.min()! + 1
-            return Coordinate(x: x, y: y)
+        return [lights]
+            .repeating
+            .accumulating(lights) { previous, _ -> [Light]? in
+
+                let next: [Light] = previous.map {
+                    var light = $0
+                    light.position.x += light.velocity.x
+                    light.position.y += light.velocity.y
+                    return light
+                }
+
+                let nextSize = next.size
+                let previousSize = previous.size
+                guard nextSize.x < previousSize.x || nextSize.y < previousSize.y else {
+                    return nil
+                }
+
+                return next
+        }.map { $0 }
+    }
+}
+
+extension Sequence where Element == Light {
+
+    var size: Coordinate {
+        let xs = map { $0.position.x }
+        let ys = map { $0.position.y }
+
+        guard xs.count > 0, ys.count > 0 else {
+            return Coordinate(x: Int.max, y: Int.max)
         }
 
-        var previousSize = Coordinate(x: Int.max, y: Int.max)
-        var currentSize = calculateSize(of: lights)
-        var previousLights = lights
-        
-        while currentSize.x < previousSize.x || currentSize.y < previousSize.y {
+        let x = xs.max()! - xs.min()! + 1
+        let y = ys.max()! - ys.min()! + 1
+        return Coordinate(x: x, y: y)
+    }
 
-            previousLights = lights
-            lights = lights.map {
-                var light = $0
-                light.position.x += light.velocity.x
-                light.position.y += light.velocity.y
-                return light
-            }
+    var output: String {
 
-            previousSize = currentSize
-            currentSize = calculateSize(of: lights)
-        }
+        let minX = map { $0.position.x }.min()!
+        let minY = map { $0.position.y }.min()!
+        let size = self.size
 
-        let x = previousLights.map { $0.position.x }.min()!
-        let y = previousLights.map { $0.position.y }.min()!
-        let size = calculateSize(of: previousLights)
+        let xs = minX..<size.x + minX
+        let ys = minY..<size.y + minY
 
-        let xs = x..<size.x + x
-        let ys = y..<size.y + y
-
-        let result = ys.map { y in
+        return ys.map { y in
 
             xs.map { x in
 
-                if previousLights.contains(where: { $0.position.x == x && $0.position.y == y }) {
+                if contains(where: { $0.position.x == x && $0.position.y == y }) {
                     return "#"
                 } else {
                     return "."
@@ -59,14 +80,6 @@ public struct Day10 {
             }.reduce("", +)
 
         }.joined(separator: "\n")
-
-//        print(result)
-
-        return result
-    }
-
-    public func part2(input: Input) -> Int {
-        return 0
     }
 }
 

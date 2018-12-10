@@ -25,7 +25,7 @@ extension Sequence {
     /// - Returns: The sequence of accumulating values.
     public func accumulating<Result>(
         _ initial: Result,
-        _ transform: @escaping (Result, Element) -> Result
+        _ transform: @escaping (Result, Element) -> Result?
     ) -> AccumulatingSequence<Self, Result> {
 
         return AccumulatingSequence(base: self, initial: initial, transform: transform)
@@ -35,7 +35,7 @@ extension Sequence {
 public struct AccumulatingSequence<Base: Sequence, Result> {
     fileprivate let base: Base
     fileprivate let initial: Result
-    fileprivate let transform: (Result, Base.Element) -> Result
+    fileprivate let transform: (Result, Base.Element) -> Result?
 }
 
 extension AccumulatingSequence: Sequence {
@@ -50,7 +50,7 @@ extension AccumulatingSequence {
     public struct Iterator {
         fileprivate var iterator: Base.Iterator
         fileprivate var value: Result?
-        fileprivate var transform: (Result, Base.Element) -> Result
+        fileprivate var transform: (Result, Base.Element) -> Result?
     }
 }
 
