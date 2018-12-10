@@ -30,7 +30,21 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "247B625121BF014E00E167FD"
+               BuildableName = "Year2015 Tests.xctest"
+               BlueprintName = "Year2015 Tests"
+               ReferencedContainer = "container:Advent of Code.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES"
+            testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "24DD576321B3FECA00A9E99B"
