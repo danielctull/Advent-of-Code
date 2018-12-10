@@ -28,19 +28,24 @@ final class Day03Tests: XCTestCase {
     }
 
     func testPart2Example1() {
-        let result = Day03().part2(input: "")
-        XCTAssertEqual(result, 0)
+        let result = Day03().part2(input: "^v")
+        XCTAssertEqual(result, 3)
     }
 
     func testPart2Example2() {
-        let result = Day03().part2(input: "")
-        XCTAssertEqual(result, 0)
+        let result = Day03().part2(input: "^>v<")
+        XCTAssertEqual(result, 3)
+    }
+
+    func testPart2Example3() {
+        let result = Day03().part2(input: "^v^v^v^v^v")
+        XCTAssertEqual(result, 11)
     }
 
     func testPart2Puzzle() throws {
         let day = Day03()
-        let file = try Input(named: "Day02")
+        let file = try Input(named: "Day03")
         let result = day.part2(input: file)
-        XCTAssertEqual(result, 0)
+        XCTAssertEqual(result, 2360)
     }
 }

@@ -8,41 +8,51 @@ public struct Day03 {
 
     public func part1(input: Input) -> Int {
 
-        func move(from position: Position, in direction: Direction) -> Position {
-
-            switch direction {
-            case .north: return Position(x: position.x, y: position.y + 1)
-            case .south: return Position(x: position.x, y: position.y - 1)
-            case .east: return Position(x: position.x + 1, y: position.y)
-            case .west: return Position(x: position.x - 1, y: position.y)
-            }
-        }
-
         return input
             .lines
             .flatMap { $0.string }
             .map { Direction(rawValue: String($0))! }
-            .accumulating(Position(x: 0, y: 0), move)
+            .accumulating(Position(x: 0, y: 0)) { $0.move($1) }
             .countByElement
             .count
     }
 
     public func part2(input: Input) -> Int {
-        return 0
+
+        let start = Position(x: 0, y: 0)
+
+        return input
+            .lines
+            .flatMap { $0.string }
+            .map { Direction(rawValue: String($0))! }
+            .accumulating((start, start)) { ($0.1, $0.0.move($1)) } // Flip tuple
+            .flatMap { [$0, $1] } // Works because we only care about more than one visit, not exact number
+            .countByElement
+            .count
     }
 }
 
-extension Day03 {
+fileprivate struct Position: Hashable {
+    let x: Int
+    let y: Int
+}
 
-    struct Position: Hashable {
-        let x: Int
-        let y: Int
-    }
+fileprivate enum Direction: String {
+    case north = "^"
+    case east = ">"
+    case south = "v"
+    case west = "<"
+}
 
-    enum Direction: String {
-        case north = "^"
-        case east = ">"
-        case south = "v"
-        case west = "<"
+extension Position {
+
+    func move(_ direction: Direction) -> Position {
+
+        switch direction {
+        case .north: return Position(x: x, y: y + 1)
+        case .south: return Position(x: x, y: y - 1)
+        case .east: return Position(x: x + 1, y: y)
+        case .west: return Position(x: x - 1, y: y)
+        }
     }
 }
