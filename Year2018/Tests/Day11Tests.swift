@@ -27,6 +27,6 @@ final class Day11Tests: XCTestCase {
 
     func testPart2Puzzle() throws {
         let result = Day11().part2(input: "6392")
-        XCTAssertEqual(result, "")
+        XCTAssertEqual(result, "233,268,13")
     }
 }
