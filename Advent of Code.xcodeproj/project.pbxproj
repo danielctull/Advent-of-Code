@@ -65,6 +65,7 @@
 		24F2BC2221C5C0DE005F84B2 /* Day12.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F2BC2121C5C0DE005F84B2 /* Day12.swift */; };
 		24F2BC2421C5C0EB005F84B2 /* Day12Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F2BC2321C5C0EB005F84B2 /* Day12Tests.swift */; };
 		24F2BC2621C5C877005F84B2 /* Day12.txt in Resources */ = {isa = PBXBuildFile; fileRef = 24F2BC2521C5C877005F84B2 /* Day12.txt */; };
+		24F2BC2821C6C9CC005F84B2 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F2BC2721C6C9CC005F84B2 /* Collection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +175,7 @@
 		24F2BC2121C5C0DE005F84B2 /* Day12.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day12.swift; sourceTree = "<group>"; };
 		24F2BC2321C5C0EB005F84B2 /* Day12Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day12Tests.swift; sourceTree = "<group>"; };
 		24F2BC2521C5C877005F84B2 /* Day12.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Day12.txt; sourceTree = "<group>"; };
+		24F2BC2721C6C9CC005F84B2 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -445,6 +447,7 @@
 				247B621D21BDD47700E167FD /* RepeatingElementsSequence.swift */,
 				247B621921BDCF9200E167FD /* RepeatingSequence.swift */,
 				247B626C21BF093500E167FD /* TrianglePairsSequence.swift */,
+				24F2BC2721C6C9CC005F84B2 /* Collection.swift */,
 				247B621F21BDD58100E167FD /* Sequence.swift */,
 			);
 			path = Advent;
@@ -734,6 +737,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24F2BC2821C6C9CC005F84B2 /* Collection.swift in Sources */,
 				247B627B21BFA10300E167FD /* LookingAheadSequence.swift in Sources */,
 				247B621A21BDCF9200E167FD /* RepeatingSequence.swift in Sources */,
 				247B627D21BFA44E00E167FD /* ProductSequence.swift in Sources */,

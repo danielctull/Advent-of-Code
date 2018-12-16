@@ -7,43 +7,58 @@ public struct Day12 {
     public init() {}
 
     public func part1(input: Input) -> Int {
+        return count(input: input, generations: 20)
+    }
+
+    public func part2(input: Input) -> Int {
+        return count(input: input, generations: 50000000000)
+    }
+
+    private func count(input: Input, generations: Int) -> Int {
 
         let lines = input.lines.map { $0.string }
+        let empty = CharacterSet(charactersIn: ".")
 
-        let initial = lines[0].replacingOccurrences(of: "initial state: ", with: "")
+        var result = lines[0].replacingOccurrences(of: "initial state: ", with: "")
         let rules: [String: String] = lines.dropFirst(2).reduce(into: [:]) { result, string in
             let components = string.components(separatedBy: " => ")
             result[components[0]] = components[1]
         }
 
-        let generations = 20
-        let overflow = 2 * generations
-        let overflowString = String(repeating: ".", count: overflow)
-        let working = overflowString + initial + overflowString
+        for generation in (1...generations) {
 
-        return (1...generations)
-            .accumulating(working) { previous, _ in
+            let extended = "...." + result + "...."
 
-                // Needed to get lookingAhead to work without dropping pots.
-                let extended = ".." + previous + ".."
+            let next = extended.lookingAhead(5).map { chars -> String in
+                let string = String(chars)
+                let replacement = rules[string]
+                return replacement ?? "."
+            }.reduce("", +)
 
-                return extended.lookingAhead(5).map { chars -> String in
-                    let string = String(chars)
-                    let replacement = rules[string]
-                    return replacement ?? "."
-                }.reduce("", +)
+            if next.trimmingCharacters(in: empty) == result.trimmingCharacters(in: empty) {
+
+                let previousSum = result.sumOfPots(offset: 2 * (generation - 1))
+                let nextSum = next.sumOfPots(offset: 2 * generation)
+
+                let difference = nextSum - previousSum
+                let total = nextSum + difference * (generations - generation)
+
+                return total
             }
-            .map { $0 }
-            .last!
-            .enumerated()
-            .compactMap {
 
-                guard String($0.1) == "#" else {
-                    return nil
-                }
+            result = next
+        }
 
-                return $0.0 - overflow
+        return result.sumOfPots(offset: 2 * generations)
+    }
+}
 
-            }.reduce(0, +)
+extension String {
+
+    fileprivate func sumOfPots(offset: Int) -> Int {
+
+        return indices(of: "#")
+            .map { distance(from: startIndex, to: $0) - offset }
+            .reduce(0, +)
     }
 }
