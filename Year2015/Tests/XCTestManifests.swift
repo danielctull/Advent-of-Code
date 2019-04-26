@@ -12,8 +12,10 @@ extension Day01Tests {
         ("testPart1Example4", testPart1Example4),
         ("testPart1Example5", testPart1Example5),
         ("testPart1Example6", testPart1Example6),
+        ("testPart1Puzzle", testPart1Puzzle),
         ("testPart2Example1", testPart2Example1),
         ("testPart2Example2", testPart2Example2),
+        ("testPart2Puzzle", testPart2Puzzle),
     ]
 }
 
@@ -24,8 +26,10 @@ extension Day02Tests {
     static let __allTests__Day02Tests = [
         ("testPart1Example1", testPart1Example1),
         ("testPart1Example2", testPart1Example2),
+        ("testPart1Puzzle", testPart1Puzzle),
         ("testPart2Example1", testPart2Example1),
         ("testPart2Example2", testPart2Example2),
+        ("testPart2Puzzle", testPart2Puzzle),
     ]
 }
 
@@ -37,9 +41,11 @@ extension Day03Tests {
         ("testPart1Example1", testPart1Example1),
         ("testPart1Example2", testPart1Example2),
         ("testPart1Example3", testPart1Example3),
+        ("testPart1Puzzle", testPart1Puzzle),
         ("testPart2Example1", testPart2Example1),
         ("testPart2Example2", testPart2Example2),
         ("testPart2Example3", testPart2Example3),
+        ("testPart2Puzzle", testPart2Puzzle),
     ]
 }
 
