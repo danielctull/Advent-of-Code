@@ -9,7 +9,7 @@ tests += Year2018_Tests.__allTests()
 
 // Filter out all the puzzles because they load a file from disk
 tests = tests.map {
-    let tests = $0.allTests.filter { !$0.contains("Puzzle") }
+    let tests = $0.allTests.filter { !$0.0.contains("Puzzle") }
     return ($0.testCaseClass, tests)
 }
 
