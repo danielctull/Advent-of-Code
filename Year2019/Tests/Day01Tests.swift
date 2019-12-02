@@ -31,4 +31,26 @@ final class Day01Tests: XCTestCase {
         let result = day.part1(input: file)
         XCTAssertEqual(result, 3488702)
     }
+
+    func testPart2Example1() {
+        let result = Day01().part2(input: "14")
+        XCTAssertEqual(result, 2)
+    }
+
+    func testPart2Example2() {
+        let result = Day01().part2(input: "1969")
+        XCTAssertEqual(result, 966)
+    }
+
+    func testPart2Example3() {
+        let result = Day01().part2(input: "100756")
+        XCTAssertEqual(result, 50346)
+    }
+
+    func testPart2Puzzle() throws {
+        let day = Day01()
+        let file = try Input(named: "Day01")
+        let result = day.part2(input: file)
+        XCTAssertEqual(result, 5230169)
+    }
 }
