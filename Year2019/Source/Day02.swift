@@ -22,6 +22,27 @@ public struct Day02 {
         return calculate(intcode, operation: 0)
     }
 
+    public func part2(input: Input) -> Int {
+
+        let intcode = input
+            .lines
+            .map { $0.string }
+            .flatMap { $0.components(separatedBy: ",") }
+            .compactMap { Int($0) }
+
+        for (noun, verb) in zip((0...99).repeatingElements(100), (0...99).repeating) {
+            var code = intcode
+            code[1] = noun
+            code[2] = verb
+            let output = calculate(code, operation: 0)
+            if output[0] == 19690720 {
+                return 100 * noun + verb
+            }
+        }
+
+        return 0
+    }
+
     private func calculate(_ intcode: [Int], operation: Int) -> [Int] {
 
         var code = intcode
@@ -41,9 +62,5 @@ public struct Day02 {
         }
 
         return calculate(code, operation: operation + 4)
-    }
-
-    public func part2(input: Input) -> Int {
-        0
     }
 }
