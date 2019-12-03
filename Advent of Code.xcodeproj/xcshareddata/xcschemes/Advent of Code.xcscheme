@@ -14,9 +14,65 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "24DD57A621B4040000A9E99B"
+               BuildableName = "Advent.framework"
+               BlueprintName = "Advent"
+               ReferencedContainer = "container:Advent of Code.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "247B624521BF014000E167FD"
+               BuildableName = "Year2015.framework"
+               BlueprintName = "Year2015"
+               ReferencedContainer = "container:Advent of Code.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "24DD575721B3FE8500A9E99B"
                BuildableName = "Year2018.framework"
                BlueprintName = "Year2018"
+               ReferencedContainer = "container:Advent of Code.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "248787B3239520C7005AA771"
+               BuildableName = "Year2019.framework"
+               BlueprintName = "Year2019"
+               ReferencedContainer = "container:Advent of Code.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "248787BF239520FD005AA771"
+               BuildableName = "Year2019 Tests.xctest"
+               BlueprintName = "Year2019 Tests"
                ReferencedContainer = "container:Advent of Code.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,8 +82,17 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "24DD575721B3FE8500A9E99B"
+            BuildableName = "Year2018.framework"
+            BlueprintName = "Year2018"
+            ReferencedContainer = "container:Advent of Code.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO"
@@ -53,18 +118,19 @@
                ReferencedContainer = "container:Advent of Code.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "248787BF239520FD005AA771"
+               BuildableName = "Year2019 Tests.xctest"
+               BlueprintName = "Year2019 Tests"
+               ReferencedContainer = "container:Advent of Code.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "24DD575721B3FE8500A9E99B"
-            BuildableName = "Year2018.framework"
-            BlueprintName = "Year2018"
-            ReferencedContainer = "container:Advent of Code.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -76,17 +142,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "24DD575721B3FE8500A9E99B"
-            BuildableName = "Year2018.framework"
-            BlueprintName = "Year2018"
-            ReferencedContainer = "container:Advent of Code.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -97,9 +152,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "24DD575721B3FE8500A9E99B"
-            BuildableName = "Year2018.framework"
-            BlueprintName = "Year2018"
+            BlueprintIdentifier = "248787BF239520FD005AA771"
+            BuildableName = "Year2019 Tests.xctest"
+            BlueprintName = "Year2019 Tests"
             ReferencedContainer = "container:Advent of Code.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

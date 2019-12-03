@@ -58,6 +58,7 @@
 		248787D8239528E4005AA771 /* Day02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248787D42395284B005AA771 /* Day02Tests.swift */; };
 		248787DB239531B2005AA771 /* Advent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24DD57A721B4040000A9E99B /* Advent.framework */; };
 		248787DE239531BB005AA771 /* Advent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24DD57A721B4040000A9E99B /* Advent.framework */; };
+		24C6BAB3239646E600582C71 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C6BAB2239646E600582C71 /* Position.swift */; };
 		24DD576721B3FECB00A9E99B /* Day01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DD576621B3FECB00A9E99B /* Day01Tests.swift */; };
 		24DD576921B3FECB00A9E99B /* Year2018.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24DD575821B3FE8500A9E99B /* Year2018.framework */; };
 		24DD579F21B400F600A9E99B /* Day01.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DD579E21B400F600A9E99B /* Day01.swift */; };
@@ -106,6 +107,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 24DD57A621B4040000A9E99B;
 			remoteInfo = Advent;
+		};
+		24C6BAB723967E7400582C71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24DD573E21B3FDF800A9E99B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 24DD575721B3FE8500A9E99B;
+			remoteInfo = Year2018;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -160,6 +168,7 @@
 		248787D223952841005AA771 /* Day02.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day02.swift; sourceTree = "<group>"; };
 		248787D42395284B005AA771 /* Day02Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day02Tests.swift; sourceTree = "<group>"; };
 		248787D6239528D0005AA771 /* Day02.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Day02.txt; sourceTree = "<group>"; };
+		24C6BAB2239646E600582C71 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		24DD575821B3FE8500A9E99B /* Year2018.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Year2018.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24DD576421B3FECA00A9E99B /* Year2018 Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Year2018 Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		24DD576621B3FECB00A9E99B /* Day01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day01Tests.swift; sourceTree = "<group>"; };
@@ -539,6 +548,7 @@
 				247B626C21BF093500E167FD /* TrianglePairsSequence.swift */,
 				24F2BC2721C6C9CC005F84B2 /* Collection.swift */,
 				247B621F21BDD58100E167FD /* Sequence.swift */,
+				24C6BAB2239646E600582C71 /* Position.swift */,
 			);
 			path = Advent;
 			sourceTree = "<group>";
@@ -680,6 +690,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				24C6BAB823967E7400582C71 /* PBXTargetDependency */,
 			);
 			name = "Year2018 Tests";
 			productName = "Year2018 Tests";
@@ -927,6 +938,7 @@
 				24DD57B021B4040C00A9E99B /* Input.swift in Sources */,
 				247B622021BDD58100E167FD /* Sequence.swift in Sources */,
 				247B621E21BDD47700E167FD /* RepeatingElementsSequence.swift in Sources */,
+				24C6BAB3239646E600582C71 /* Position.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +964,11 @@
 			isa = PBXTargetDependency;
 			target = 24DD57A621B4040000A9E99B /* Advent */;
 			targetProxy = 248787DC239531B8005AA771 /* PBXContainerItemProxy */;
+		};
+		24C6BAB823967E7400582C71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 24DD575721B3FE8500A9E99B /* Year2018 */;
+			targetProxy = 24C6BAB723967E7400582C71 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

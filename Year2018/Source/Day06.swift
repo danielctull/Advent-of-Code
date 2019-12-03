@@ -11,7 +11,7 @@ public struct Day06 {
         let coordinates = input
             .lines
             .map { $0.string }
-            .map(Coordinate.init)
+            .map(Position.init)
 
         let xs = coordinates.map { $0.x }
         let ys = coordinates.map { $0.y }
@@ -25,13 +25,15 @@ public struct Day06 {
         let x = ((minX-1)...(maxX+1)).repeating
         let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
 
-        var ignored: Set<Coordinate> = []
+        var ignored: Set<Position> = []
 
-        let winningCoordinates: [Coordinate] = zip(x, y)
-            .map(Coordinate.init)
+        let winningCoordinates: [Position] = zip(x, y)
+            .map(Position.init)
             .reduce(into: []) { result, location in
 
-            let distances = coordinates.map { ($0, $0.distance(to: location)) }
+            let distances = coordinates.map {
+                ($0, $0.manhattenDistance(to: location))
+            }
 
             let closest = distances.min { $0.1 < $1.1 }!
 
@@ -65,7 +67,7 @@ public struct Day06 {
         let coordinates = input
             .lines
             .map { $0.string }
-            .map(Coordinate.init)
+            .map(Position.init)
 
         let xs = coordinates.map { $0.x }
         let ys = coordinates.map { $0.y }
@@ -80,11 +82,11 @@ public struct Day06 {
         let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
 
         return zip(x, y)
-            .map(Coordinate.init)
+            .map(Position.init)
             .map { location in
 
                 return coordinates.reduce(into: 0) { result, coordinate in
-                    result += coordinate.distance(to: location)
+                    result += coordinate.manhattenDistance(to: location)
                 }
             }
             .filter { $0 < size }
@@ -92,30 +94,14 @@ public struct Day06 {
     }
 }
 
+extension Position {
 
-struct Coordinate {
-    let x: Int
-    let y: Int
-}
-
-extension Coordinate {
-
-    init(_ string: String) {
+    fileprivate init(_ string: String) {
 
         let components = string
             .replacingOccurrences(of: " ", with: "")
             .components(separatedBy: ",")
 
-        x = Int(components[0])!
-        y = Int(components[1])!
-    }
-}
-
-extension Coordinate: Hashable {}
-
-extension Coordinate {
-
-    func distance(to other: Coordinate) -> Int {
-        return abs(other.x - x) + abs(other.y - y)
+        self.init(x: Int(components[0])!, y: Int(components[1])!)
     }
 }

@@ -32,12 +32,7 @@ public struct Day03 {
     }
 }
 
-fileprivate struct Position: Hashable {
-    let x: Int
-    let y: Int
-}
-
-fileprivate enum Direction: String {
+private enum Direction: String {
     case north = "^"
     case east = ">"
     case south = "v"
@@ -46,7 +41,7 @@ fileprivate enum Direction: String {
 
 extension Position {
 
-    func move(_ direction: Direction) -> Position {
+    fileprivate func move(_ direction: Direction) -> Position {
 
         switch direction {
         case .north: return Position(x: x, y: y + 1)

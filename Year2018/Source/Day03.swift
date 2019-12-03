@@ -41,7 +41,7 @@ public struct Day03 {
     }
 }
 
-struct Claim {
+private struct Claim {
     let name: String
     let position: Position
     let size: Size
@@ -76,12 +76,12 @@ extension Claim {
     }
 }
 
-struct Position: Hashable {
+private struct Position: Hashable {
     let x: Int
     let y: Int
 }
 
-struct Size {
+private struct Size {
     let width: Int
     let height: Int
 }
