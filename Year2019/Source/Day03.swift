@@ -12,11 +12,41 @@ public struct Day03 {
             .lines
             .map(Array.init(moves:))
 
-        return moves[0].positions
-            .intersection(moves[1].positions)
+        return Set(moves[0].positions)
+            .intersection(Set(moves[1].positions))
             .map { $0.manhattenDistance(to: .origin) }
             .sorted()
             .first ?? 0
+    }
+
+    public func part2(input: Input) -> Int {
+
+         let moves = input
+             .lines
+             .map(Array.init(moves:))
+
+        let positions1 = moves[0].positions
+        let positions2 = moves[1].positions
+        let intersections = Set(positions1).intersection(Set(positions2))
+
+        let distances1 = positions1.distances(for: intersections)
+        let distances2 = positions2.distances(for: intersections)
+
+        return distances1
+            .map { distances2[$0.key]! + $0.value }
+            .sorted()
+            .first ?? Int.max
+     }
+}
+
+extension Array where Element == Position {
+
+    func distances(for intersections: Set<Position>) -> [Position: Int] {
+
+        enumerated()
+            .filter { intersections.contains($0.element) }
+            .group(by: { $0.element })
+            .mapValues { $0.reduce(Int.max) { Swift.min($0, $1.offset + 1) } }
     }
 }
 
@@ -30,16 +60,15 @@ extension Array where Element == Move {
     }
 
 
-    fileprivate var positions: Set<Position> {
+    fileprivate var positions: [Position] {
 
-        let result = accumulating([Position.origin]) {
-                    (positions, move) -> [Position] in
-                    move.positions(from: positions.last!)
-                }
-                .flatMap { $0 }
-                .dropFirst()
-
-        return Set(result)
+        accumulating([Position.origin]) {
+            (positions, move) -> [Position] in
+            move.positions(from: positions.last!)
+        }
+        .flatMap { $0 }
+        .dropFirst()
+        .map { $0 }
     }
 }
 
