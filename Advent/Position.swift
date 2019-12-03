@@ -10,6 +10,10 @@ public struct Position: Equatable, Hashable {
 }
 
 extension Position {
+    public static let origin = Position(x: 0, y: 0)
+}
+
+extension Position {
 
     public func manhattenDistance(to other: Position) -> Int {
         return abs(other.x - x) + abs(other.y - y)
@@ -17,8 +21,12 @@ extension Position {
 }
 
 public struct Move {
-    let direction: Direction
-    let amount: Int
+    public let direction: Direction
+    public let amount: Int
+    public init(direction: Direction, amount: Int) {
+        self.direction = direction
+        self.amount = amount
+    }
 }
 
 public enum Direction: Equatable, Hashable {
