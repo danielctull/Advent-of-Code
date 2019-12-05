@@ -15,7 +15,11 @@ struct IntcodeComputer {
             1: .calculation(+),
             2: .calculation(*),
             3: .input,
-            4: .output
+            4: .output,
+            5: .jump { $0 != 0 },
+            6: .jump { $0 == 0 },
+            7: .calculation { $0 < $1 ? 1 : 0 },
+            8: .calculation { $0 == $1 ? 1 : 0 },
         ]
 
         var instruction = memory.instruction(at: Pointer())
@@ -65,6 +69,19 @@ extension Operation {
             let parameter = instruction.parameter(at: 1)
             value = memory[parameter]
             instruction = memory.instruction(at: instruction.pointer + 2)
+        }
+    }
+
+    static func jump(_ expression: @escaping (Int) -> Bool) -> Operation {
+        Operation { memory, instruction, _ in
+            let parameter1 = instruction.parameter(at: 1)
+            if expression(memory[parameter1]) {
+                let parameter2 = instruction.parameter(at: 2)
+                let pointer = Pointer(memory[parameter2])
+                instruction = memory.instruction(at: pointer)
+            } else {
+                instruction = memory.instruction(at: instruction.pointer + 3)
+            }
         }
     }
 }

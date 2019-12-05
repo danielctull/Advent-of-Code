@@ -21,6 +21,14 @@ public struct Day05 {
 
     public func part2(input: Input) -> Int {
 
-        0
+        let intcode = input
+            .lines
+            .map { $0.string }
+            .flatMap { $0.components(separatedBy: ",") }
+            .compactMap { Int($0) }
+
+        var computer = IntcodeComputer(memory: intcode, input: 5)
+        computer.run()
+        return computer.value
     }
 }
