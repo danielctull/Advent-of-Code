@@ -32,15 +32,13 @@ public struct Day04 {
 fileprivate func twoAdjacentDigits(_ input: Int) -> Bool {
     let string = String(input)
     return zip(string, string.dropFirst())
-        .map(==)
-        .contains(true)
+        .first(where: ==) != nil
 }
 
 fileprivate func digitsDontDecrease(_ input: Int) -> Bool {
     let string = String(input)
-    return !zip(string, string.dropFirst())
-        .map(>=)
-        .contains(false)
+    return zip(string, string.dropFirst())
+        .first(where: <) == nil
 }
 
 fileprivate func exactlyTwoAdjacentDigits(_ input: Int) -> Bool {
