@@ -31,12 +31,12 @@ struct IntcodeComputer {
     }
 }
 
-extension IntcodeComputer {
+fileprivate struct Instruction {
+    let value: Int
+    let pointer: Pointer
+}
 
-    fileprivate struct Instruction {
-        let value: Int
-        let pointer: IntcodeComputer.Pointer
-    }
+extension IntcodeComputer {
 
     fileprivate var instruction: Instruction {
         Instruction(value: self[instructionPointer],
@@ -44,11 +44,11 @@ extension IntcodeComputer {
     }
 }
 
-extension IntcodeComputer.Instruction {
+extension Instruction {
 
     var code: Int { value % 10000 % 1000 % 100 }
 
-    func parameter(at offset: Int) -> IntcodeComputer.Parameter {
+    func parameter(at offset: Int) -> Parameter {
 
         let parameterCode: Int
         switch offset {
@@ -66,12 +66,12 @@ extension IntcodeComputer.Instruction {
     }
 }
 
-extension IntcodeComputer {
+fileprivate enum Parameter {
+    case immediate(Pointer)
+    case position(Pointer)
+}
 
-    fileprivate enum Parameter {
-        case immediate(Pointer)
-        case position(Pointer)
-    }
+extension IntcodeComputer {
 
     fileprivate subscript(parameter: Parameter) -> Int {
         get {
@@ -89,13 +89,13 @@ extension IntcodeComputer {
     }
 }
 
-extension IntcodeComputer {
+fileprivate struct Pointer {
+    let value: Int
+    init() { value = 0 }
+    init(_ value: Int) { self.value = value }
+}
 
-    fileprivate struct Pointer {
-        let value: Int
-        init() { value = 0 }
-        init(_ value: Int) { self.value = value }
-    }
+extension IntcodeComputer {
 
     fileprivate subscript(pointer: Pointer) -> Int {
         get { memory[pointer.value] }
@@ -103,10 +103,10 @@ extension IntcodeComputer {
     }
 }
 
-fileprivate func +(_ pointer: IntcodeComputer.Pointer, _ offset: Int) -> IntcodeComputer.Pointer {
-    IntcodeComputer.Pointer(pointer.value + offset)
+fileprivate func +(_ pointer: Pointer, _ offset: Int) -> Pointer {
+    Pointer(pointer.value + offset)
 }
 
-fileprivate func +=(_ pointer: inout IntcodeComputer.Pointer, _ offset: Int) {
+fileprivate func +=(_ pointer: inout Pointer, _ offset: Int) {
     pointer = pointer + offset
 }
