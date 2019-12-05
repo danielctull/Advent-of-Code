@@ -2,15 +2,20 @@
 struct IntcodeComputer {
 
     private var memory: Memory
-    init(memory: [Int]) {
+    var value: Int
+    init(memory: [Int], input: Int = 0) {
         self.memory = Memory(value: memory)
+        self.value = input
     }
 
+    @discardableResult
     mutating func run() -> [Int] {
 
         let operations: [Int: Operation] = [
-            1: Operation.calculation(+),
-            2: Operation.calculation(*)
+            1: .calculation(+),
+            2: .calculation(*),
+            3: .input,
+            4: .output
         ]
 
         var instruction = memory.instruction(at: Pointer())
@@ -23,7 +28,7 @@ struct IntcodeComputer {
                 fatalError("Unknown instruction code: \(instruction.code)")
             }
 
-            operation.action(&memory, &instruction)
+            operation.action(&memory, &instruction, &value)
         }
 
         return memory.value
@@ -31,19 +36,35 @@ struct IntcodeComputer {
 }
 
 fileprivate struct Operation {
-    let action: (inout Memory, inout Instruction) -> ()
+    let action: (inout Memory, inout Instruction, inout Int) -> ()
 }
 
 extension Operation {
 
     static func calculation(_ calculation: @escaping (Int, Int) -> Int) -> Operation {
 
-        Operation { memory, instruction in
+        Operation { memory, instruction, _ in
             let parameter1 = instruction.parameter(at: 1)
             let parameter2 = instruction.parameter(at: 2)
             let parameter3 = instruction.parameter(at: 3)
             memory[parameter3] = calculation(memory[parameter1], memory[parameter2])
             instruction = memory.instruction(at: instruction.pointer + 4)
+        }
+    }
+
+    static var input: Operation {
+        Operation { memory, instruction, input in
+            let parameter = instruction.parameter(at: 1)
+            memory[parameter] = input
+            instruction = memory.instruction(at: instruction.pointer + 2)
+        }
+    }
+
+    static var output: Operation {
+        Operation { memory, instruction, value in
+            let parameter = instruction.parameter(at: 1)
+            value = memory[parameter]
+            instruction = memory.instruction(at: instruction.pointer + 2)
         }
     }
 }
@@ -79,8 +100,8 @@ extension Instruction {
 
         let parameterCode: Int
         switch offset {
-        case 1: parameterCode = (value - code) / 100
-        case 2: parameterCode = (value - code) / 1000
+        case 1: parameterCode = (value - code) % 10000 % 1000 / 100
+        case 2: parameterCode = (value - code) % 10000 / 1000
         case 3: parameterCode = (value - code) / 10000
         default: fatalError()
         }
