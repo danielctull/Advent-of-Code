@@ -2,32 +2,49 @@
 struct IntcodeComputer {
 
     private var memory: Memory
-    private var instructionPointer = Pointer()
     init(memory: [Int]) {
         self.memory = Memory(value: memory)
     }
 
     mutating func run() -> [Int] {
 
-        while !memory.isEnd(instructionPointer) {
+        let operations: [Int: Operation] = [
+            1: Operation.calculation(+),
+            2: Operation.calculation(*)
+        ]
 
-            func perform(_ closure: (Int, Int) -> Int) {
-                let parameter1 = instruction.parameter(at: 1)
-                let parameter2 = instruction.parameter(at: 2)
-                let parameter3 = instruction.parameter(at: 3)
-                memory[parameter3] = closure(memory[parameter1], memory[parameter2])
-                instructionPointer += 4
+        var instruction = memory.instruction(at: Pointer())
+
+        while !memory.isEnd(instruction.pointer) {
+
+            if instruction.code == 99 { break }
+
+            guard let operation = operations[instruction.code] else {
+                fatalError("Unknown instruction code: \(instruction.code)")
             }
 
-            switch instruction.code {
-            case 1: perform(+)
-            case 2: perform(*)
-            case 99: return memory.value
-            default: fatalError()
-            }
+            operation.action(&memory, &instruction)
         }
 
-        fatalError()
+        return memory.value
+    }
+}
+
+fileprivate struct Operation {
+    let action: (inout Memory, inout Instruction) -> ()
+}
+
+extension Operation {
+
+    static func calculation(_ calculation: @escaping (Int, Int) -> Int) -> Operation {
+
+        Operation { memory, instruction in
+            let parameter1 = instruction.parameter(at: 1)
+            let parameter2 = instruction.parameter(at: 2)
+            let parameter3 = instruction.parameter(at: 3)
+            memory[parameter3] = calculation(memory[parameter1], memory[parameter2])
+            instruction = memory.instruction(at: instruction.pointer + 4)
+        }
     }
 }
 
@@ -47,11 +64,10 @@ fileprivate struct Instruction {
     let pointer: Pointer
 }
 
-extension IntcodeComputer {
+extension Memory {
 
-    fileprivate var instruction: Instruction {
-        Instruction(value: memory[instructionPointer],
-                    pointer: instructionPointer)
+    fileprivate func instruction(at pointer: Pointer) -> Instruction {
+        Instruction(value: self[pointer], pointer: pointer)
     }
 }
 
