@@ -1,33 +1,44 @@
 
 struct IntcodeComputer {
 
-    private var memory: [Int]
+    private var memory: Memory
     private var instructionPointer = Pointer()
     init(memory: [Int]) {
-        self.memory = memory
+        self.memory = Memory(value: memory)
     }
 
     mutating func run() -> [Int] {
 
-        while instruction.pointer.value < memory.count {
+        while !memory.isEnd(instructionPointer) {
 
             func perform(_ closure: (Int, Int) -> Int) {
                 let parameter1 = instruction.parameter(at: 1)
                 let parameter2 = instruction.parameter(at: 2)
                 let parameter3 = instruction.parameter(at: 3)
-                self[parameter3] = closure(self[parameter1], self[parameter2])
+                memory[parameter3] = closure(memory[parameter1], memory[parameter2])
                 instructionPointer += 4
             }
 
             switch instruction.code {
             case 1: perform(+)
             case 2: perform(*)
-            case 99: return memory
+            case 99: return memory.value
             default: fatalError()
             }
         }
 
         fatalError()
+    }
+}
+
+fileprivate struct Memory {
+    var value: [Int]
+}
+
+extension Memory {
+
+    func isEnd(_ pointer: Pointer) -> Bool {
+        pointer.value >= value.count
     }
 }
 
@@ -39,7 +50,7 @@ fileprivate struct Instruction {
 extension IntcodeComputer {
 
     fileprivate var instruction: Instruction {
-        Instruction(value: self[instructionPointer],
+        Instruction(value: memory[instructionPointer],
                     pointer: instructionPointer)
     }
 }
@@ -71,19 +82,19 @@ fileprivate enum Parameter {
     case position(Pointer)
 }
 
-extension IntcodeComputer {
+extension Memory {
 
     fileprivate subscript(parameter: Parameter) -> Int {
         get {
             switch parameter {
             case let .immediate(pointer): return self[pointer]
-            case let .position(pointer): return memory[self[pointer]]
+            case let .position(pointer): return value[self[pointer]]
             }
         }
         set(newValue) {
             switch parameter {
             case let .immediate(pointer): self[pointer] = newValue
-            case let .position(pointer): memory[self[pointer]] = newValue
+            case let .position(pointer): value[self[pointer]] = newValue
             }
         }
     }
@@ -95,11 +106,11 @@ fileprivate struct Pointer {
     init(_ value: Int) { self.value = value }
 }
 
-extension IntcodeComputer {
+extension Memory {
 
     fileprivate subscript(pointer: Pointer) -> Int {
-        get { memory[pointer.value] }
-        set { memory[pointer.value] = newValue }
+        get { value[pointer.value] }
+        set { value[pointer.value] = newValue }
     }
 }
 
