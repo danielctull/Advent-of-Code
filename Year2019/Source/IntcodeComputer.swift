@@ -27,6 +27,9 @@ public struct IntcodeComputer {
         while let instruction = memory.instruction(at: pointer) {
 
             guard let operation = operations[instruction.code] else {
+                struct UnknownInstruction: Error {
+                    let code: Int
+                }
                 throw UnknownInstruction(code: instruction.code)
             }
 
@@ -37,9 +40,14 @@ public struct IntcodeComputer {
     }
 }
 
-struct UnknownInstruction: Error {
-    let code: Int
+// MARK: - Memory
+
+public struct Memory {
+    public var value: Int
+    public var code: [Int]
 }
+
+// MARK: - Operation
 
 fileprivate struct Operation {
     let action: (Instruction, inout Memory) -> (Pointer)
@@ -51,36 +59,32 @@ extension Operation {
         Pointer(memory.code.count)
     }
 
-    static func calculation(_ calculation: @escaping (Int, Int) -> Int) -> Operation {
+    static func calculation(
+        _ calculation: @escaping (Int, Int) -> Int
+    ) -> Operation {
 
         Operation { instruction, memory in
-            let parameter1 = instruction.parameter(at: 1)
-            let parameter2 = instruction.parameter(at: 2)
-            let parameter3 = instruction.parameter(at: 3)
-            memory[parameter3] = calculation(memory[parameter1], memory[parameter2])
+            memory[instruction + 3] = calculation(memory[instruction + 1],
+                                                  memory[instruction + 2])
             return instruction.pointer + 4
         }
     }
 
     static let input = Operation { instruction, memory in
-        let parameter = instruction.parameter(at: 1)
-        memory[parameter] = memory.value
+        memory[instruction + 1] = memory.value
         return instruction.pointer + 2
     }
 
     static let output = Operation { instruction, memory in
-        let parameter = instruction.parameter(at: 1)
-        memory.value = memory[parameter]
+        memory.value = memory[instruction + 1]
         return instruction.pointer + 2
     }
 
     static func jump(_ expression: @escaping (Int) -> Bool) -> Operation {
         
         Operation { instruction, memory in
-            let parameter1 = instruction.parameter(at: 1)
-            if expression(memory[parameter1]) {
-                let parameter2 = instruction.parameter(at: 2)
-                return Pointer(memory[parameter2])
+            if expression(memory[instruction + 1]) {
+                return Pointer(memory[instruction + 2])
             } else {
                 return instruction.pointer + 3
             }
@@ -88,10 +92,7 @@ extension Operation {
     }
 }
 
-public struct Memory {
-    public var value: Int
-    public var code: [Int]
-}
+// MARK: - Instruction
 
 fileprivate struct Instruction {
     let value: Int
@@ -109,24 +110,26 @@ extension Memory {
 extension Instruction {
 
     var code: Int { value % 10000 % 1000 % 100 }
+}
 
-    func parameter(at offset: Int) -> Parameter {
+fileprivate func +(_ instruction: Instruction, offset: Int) -> Parameter {
 
-        let parameterCode: Int
-        switch offset {
-        case 1: parameterCode = value % 10000 % 1000 / 100
-        case 2: parameterCode = value % 10000 / 1000
-        case 3: parameterCode = value / 10000
-        default: fatalError()
-        }
+    let parameterCode: Int
+    switch offset {
+    case 1: parameterCode = instruction.value % 10000 % 1000 / 100
+    case 2: parameterCode = instruction.value % 10000 / 1000
+    case 3: parameterCode = instruction.value / 10000
+    default: fatalError()
+    }
 
-        switch parameterCode {
-        case 0: return .position(pointer + offset)
-        case 1: return .immediate(pointer + offset)
-        default: fatalError()
-        }
+    switch parameterCode {
+    case 0: return .position(instruction.pointer + offset)
+    case 1: return .immediate(instruction.pointer + offset)
+    default: fatalError()
     }
 }
+
+// MARK: - Parameter
 
 fileprivate enum Parameter {
     case immediate(Pointer)
@@ -150,6 +153,8 @@ extension Memory {
         }
     }
 }
+
+// MARK: - Pointer
 
 fileprivate struct Pointer {
     let value: Int
