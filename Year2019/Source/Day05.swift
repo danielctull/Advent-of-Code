@@ -6,7 +6,7 @@ public struct Day05 {
 
     public init() {}
 
-    public func part1(input: Input) -> Int {
+    public func part1(input: Input) throws -> Int {
 
         let intcode = input
             .lines
@@ -14,12 +14,12 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        return IntcodeComputer(code: intcode, input: 1)
+        return try IntcodeComputer(code: intcode, input: 1)
             .run()
             .value
     }
 
-    public func part2(input: Input) -> Int {
+    public func part2(input: Input) throws -> Int {
 
         let intcode = input
             .lines
@@ -27,7 +27,7 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        return IntcodeComputer(code: intcode, input: 5)
+        return try IntcodeComputer(code: intcode, input: 5)
             .run()
             .value
     }

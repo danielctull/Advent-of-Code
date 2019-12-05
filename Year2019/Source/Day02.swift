@@ -6,7 +6,7 @@ public struct Day02 {
 
     public init() {}
 
-    public func part1(input: Input) -> [Int] {
+    public func part1(input: Input) throws -> [Int] {
 
         var intcode = input
             .lines
@@ -19,12 +19,12 @@ public struct Day02 {
             intcode[2] = 2
         }
 
-        return IntcodeComputer(code: intcode)
+        return try IntcodeComputer(code: intcode)
             .run()
             .code
     }
 
-    public func part2(input: Input) -> Int {
+    public func part2(input: Input) throws -> Int {
 
         let intcode = input
             .lines
@@ -37,7 +37,7 @@ public struct Day02 {
             code[1] = noun
             code[2] = verb
 
-            let output = IntcodeComputer(code: code)
+            let output = try IntcodeComputer(code: code)
                 .run()
                 .code
 
