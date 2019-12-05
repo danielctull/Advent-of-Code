@@ -1,15 +1,13 @@
 
 struct IntcodeComputer {
 
-    private var memory: Memory
-    var value: Int
-    init(memory: [Int], input: Int = 0) {
-        self.memory = Memory(value: memory)
-        self.value = input
+    let memory: Memory
+    init(code: [Int], input: Int = 0) {
+        self.memory = Memory(value: input, code: code)
     }
 
     @discardableResult
-    mutating func run() -> [Int] {
+    func run() -> Memory {
 
         let operations: [Int: Operation] = [
             1: .calculation(+),
@@ -22,6 +20,7 @@ struct IntcodeComputer {
             8: .calculation { $0 == $1 ? 1 : 0 },
         ]
 
+        var memory = self.memory
         var instruction = memory.instruction(at: Pointer())
 
         while !memory.isEnd(instruction.pointer) {
@@ -32,22 +31,22 @@ struct IntcodeComputer {
                 fatalError("Unknown instruction code: \(instruction.code)")
             }
 
-            operation.action(&memory, &instruction, &value)
+            operation.action(&memory, &instruction)
         }
 
-        return memory.value
+        return memory
     }
 }
 
 fileprivate struct Operation {
-    let action: (inout Memory, inout Instruction, inout Int) -> ()
+    let action: (inout Memory, inout Instruction) -> ()
 }
 
 extension Operation {
 
     static func calculation(_ calculation: @escaping (Int, Int) -> Int) -> Operation {
 
-        Operation { memory, instruction, _ in
+        Operation { memory, instruction in
             let parameter1 = instruction.parameter(at: 1)
             let parameter2 = instruction.parameter(at: 2)
             let parameter3 = instruction.parameter(at: 3)
@@ -57,23 +56,23 @@ extension Operation {
     }
 
     static var input: Operation {
-        Operation { memory, instruction, input in
+        Operation { memory, instruction in
             let parameter = instruction.parameter(at: 1)
-            memory[parameter] = input
+            memory[parameter] = memory.value
             instruction = memory.instruction(at: instruction.pointer + 2)
         }
     }
 
     static var output: Operation {
-        Operation { memory, instruction, value in
+        Operation { memory, instruction in
             let parameter = instruction.parameter(at: 1)
-            value = memory[parameter]
+            memory.value = memory[parameter]
             instruction = memory.instruction(at: instruction.pointer + 2)
         }
     }
 
     static func jump(_ expression: @escaping (Int) -> Bool) -> Operation {
-        Operation { memory, instruction, _ in
+        Operation { memory, instruction in
             let parameter1 = instruction.parameter(at: 1)
             if expression(memory[parameter1]) {
                 let parameter2 = instruction.parameter(at: 2)
@@ -86,14 +85,15 @@ extension Operation {
     }
 }
 
-fileprivate struct Memory {
-    var value: [Int]
+struct Memory {
+    var value: Int
+    var code: [Int]
 }
 
 extension Memory {
 
-    func isEnd(_ pointer: Pointer) -> Bool {
-        pointer.value >= value.count
+    fileprivate func isEnd(_ pointer: Pointer) -> Bool {
+        pointer.value >= code.count
     }
 }
 
@@ -142,13 +142,13 @@ extension Memory {
         get {
             switch parameter {
             case let .immediate(pointer): return self[pointer]
-            case let .position(pointer): return value[self[pointer]]
+            case let .position(pointer): return code[self[pointer]]
             }
         }
         set(newValue) {
             switch parameter {
             case let .immediate(pointer): self[pointer] = newValue
-            case let .position(pointer): value[self[pointer]] = newValue
+            case let .position(pointer): code[self[pointer]] = newValue
             }
         }
     }
@@ -163,8 +163,8 @@ fileprivate struct Pointer {
 extension Memory {
 
     fileprivate subscript(pointer: Pointer) -> Int {
-        get { value[pointer.value] }
-        set { value[pointer.value] = newValue }
+        get { code[pointer.value] }
+        set { code[pointer.value] = newValue }
     }
 }
 

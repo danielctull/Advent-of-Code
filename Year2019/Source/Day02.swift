@@ -19,8 +19,9 @@ public struct Day02 {
             intcode[2] = 2
         }
 
-        var computer = IntcodeComputer(memory: intcode)
-        return computer.run()
+        return IntcodeComputer(code: intcode)
+            .run()
+            .code
     }
 
     public func part2(input: Input) -> Int {
@@ -35,8 +36,11 @@ public struct Day02 {
             var code = intcode
             code[1] = noun
             code[2] = verb
-            var computer = IntcodeComputer(memory: code)
-            let output = computer.run()
+
+            let output = IntcodeComputer(code: code)
+                .run()
+                .code
+
             if output[0] == 19690720 {
                 return 100 * noun + verb
             }

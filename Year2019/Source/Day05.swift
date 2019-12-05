@@ -14,9 +14,9 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        var computer = IntcodeComputer(memory: intcode, input: 1)
-        computer.run()
-        return computer.value
+        return IntcodeComputer(code: intcode, input: 1)
+            .run()
+            .value
     }
 
     public func part2(input: Input) -> Int {
@@ -27,8 +27,8 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        var computer = IntcodeComputer(memory: intcode, input: 5)
-        computer.run()
-        return computer.value
+        return IntcodeComputer(code: intcode, input: 5)
+            .run()
+            .value
     }
 }
