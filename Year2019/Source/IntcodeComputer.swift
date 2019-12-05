@@ -1,25 +1,25 @@
 
-public struct IntcodeComputer {
+struct IntcodeComputer {
 
     private var memory: [Int]
-    public init(memory: [Int]) {
+    private var instructionPointer = 0
+    init(memory: [Int]) {
         self.memory = memory
     }
 
-    mutating public func run() -> [Int] {
+    mutating func run() -> [Int] {
 
-        var instructionPointer = 0
         while instructionPointer < memory.count {
 
             func perform(_ closure: (Int, Int) -> Int) {
-                let parameter1 = Parameter.position(instructionPointer + 1)
-                let parameter2 = Parameter.position(instructionPointer + 2)
-                let parameter3 = Parameter.position(instructionPointer + 3)
+                let parameter1 = instruction.parameter(at: 1)
+                let parameter2 = instruction.parameter(at: 2)
+                let parameter3 = instruction.parameter(at: 3)
                 self[parameter3] = closure(self[parameter1], self[parameter2])
                 instructionPointer += 4
             }
 
-            switch memory[instructionPointer] {
+            switch instruction.code {
             case 1: perform(+)
             case 2: perform(*)
             case 99: return memory
@@ -28,6 +28,41 @@ public struct IntcodeComputer {
         }
 
         fatalError()
+    }
+}
+
+extension IntcodeComputer {
+
+    struct Instruction {
+        let value: Int
+        let instructionPointer: Int
+    }
+
+    var instruction: Instruction {
+        Instruction(value: memory[instructionPointer],
+                    instructionPointer: instructionPointer)
+    }
+}
+
+extension IntcodeComputer.Instruction {
+
+    var code: Int { value % 10000 % 1000 % 100 }
+
+    func parameter(at offset: Int) -> IntcodeComputer.Parameter {
+
+        let parameterCode: Int
+        switch offset {
+        case 1: parameterCode = (value - code) / 100
+        case 2: parameterCode = (value - code) / 1000
+        case 3: parameterCode = (value - code) / 10000
+        default: fatalError()
+        }
+
+        switch parameterCode {
+        case 0: return .position(instructionPointer + offset)
+        case 1: return .immediate(instructionPointer + offset)
+        default: fatalError()
+        }
     }
 }
 
