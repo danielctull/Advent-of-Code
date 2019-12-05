@@ -19,7 +19,8 @@ public struct Day02 {
             intcode[2] = 2
         }
 
-        return calculate(intcode, operation: 0)
+        var computer = IntcodeComputer(memory: intcode)
+        return computer.run()
     }
 
     public func part2(input: Input) -> Int {
@@ -34,33 +35,13 @@ public struct Day02 {
             var code = intcode
             code[1] = noun
             code[2] = verb
-            let output = calculate(code, operation: 0)
+            var computer = IntcodeComputer(memory: code)
+            let output = computer.run()
             if output[0] == 19690720 {
                 return 100 * noun + verb
             }
         }
 
         return 0
-    }
-
-    private func calculate(_ intcode: [Int], operation: Int) -> [Int] {
-
-        var code = intcode
-
-        func perform(_ closure: (Int, Int) -> Int) {
-            let position1 = code[operation + 1]
-            let position2 = code[operation + 2]
-            let position3 = code[operation + 3]
-            code[position3] = closure(code[position1], code[position2])
-        }
-
-        switch code[operation] {
-        case 1: perform(+)
-        case 2: perform(*)
-        case 99: return code
-        default: fatalError()
-        }
-
-        return calculate(code, operation: operation + 4)
     }
 }
