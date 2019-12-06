@@ -8,11 +8,39 @@ public struct Day06 {
 
     public func part1(input: Input) throws -> Int {
 
-        let orbits = input
+        input
             .lines
             .map { Object(string: $0.string) }
-            .group(by: { $0.orbits })
+            .indirectOrbits
+            .values
+            .reduce(0, +)
+    }
 
+    public func part2(input: Input) throws -> Int {
+
+        let objects = input
+            .lines
+            .map { Object(string: $0.string) }
+
+        let youPath = objects.orbitPath(for: "YOU")
+        let santaPath = objects.orbitPath(for: "SAN")
+
+        let shared = youPath.first(where: { santaPath.contains($0) })!
+
+        let indirectOrbits = objects.indirectOrbits
+        let youValue = indirectOrbits["YOU"]!
+        let santaValue = indirectOrbits["SAN"]!
+        let sharedValue = indirectOrbits[shared]!
+
+        return (youValue - sharedValue - 1) + (santaValue - sharedValue - 1)
+    }
+}
+
+extension Array where Element == Object {
+
+    var indirectOrbits: [String: Int] {
+
+        let orbits = group(by: { $0.orbits })
         var indirectOrbits: [String: Int] = [:]
         var workingObjects = [("COM", 0)]
 
@@ -26,11 +54,18 @@ public struct Day06 {
             }
         }
 
-        return indirectOrbits.values.reduce(0, +)
+        return indirectOrbits
     }
 
-    public func part2(input: Input) throws -> Int {
-        0
+    func orbitPath(for objectName: String) -> [String] {
+        let objectsByName = self.group(by: { $0.name })
+        var name = objectName
+        var result = [objectName]
+        while let object = objectsByName[name]?.first {
+            name = object.orbits
+            result.append(name)
+        }
+        return result
     }
 }
 
