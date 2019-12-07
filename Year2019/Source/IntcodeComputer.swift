@@ -29,15 +29,18 @@ public final class IntcodeComputer {
         while !state.waiting, let instruction = state.instruction {
 
             guard let operation = operations[instruction.code] else {
-                struct UnknownInstruction: Error {
-                    let code: Int
-                }
                 throw UnknownInstruction(code: instruction.code)
             }
 
             operation.action(instruction, &state)
         }
     }
+}
+
+// MARK: - Errors
+
+struct UnknownInstruction: Error {
+    let code: Int
 }
 
 // MARK: - State
