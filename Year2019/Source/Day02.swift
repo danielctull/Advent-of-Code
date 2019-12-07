@@ -19,7 +19,7 @@ public struct Day02 {
             intcode[2] = 2
         }
 
-        var computer =  IntcodeComputer(code: intcode)
+        let computer =  IntcodeComputer(code: intcode)
         try computer.run()
         return computer.state.code
     }
@@ -37,7 +37,7 @@ public struct Day02 {
             code[1] = noun
             code[2] = verb
 
-            var computer =  IntcodeComputer(code: code)
+            let computer =  IntcodeComputer(code: code)
             try computer.run()
             let output = computer.state.code
 

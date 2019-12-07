@@ -1,16 +1,16 @@
 
-public struct IntcodeComputer {
+public final class IntcodeComputer {
 
     public var state: State
     public init(code: [Int]) {
         self.state = State(code: code)
     }
 
-    public mutating func run() throws { try run(inputs: []) }
+    public func run() throws { try run(inputs: []) }
 
-    public mutating func run(_ input: Int...) throws { try run(inputs: input) }
+    public func run(_ input: Int...) throws { try run(inputs: input) }
 
-    private mutating func run(inputs: [Int]) throws {
+    private func run(inputs: [Int]) throws {
 
         let operations: [Int: Operation] = [
              1: .calculation(+),
@@ -26,7 +26,7 @@ public struct IntcodeComputer {
 
         state.inputs += inputs
 
-        while let instruction = state.instruction {
+        while !state.waiting, let instruction = state.instruction {
 
             guard let operation = operations[instruction.code] else {
                 struct UnknownInstruction: Error {
@@ -43,13 +43,25 @@ public struct IntcodeComputer {
 // MARK: - State
 
 public struct State {
-    fileprivate var inputs: [Int] = []
+    fileprivate var waiting = false
+    fileprivate var inputs: [Int] = [] {
+        didSet { waiting = false }
+    }
     fileprivate var output: Int? = nil
     fileprivate var pointer = Pointer()
+    public var halted = false
     public var value: Int { output ?? .min }
     public var code: [Int]
-    
-    fileprivate mutating func nextInput() -> Int { inputs.removeFirst() }
+
+    fileprivate mutating func nextInput() -> Int? {
+
+        guard inputs.count > 0 else {
+            waiting = true
+            return nil
+        }
+
+        return inputs.removeFirst()
+    }
 }
 
 // MARK: - Operation
@@ -61,6 +73,7 @@ fileprivate struct Operation {
 extension Operation {
 
     static let halt = Operation { _, state in
+        state.halted = true
         state.pointer = Pointer(state.code.count)
     }
 
@@ -76,7 +89,8 @@ extension Operation {
     }
 
     static let input = Operation { instruction, state in
-        state[instruction + 1] = state.nextInput()
+        guard let input = state.nextInput() else { return }
+        state[instruction + 1] = input
         state.pointer += 2
     }
 
