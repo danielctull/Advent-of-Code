@@ -1,18 +1,16 @@
 
 public struct IntcodeComputer {
 
-    let state: State
+    public var state: State
     public init(code: [Int]) {
         self.state = State(code: code)
     }
 
-    @discardableResult
-    public func run() throws -> State { try run(inputs: []) }
+    public mutating func run() throws { try run(inputs: []) }
 
-    @discardableResult
-    public func run(_ input: Int...) throws -> State { try run(inputs: input) }
+    public mutating func run(_ input: Int...) throws { try run(inputs: input) }
 
-    private func run(inputs: [Int]) throws -> State {
+    private mutating func run(inputs: [Int]) throws {
 
         let operations: [Int: Operation] = [
              1: .calculation(+),
@@ -26,7 +24,6 @@ public struct IntcodeComputer {
             99: .halt
         ]
 
-        var state = self.state
         state.inputs += inputs
 
         while let instruction = state.instruction {
@@ -39,10 +36,7 @@ public struct IntcodeComputer {
             }
 
             operation.action(instruction, &state)
-
         }
-
-        return state
     }
 }
 
