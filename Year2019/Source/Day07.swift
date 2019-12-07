@@ -16,7 +16,7 @@ public struct Day07 {
 
         func calculate(phases: [Int]) throws -> Int {
             try phases.reduce(0) { result, phase in
-                try IntcodeComputer(code: code, input: phase, result).run().value
+                try IntcodeComputer(code: code).run(phase, result).value
             }
         }
 

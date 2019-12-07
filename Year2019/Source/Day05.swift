@@ -14,8 +14,8 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        return try IntcodeComputer(code: intcode, input: 1)
-            .run()
+        return try IntcodeComputer(code: intcode)
+            .run(1)
             .value
     }
 
@@ -27,8 +27,8 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        return try IntcodeComputer(code: intcode, input: 5)
-            .run()
+        return try IntcodeComputer(code: intcode)
+            .run(5)
             .value
     }
 }

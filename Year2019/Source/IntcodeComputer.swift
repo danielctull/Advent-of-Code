@@ -3,15 +3,16 @@ public struct IntcodeComputer {
 
     let memory: Memory
     public init(code: [Int]) {
-        self.memory = Memory(inputs: [], code: code)
-    }
-
-    public init(code: [Int], input: Int...) {
-        self.memory = Memory(inputs: input, code: code)
+        self.memory = Memory(code: code)
     }
 
     @discardableResult
-    public func run() throws -> Memory {
+    public func run() throws -> Memory { try run(inputs: []) }
+
+    @discardableResult
+    public func run(_ input: Int...) throws -> Memory { try run(inputs: input) }
+
+    private func run(inputs: [Int]) throws -> Memory {
 
         let operations: [Int: Operation] = [
              1: .calculation(+),
@@ -26,6 +27,7 @@ public struct IntcodeComputer {
         ]
 
         var memory = self.memory
+        memory.inputs += inputs
 
         while let instruction = memory.instruction {
 
@@ -47,7 +49,7 @@ public struct IntcodeComputer {
 // MARK: - Memory
 
 public struct Memory {
-    fileprivate var inputs: [Int]
+    fileprivate var inputs: [Int] = []
     fileprivate var output: Int? = nil
     fileprivate var pointer = Pointer()
     public var value: Int { output ?? .min }
