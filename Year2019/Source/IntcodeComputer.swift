@@ -1,18 +1,18 @@
 
 public struct IntcodeComputer {
 
-    let memory: Memory
+    let state: State
     public init(code: [Int]) {
-        self.memory = Memory(code: code)
+        self.state = State(code: code)
     }
 
     @discardableResult
-    public func run() throws -> Memory { try run(inputs: []) }
+    public func run() throws -> State { try run(inputs: []) }
 
     @discardableResult
-    public func run(_ input: Int...) throws -> Memory { try run(inputs: input) }
+    public func run(_ input: Int...) throws -> State { try run(inputs: input) }
 
-    private func run(inputs: [Int]) throws -> Memory {
+    private func run(inputs: [Int]) throws -> State {
 
         let operations: [Int: Operation] = [
              1: .calculation(+),
@@ -26,10 +26,10 @@ public struct IntcodeComputer {
             99: .halt
         ]
 
-        var memory = self.memory
-        memory.inputs += inputs
+        var state = self.state
+        state.inputs += inputs
 
-        while let instruction = memory.instruction {
+        while let instruction = state.instruction {
 
             guard let operation = operations[instruction.code] else {
                 struct UnknownInstruction: Error {
@@ -38,17 +38,17 @@ public struct IntcodeComputer {
                 throw UnknownInstruction(code: instruction.code)
             }
 
-            operation.action(instruction, &memory)
+            operation.action(instruction, &state)
 
         }
 
-        return memory
+        return state
     }
 }
 
-// MARK: - Memory
+// MARK: - State
 
-public struct Memory {
+public struct State {
     fileprivate var inputs: [Int] = []
     fileprivate var output: Int? = nil
     fileprivate var pointer = Pointer()
@@ -61,43 +61,43 @@ public struct Memory {
 // MARK: - Operation
 
 fileprivate struct Operation {
-    let action: (Instruction, inout Memory) -> ()
+    let action: (Instruction, inout State) -> ()
 }
 
 extension Operation {
 
-    static let halt = Operation { _, memory in
-        memory.pointer = Pointer(memory.code.count)
+    static let halt = Operation { _, state in
+        state.pointer = Pointer(state.code.count)
     }
 
     static func calculation(
         _ calculation: @escaping (Int, Int) -> Int
     ) -> Operation {
 
-        Operation { instruction, memory in
-            memory[instruction + 3] = calculation(memory[instruction + 1],
-                                                  memory[instruction + 2])
-            memory.pointer += 4
+        Operation { instruction, state in
+            state[instruction + 3] = calculation(state[instruction + 1],
+                                                  state[instruction + 2])
+            state.pointer += 4
         }
     }
 
-    static let input = Operation { instruction, memory in
-        memory[instruction + 1] = memory.nextInput()
-        memory.pointer += 2
+    static let input = Operation { instruction, state in
+        state[instruction + 1] = state.nextInput()
+        state.pointer += 2
     }
 
-    static let output = Operation { instruction, memory in
-        memory.output = memory[instruction + 1]
-        memory.pointer += 2
+    static let output = Operation { instruction, state in
+        state.output = state[instruction + 1]
+        state.pointer += 2
     }
 
     static func jump(_ expression: @escaping (Int) -> Bool) -> Operation {
         
-        Operation { instruction, memory in
-            if expression(memory[instruction + 1]) {
-                memory.pointer = Pointer(memory[instruction + 2])
+        Operation { instruction, state in
+            if expression(state[instruction + 1]) {
+                state.pointer = Pointer(state[instruction + 2])
             } else {
-                memory.pointer += 3
+                state.pointer += 3
             }
         }
     }
@@ -110,7 +110,7 @@ fileprivate struct Instruction {
     let pointer: Pointer
 }
 
-extension Memory {
+extension State {
 
     fileprivate var instruction: Instruction? {
         guard pointer.value < code.count else { return nil }
@@ -147,7 +147,7 @@ fileprivate enum Parameter {
     case position(Pointer)
 }
 
-extension Memory {
+extension State {
 
     fileprivate subscript(parameter: Parameter) -> Int {
         get {
@@ -173,7 +173,7 @@ fileprivate struct Pointer {
     init(_ value: Int) { self.value = value }
 }
 
-extension Memory {
+extension State {
 
     fileprivate subscript(pointer: Pointer) -> Int {
         get { code[pointer.value] }
