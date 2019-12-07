@@ -22,7 +22,7 @@ public struct Day07 {
 
     public func calculatePart1(code: [Int], phases: [Int]) throws -> Int {
         try phases.reduce(0) { result, phase in
-            let computer = IntcodeComputer(code: code)
+            var computer = IntcodeComputer(code: code)
             try computer.run(phase, result)
             return computer.state.value
         }
@@ -45,20 +45,20 @@ public struct Day07 {
     public func calculatePart2(code: [Int], phases: [Int]) throws -> Int {
 
         // Set up computers with phases.
-        let computers = try phases.map { phase -> IntcodeComputer in
-            let computer = IntcodeComputer(code: code)
+        var computers = try phases.map { phase -> IntcodeComputer in
+            var computer = IntcodeComputer(code: code)
             try computer.run(phase)
             return computer
         }
 
-        let last = computers.last!
-        var iterator = computers.repeating.makeIterator()
+        var iterator = (0..<phases.count).repeating.makeIterator()
         var value = 0
 
-        while let computer = iterator.next() {
+        while !computers.last!.state.halted, let index = iterator.next() {
+            var computer = computers[index]
             try computer.run(value)
             value = computer.state.value
-            guard !last.state.halted else { return value }
+            computers[index] = computer
         }
 
         return value

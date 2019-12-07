@@ -14,7 +14,7 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        let computer =  IntcodeComputer(code: intcode)
+        var computer =  IntcodeComputer(code: intcode)
         try computer.run(1)
         return computer.state.value
     }
@@ -27,7 +27,7 @@ public struct Day05 {
             .flatMap { $0.components(separatedBy: ",") }
             .compactMap { Int($0) }
 
-        let computer =  IntcodeComputer(code: intcode)
+        var computer =  IntcodeComputer(code: intcode)
         try computer.run(5)
         return computer.state.value
     }

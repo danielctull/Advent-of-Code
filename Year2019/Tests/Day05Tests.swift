@@ -13,7 +13,7 @@ final class Day05Tests: XCTestCase {
     }
 
     private func run(code: [Int], input: Int) throws -> Int {
-        let computer = IntcodeComputer(code: code)
+        var computer = IntcodeComputer(code: code)
         try computer.run(input)
         return computer.state.value
     }

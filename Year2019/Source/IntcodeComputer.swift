@@ -1,16 +1,16 @@
 
-public final class IntcodeComputer {
+public struct IntcodeComputer {
 
     public var state: State
     public init(code: [Int]) {
         self.state = State(code: code)
     }
 
-    public func run() throws { try run(inputs: []) }
+    public mutating func run() throws { try run(inputs: []) }
 
-    public func run(_ input: Int...) throws { try run(inputs: input) }
+    public mutating func run(_ input: Int...) throws { try run(inputs: input) }
 
-    private func run(inputs: [Int]) throws {
+    private mutating func run(inputs: [Int]) throws {
 
         let operations: [Int: Operation] = [
              1: .calculation(+),
