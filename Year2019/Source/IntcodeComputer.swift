@@ -2,8 +2,12 @@
 public struct IntcodeComputer {
 
     let memory: Memory
-    public init(code: [Int], input: Int = 0) {
-        self.memory = Memory(value: input, code: code)
+    public init(code: [Int]) {
+        self.memory = Memory(inputs: [], code: code)
+    }
+
+    public init(code: [Int], input: Int...) {
+        self.memory = Memory(inputs: input, code: code)
     }
 
     @discardableResult
@@ -43,8 +47,12 @@ public struct IntcodeComputer {
 // MARK: - Memory
 
 public struct Memory {
-    public var value: Int
+    var inputs: [Int]
+    var output: Int? = nil
+    public var value: Int { output ?? .min }
     public var code: [Int]
+    
+    mutating func nextInput() -> Int { inputs.removeFirst() }
 }
 
 // MARK: - Operation
@@ -71,12 +79,12 @@ extension Operation {
     }
 
     static let input = Operation { instruction, memory in
-        memory[instruction + 1] = memory.value
+        memory[instruction + 1] = memory.nextInput()
         return instruction.pointer + 2
     }
 
     static let output = Operation { instruction, memory in
-        memory.value = memory[instruction + 1]
+        memory.output = memory[instruction + 1]
         return instruction.pointer + 2
     }
 
