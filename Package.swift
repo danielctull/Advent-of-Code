@@ -1,5 +1,4 @@
-// swift-tools-version:5.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -11,6 +10,11 @@ let package = Package(
 		.tvOS(.v9),
 		.watchOS(.v2),
 	],
+    products: [
+        .library(name: "Year2015", targets: ["Year2015"]),
+        .library(name: "Year2018", targets: ["Year2018"]),
+        .library(name: "Year2019", targets: ["Year2019"])
+    ],
 	targets: [
 
 		// MARK: - Advent
@@ -28,7 +32,7 @@ let package = Package(
 
 		.testTarget(
 			name: "Year2015 Tests",
-			dependencies: ["Year2015"],
+			dependencies: ["Advent", "Year2015"],
 			path: "Year2015/Tests"),
 
 		// MARK: - Year2018
@@ -40,8 +44,20 @@ let package = Package(
 
 		.testTarget(
 			name: "Year2018 Tests",
-			dependencies: ["Year2018"],
+			dependencies: ["Advent", "Year2018"],
 			path: "Year2018/Tests"),
+
+        // MARK: - Year2019
+
+        .target(
+            name: "Year2019",
+            dependencies: ["Advent"],
+            path: "Year2019/Source"),
+
+        .testTarget(
+            name: "Year2019 Tests",
+            dependencies: ["Advent", "Year2018"],
+            path: "Year2019/Tests"),
 	],
 	swiftLanguageVersions: [.v5]
 )
