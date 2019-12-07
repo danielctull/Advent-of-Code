@@ -26,9 +26,8 @@ public struct IntcodeComputer {
         ]
 
         var memory = self.memory
-        var pointer = Pointer()
 
-        while let instruction = memory.instruction(at: pointer) {
+        while let instruction = memory.instruction {
 
             guard let operation = operations[instruction.code] else {
                 struct UnknownInstruction: Error {
@@ -37,7 +36,8 @@ public struct IntcodeComputer {
                 throw UnknownInstruction(code: instruction.code)
             }
 
-            pointer = operation.action(instruction, &memory)
+            operation.action(instruction, &memory)
+
         }
 
         return memory
@@ -47,24 +47,25 @@ public struct IntcodeComputer {
 // MARK: - Memory
 
 public struct Memory {
-    var inputs: [Int]
-    var output: Int? = nil
+    fileprivate var inputs: [Int]
+    fileprivate var output: Int? = nil
+    fileprivate var pointer = Pointer()
     public var value: Int { output ?? .min }
     public var code: [Int]
     
-    mutating func nextInput() -> Int { inputs.removeFirst() }
+    fileprivate mutating func nextInput() -> Int { inputs.removeFirst() }
 }
 
 // MARK: - Operation
 
 fileprivate struct Operation {
-    let action: (Instruction, inout Memory) -> (Pointer)
+    let action: (Instruction, inout Memory) -> ()
 }
 
 extension Operation {
 
     static let halt = Operation { _, memory in
-        Pointer(memory.code.count)
+        memory.pointer = Pointer(memory.code.count)
     }
 
     static func calculation(
@@ -74,27 +75,27 @@ extension Operation {
         Operation { instruction, memory in
             memory[instruction + 3] = calculation(memory[instruction + 1],
                                                   memory[instruction + 2])
-            return instruction.pointer + 4
+            memory.pointer += 4
         }
     }
 
     static let input = Operation { instruction, memory in
         memory[instruction + 1] = memory.nextInput()
-        return instruction.pointer + 2
+        memory.pointer += 2
     }
 
     static let output = Operation { instruction, memory in
         memory.output = memory[instruction + 1]
-        return instruction.pointer + 2
+        memory.pointer += 2
     }
 
     static func jump(_ expression: @escaping (Int) -> Bool) -> Operation {
         
         Operation { instruction, memory in
             if expression(memory[instruction + 1]) {
-                return Pointer(memory[instruction + 2])
+                memory.pointer = Pointer(memory[instruction + 2])
             } else {
-                return instruction.pointer + 3
+                memory.pointer += 3
             }
         }
     }
@@ -109,7 +110,7 @@ fileprivate struct Instruction {
 
 extension Memory {
 
-    fileprivate func instruction(at pointer: Pointer) -> Instruction? {
+    fileprivate var instruction: Instruction? {
         guard pointer.value < code.count else { return nil }
         return Instruction(value: self[pointer], pointer: pointer)
     }
@@ -176,6 +177,10 @@ extension Memory {
         get { code[pointer.value] }
         set { code[pointer.value] = newValue }
     }
+}
+
+fileprivate func +=(_ pointer: inout Pointer, _ offset: Int) {
+    pointer = Pointer(pointer.value + offset)
 }
 
 fileprivate func +(_ pointer: Pointer, _ offset: Int) -> Pointer {
