@@ -19,18 +19,6 @@ public struct IntcodeComputer {
 
     public mutating func step() throws {
 
-        let operations: [Int: Operation] = [
-             1: .calculation(+),
-             2: .calculation(*),
-             3: .input,
-             4: .output,
-             5: .jump { $0 != 0 },
-             6: .jump { $0 == 0 },
-             7: .calculation { $0 < $1 ? 1 : 0 },
-             8: .calculation { $0 == $1 ? 1 : 0 },
-            99: .halt
-        ]
-
         guard let instruction = state.instruction else { return }
 
         guard let operation = operations[instruction.code] else {
@@ -77,46 +65,67 @@ extension IntcodeComputer {
     public var isHalted: Bool { state.halted }
     public var isWaiting: Bool { state.waiting }
     public var output: Int? { state.output }
+    public var operationName: String? {
+        guard let code = state.instruction?.code else { return nil }
+        return operations[code]?.name
+    }
 }
 
 // MARK: - Operation
 
+fileprivate let operations: [Int: Operation] = [
+     1: .calculation("Add", +),
+     2: .calculation("Multiply", *),
+     3: .input,
+     4: .output,
+     5: .jump("Jump If True") { $0 != 0 },
+     6: .jump("Jump If False") { $0 == 0 },
+     7: .calculation("Less Than") { $0 < $1 ? 1 : 0 },
+     8: .calculation("Equals") { $0 == $1 ? 1 : 0 },
+    99: .halt
+]
+
 fileprivate struct Operation {
+    let name: String
     let action: (Instruction, inout State) -> ()
 }
 
 extension Operation {
 
-    static let halt = Operation { _, state in
+    static let halt = Operation(name: "Halt") { _, state in
         state.halted = true
         state.pointer = Pointer(state.code.count)
     }
 
     static func calculation(
+        _ name: String,
         _ calculation: @escaping (Int, Int) -> Int
     ) -> Operation {
 
-        Operation { instruction, state in
+        Operation(name: name) { instruction, state in
             state[instruction + 3] = calculation(state[instruction + 1],
                                                   state[instruction + 2])
             state.pointer += 4
         }
     }
 
-    static let input = Operation { instruction, state in
+    static let input = Operation(name: "Input") { instruction, state in
         guard let input = state.nextInput() else { return }
         state[instruction + 1] = input
         state.pointer += 2
     }
 
-    static let output = Operation { instruction, state in
+    static let output = Operation(name: "Output") { instruction, state in
         state.output = state[instruction + 1]
         state.pointer += 2
     }
 
-    static func jump(_ expression: @escaping (Int) -> Bool) -> Operation {
+    static func jump(
+        _ name: String,
+        _ expression: @escaping (Int) -> Bool
+    ) -> Operation {
         
-        Operation { instruction, state in
+        Operation(name: name) { instruction, state in
             if expression(state[instruction + 1]) {
                 state.pointer = Pointer(state[instruction + 2])
             } else {

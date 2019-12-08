@@ -13,8 +13,8 @@ struct InformationView: View {
 
     var body: some View {
         HStack {
-            if !computer.isHalted {
-                Text(String(computer.instructionPointer))
+            if computer.operationName != nil {
+                Text(String(computer.operationName!))
                     .padding(4)
                     .background(Color.yellow)
                     .cornerRadius(4)
@@ -33,7 +33,6 @@ struct InformationView: View {
                     .background(Color.red)
                     .cornerRadius(4)
             }
-
             if computer.output != nil {
                 Text("Output: \(String(computer.output!))")
                     .padding(4)
