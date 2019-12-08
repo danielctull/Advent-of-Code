@@ -23,10 +23,8 @@ extension Collection {
     ///
     /// - Parameter length: Length of each subsequence of the returned array.
     public func split(length: Int) -> [SubSequence] {
-        let amount = (count / length)
-        let range = (0..<amount)
-        return range.map { item in
-            let lower = index(startIndex, offsetBy: item * length)
+        stride(from: 0, to: count, by: length).map {
+            let lower = index(startIndex, offsetBy: $0)
             let upper = index(lower, offsetBy: length)
             return self[lower..<upper]
         }
