@@ -6,11 +6,18 @@ public struct IntcodeComputer {
         self.state = State(code: code)
     }
 
-    public mutating func run() throws { try run(inputs: []) }
+    public mutating func loadInput(_ input: Int) {
+        state.inputs.append(input)
+    }
 
-    public mutating func run(_ input: Int...) throws { try run(inputs: input) }
+    public mutating func run() throws {
 
-    private mutating func run(inputs: [Int]) throws {
+        while !state.waiting, state.instruction != nil {
+            try step()
+        }
+    }
+
+    public mutating func step() throws {
 
         let operations: [Int: Operation] = [
              1: .calculation(+),
@@ -24,16 +31,13 @@ public struct IntcodeComputer {
             99: .halt
         ]
 
-        state.inputs += inputs
+        guard let instruction = state.instruction else { return }
 
-        while !state.waiting, let instruction = state.instruction {
-
-            guard let operation = operations[instruction.code] else {
-                throw UnknownInstruction(code: instruction.code)
-            }
-
-            operation.action(instruction, &state)
+        guard let operation = operations[instruction.code] else {
+            throw UnknownInstruction(code: instruction.code)
         }
+
+        operation.action(instruction, &state)
     }
 }
 
@@ -65,6 +69,14 @@ public struct State {
 
         return inputs.removeFirst()
     }
+}
+
+extension IntcodeComputer {
+    public var code: [Int] { state.code }
+    public var instructionPointer: Int { state.pointer.value }
+    public var isHalted: Bool { state.halted }
+    public var isWaiting: Bool { state.waiting }
+    public var output: Int? { state.output }
 }
 
 // MARK: - Operation

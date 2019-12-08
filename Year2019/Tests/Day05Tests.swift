@@ -14,7 +14,8 @@ final class Day05Tests: XCTestCase {
 
     private func run(code: [Int], input: Int) throws -> Int {
         var computer = IntcodeComputer(code: code)
-        try computer.run(input)
+        computer.loadInput(input)
+        try computer.run()
         return computer.state.value
     }
 
