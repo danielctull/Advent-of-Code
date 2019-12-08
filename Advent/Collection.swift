@@ -16,3 +16,19 @@ extension Collection where Element: Equatable {
         }
     }
 }
+
+extension Collection {
+
+    /// Splits into an array of subsequences each with the given length.
+    ///
+    /// - Parameter length: Length of each subsequence of the returned array.
+    public func split(length: Int) -> [SubSequence] {
+        let amount = (count / length)
+        let range = (0..<amount)
+        return range.map { item in
+            let lower = index(startIndex, offsetBy: item * length)
+            let upper = index(lower, offsetBy: length)
+            return self[lower..<upper]
+        }
+    }
+}
