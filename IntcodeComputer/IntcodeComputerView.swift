@@ -17,7 +17,6 @@ struct IntcodeComputerView: View {
             InformationView(computer: container.computer)
             ControlsView(computer: $container.computer)
         }
-        .padding()
     }
 }
 

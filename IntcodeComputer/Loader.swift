@@ -20,7 +20,5 @@ struct Loader: View {
                 .font(.custom("SF Mono", size: 14))
             Button(action: load) { Text("Load") }
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

@@ -3,22 +3,30 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @SwiftUI.State var showing = Showing.loader
+    @SwiftUI.State private var showing = Showing.loader
 
-    func load(code: [Int]) {
+    private func load(code: [Int]) {
         showing = .computer(code)
     }
 
+    private func reset() {
+        showing = .loader
+    }
+
     var body: some View {
-        Group {
-            showing.loaderView(load)
-            showing.computerView
+        VStack {
+            showing.resetView(reset)
+            Group {
+                showing.loaderView(load)
+                showing.computerView
+            }
         }
+        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
-enum Showing {
+fileprivate enum Showing {
     case loader
     case computer([Int])
 }
@@ -32,8 +40,29 @@ extension Showing {
         }
     }
 
+    func resetView(_ reset: @escaping () -> ()) -> ResetView? {
+        switch self {
+        case .computer: return ResetView(reset: reset)
+        default: return nil
+        }
+    }
+
     var computerView: IntcodeComputerView? {
         guard case let .computer(code) = self else { return nil }
         return IntcodeComputerView(code: code)
+    }
+}
+
+fileprivate struct ResetView: View {
+
+    let reset: () -> ()
+
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: reset) { Text("Reset") }
+                Spacer()
+            }
+        }
     }
 }
