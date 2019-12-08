@@ -23,4 +23,22 @@ public struct Day08 {
             .min { $0.0 < $1.0 }?
             .1 ?? 0
     }
+
+    public func part2(width: Int, height: Int, input: Input) -> [String] {
+
+        input
+            .lines
+            .first!
+            .string
+            .split(length: width * height)
+            .zipped
+            .map {
+                $0.reduce("2") { (result, character) in
+                    result == "2" ? character : result
+                }
+            }
+            .map { $0 == "0" ? Character("◼️") : "◻️" }
+            .split(length: width)
+            .map { String($0) }
+    }
 }
