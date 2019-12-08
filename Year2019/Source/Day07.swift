@@ -26,7 +26,7 @@ public struct Day07 {
             computer.loadInput(phase)
             computer.loadInput(result)
             try computer.run()
-            return computer.state.value
+            return computer.output ?? .min
         }
     }
 
@@ -57,11 +57,11 @@ public struct Day07 {
         var iterator = (0..<phases.count).repeating.makeIterator()
         var value = 0
 
-        while !computers.last!.state.halted, let index = iterator.next() {
+        while !computers.last!.isHalted, let index = iterator.next() {
             var computer = computers[index]
             computer.loadInput(value)
             try computer.run()
-            value = computer.state.value
+            value = computer.output ?? .min
             computers[index] = computer
         }
 

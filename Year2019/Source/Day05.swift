@@ -17,7 +17,7 @@ public struct Day05 {
         var computer =  IntcodeComputer(code: intcode)
         computer.loadInput(1)
         try computer.run()
-        return computer.state.value
+        return computer.output ?? .min
     }
 
     public func part2(input: Input) throws -> Int {
@@ -31,6 +31,6 @@ public struct Day05 {
         var computer =  IntcodeComputer(code: intcode)
         computer.loadInput(5)
         try computer.run()
-        return computer.state.value
+        return computer.output ?? .min
     }
 }

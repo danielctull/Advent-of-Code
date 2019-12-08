@@ -20,7 +20,7 @@ struct ControlsView: View {
 fileprivate struct InputView: View {
 
     @Binding var computer: IntcodeComputer
-    @SwiftUI.State var input = ""
+    @State var input = ""
 
     func loadInput() {
         guard let integer = Int(input) else { return }

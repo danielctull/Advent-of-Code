@@ -5,7 +5,7 @@ import SwiftUI
 struct Loader: View {
 
     let handler: ([Int]) -> ()
-    @SwiftUI.State var intcode = ""
+    @State var intcode = ""
 
     func load() {
         let code = intcode

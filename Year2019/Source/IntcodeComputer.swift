@@ -1,7 +1,7 @@
 
 public struct IntcodeComputer {
 
-    public var state: State
+    private var state: State
     public init(code: [Int]) {
         self.state = State(code: code)
     }
@@ -37,18 +37,18 @@ struct UnknownInstruction: Error {
 
 // MARK: - State
 
-public struct State {
-    fileprivate var waiting = false
-    fileprivate var inputs: [Int] = [] {
+private struct State {
+    var waiting = false
+    var inputs: [Int] = [] {
         didSet { waiting = false }
     }
-    fileprivate var output: Int? = nil
-    fileprivate var pointer = Pointer()
-    public var halted = false
-    public var value: Int { output ?? .min }
-    public var code: [Int]
+    var output: Int? = nil
+    var pointer = Pointer()
+    var halted = false
+    var value: Int { output ?? .min }
+    var code: [Int]
 
-    fileprivate mutating func nextInput() -> Int? {
+    mutating func nextInput() -> Int? {
 
         guard inputs.count > 0 else {
             waiting = true

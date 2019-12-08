@@ -28,7 +28,7 @@ struct RegistersView: View {
 extension IntcodeComputer {
 
     var registers: [Register] {
-        state.code.enumerated().map(Register.init)
+        code.enumerated().map(Register.init)
     }
 }
 

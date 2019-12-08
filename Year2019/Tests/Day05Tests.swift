@@ -16,7 +16,7 @@ final class Day05Tests: XCTestCase {
         var computer = IntcodeComputer(code: code)
         computer.loadInput(input)
         try computer.run()
-        return computer.state.value
+        return computer.output ?? .min
     }
 
     func testPart2Example1() throws {

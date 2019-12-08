@@ -3,7 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @SwiftUI.State private var showing = Showing.loader
+    @State private var showing = Showing.loader
 
     private func load(code: [Int]) {
         showing = .computer(code)
