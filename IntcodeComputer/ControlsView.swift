@@ -67,8 +67,29 @@ fileprivate struct SpeedView: View {
     var body: some View {
         VStack(spacing: 0) {
             Text("Speed")
-            Slider(value: $speed, in: 0...1, minimumValueLabel: Text("🐢"), maximumValueLabel: Text("🐇")) { EmptyView() }
+            Slider(value: $speed,
+                   in: 0...0.98,
+                   minimumValueLabel: Text("🐢"),
+                   maximumValueLabel: Text("🐇"))
                 .frame(width: 200)
         }
+    }
+}
+
+extension Slider where Label == EmptyView {
+
+    public init<V>(value: Binding<V>,
+                   in bounds: ClosedRange<V> = 0...1,
+                   minimumValueLabel: ValueLabel,
+                   maximumValueLabel: ValueLabel
+    ) where
+        V: BinaryFloatingPoint,
+        V.Stride: BinaryFloatingPoint
+    {
+        self.init(value: value,
+                  in: bounds,
+                  minimumValueLabel: minimumValueLabel,
+                  maximumValueLabel: maximumValueLabel,
+                  label: { EmptyView() })
     }
 }
