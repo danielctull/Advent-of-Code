@@ -11,22 +11,33 @@ public struct IntcodeComputer {
     }
 
     public mutating func run() throws {
-
-        while !state.waiting, state.instruction != nil {
-            try step()
+        while !isWaiting, let instruction = state.instruction {
+            try perform(instruction)
         }
     }
 
     public mutating func step() throws {
-
         guard let instruction = state.instruction else { return }
+        try perform(instruction)
+    }
 
-        guard let operation = operations[instruction.code] else {
-            throw UnknownInstruction(code: instruction.code)
+    private mutating func perform(_ instruction: Instruction) throws {
+
+        guard let operation = instruction.operation else {
+            throw UnknownInstruction(code: instruction.opcode)
         }
 
         operation.action(instruction, &state)
     }
+}
+
+extension IntcodeComputer {
+    public var code: [Int] { state.code }
+    public var instructionPointer: Int { state.pointer.value }
+    public var isHalted: Bool { state.isHalted }
+    public var isWaiting: Bool { state.isWaiting }
+    public var operationName: String? { state.instruction?.operation?.name }
+    public var output: [Int] { state.output }
 }
 
 // MARK: - Errors
@@ -38,20 +49,20 @@ struct UnknownInstruction: Error {
 // MARK: - State
 
 private struct State {
-    var waiting = false
+    var isWaiting = false
     var inputs: [Int] = [] {
-        didSet { waiting = false }
+        didSet { isWaiting = false }
     }
     var output: [Int] = []
     var relativeBase = Pointer()
     var pointer = Pointer()
-    var halted = false
+    var isHalted = false
     var code: [Int]
 
     mutating func nextInput() -> Int? {
 
         guard inputs.count > 0 else {
-            waiting = true
+            isWaiting = true
             return nil
         }
 
@@ -59,19 +70,12 @@ private struct State {
     }
 }
 
-extension IntcodeComputer {
-    public var code: [Int] { state.code }
-    public var instructionPointer: Int { state.pointer.value }
-    public var isHalted: Bool { state.halted }
-    public var isWaiting: Bool { state.waiting }
-    public var output: [Int] { state.output }
-    public var operationName: String? {
-        guard let code = state.instruction?.code else { return nil }
-        return operations[code]?.name
-    }
-}
+// MARK: - Operations
 
-// MARK: - Operation
+fileprivate struct Operation {
+    let name: String
+    let action: (Instruction, inout State) -> ()
+}
 
 fileprivate let operations: [Int: Operation] = [
      1: .calculation("Add", +),
@@ -86,26 +90,21 @@ fileprivate let operations: [Int: Operation] = [
     99: .halt
 ]
 
-fileprivate struct Operation {
-    let name: String
-    let action: (Instruction, inout State) -> ()
-}
-
 extension Operation {
 
     static let halt = Operation(name: "Halt") { _, state in
-        state.halted = true
+        state.isHalted = true
         state.pointer = Pointer(state.code.count)
     }
 
     static func calculation(
         _ name: String,
-        _ calculation: @escaping (Int, Int) -> Int
+        _ operation: @escaping (Int, Int) -> Int
     ) -> Operation {
 
         Operation(name: name) { instruction, state in
-            state[instruction + 3] = calculation(state[instruction + 1],
-                                                  state[instruction + 2])
+            state[instruction + 3] = operation(state[instruction + 1],
+                                               state[instruction + 2])
             state.pointer += 4
         }
     }
@@ -149,17 +148,17 @@ fileprivate struct Instruction {
     let pointer: Pointer
 }
 
+extension Instruction {
+    var opcode: Int { value % 10000 % 1000 % 100 }
+    var operation: Operation? { operations[opcode] }
+}
+
 extension State {
 
     fileprivate var instruction: Instruction? {
         guard pointer.value < code.count else { return nil }
         return Instruction(value: self[pointer], pointer: pointer)
     }
-}
-
-extension Instruction {
-
-    var code: Int { value % 10000 % 1000 % 100 }
 }
 
 fileprivate func +(_ instruction: Instruction, offset: Int) -> Parameter {
@@ -212,8 +211,7 @@ extension State {
 
 fileprivate struct Pointer {
     let value: Int
-    init() { value = 0 }
-    init(_ value: Int) { self.value = value }
+    init(_ value: Int = 0) { self.value = value }
 }
 
 extension State {
@@ -226,7 +224,6 @@ extension State {
         set {
             if pointer.value >= code.count {
                 code += Array(repeating: 0, count: pointer.value + 1 - code.count)
-
             }
             code[pointer.value] = newValue
         }
