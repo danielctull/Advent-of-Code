@@ -42,6 +42,7 @@
 		246DC47C239D401800EE867D /* RegistersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246DC47B239D401800EE867D /* RegistersView.swift */; };
 		246DC47E239D43E800EE867D /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246DC47D239D43E800EE867D /* InformationView.swift */; };
 		246DC480239D443500EE867D /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246DC47F239D443500EE867D /* ControlsView.swift */; };
+		246DC482239DB21E00EE867D /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246DC481239DB21E00EE867D /* CollectionView.swift */; };
 		247B620D21BD91F200E167FD /* Day08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B620C21BD91F200E167FD /* Day08.swift */; };
 		247B620F21BD920000E167FD /* Day08Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B620E21BD920000E167FD /* Day08Tests.swift */; };
 		247B621121BD927600E167FD /* Day08.txt in Resources */ = {isa = PBXBuildFile; fileRef = 247B621021BD927600E167FD /* Day08.txt */; };
@@ -201,6 +202,7 @@
 		246DC47B239D401800EE867D /* RegistersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistersView.swift; sourceTree = "<group>"; };
 		246DC47D239D43E800EE867D /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		246DC47F239D443500EE867D /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
+		246DC481239DB21E00EE867D /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		247B620C21BD91F200E167FD /* Day08.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day08.swift; sourceTree = "<group>"; };
 		247B620E21BD920000E167FD /* Day08Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day08Tests.swift; sourceTree = "<group>"; };
 		247B621021BD927600E167FD /* Day08.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Day08.txt; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				246DC47B239D401800EE867D /* RegistersView.swift */,
 				246DC47D239D43E800EE867D /* InformationView.swift */,
 				246DC47F239D443500EE867D /* ControlsView.swift */,
+				246DC481239DB21E00EE867D /* CollectionView.swift */,
 			);
 			path = IntcodeComputer;
 			sourceTree = "<group>";
@@ -1026,6 +1029,7 @@
 				246DC480239D443500EE867D /* ControlsView.swift in Sources */,
 				246DC473239D3A2100EE867D /* Loader.swift in Sources */,
 				246DC45F239D385600EE867D /* AppDelegate.swift in Sources */,
+				246DC482239DB21E00EE867D /* CollectionView.swift in Sources */,
 				246DC47E239D43E800EE867D /* InformationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

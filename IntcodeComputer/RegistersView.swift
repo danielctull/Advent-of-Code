@@ -7,8 +7,9 @@ struct RegistersView: View {
     let computer: IntcodeComputer
 
     var body: some View {
-        HStack {
-            ForEach(computer.registers) { register in
+        CollectionView(data: computer.registers, layout: flowLayout) { register in
+//        HStack {
+//            ForEach(computer.registers) { register in
                 VStack(spacing: 4) {
 
                     Text(verbatim: "\(register.value)")
@@ -20,7 +21,7 @@ struct RegistersView: View {
                     Text(verbatim: "\(register.position)")
                         .font(.custom("SF Mono", size: 10))
                 }
-            }
+//            }
         }
     }
 }
