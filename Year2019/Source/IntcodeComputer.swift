@@ -6,7 +6,7 @@ public struct IntcodeComputer {
         self.state = State(code: code)
     }
 
-    public mutating func loadInput(_ input: Int) {
+    public mutating func input(_ input: Int) {
         state.inputs.append(input)
     }
 

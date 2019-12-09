@@ -15,7 +15,7 @@ public struct Day09 {
             .compactMap { Int($0) }
         
         var computer =  IntcodeComputer(code: code)
-        computer.loadInput(1)
+        computer.input(1)
         try computer.run()
         return computer.output.last
     }
@@ -29,7 +29,7 @@ public struct Day09 {
             .compactMap { Int($0) }
         
         var computer =  IntcodeComputer(code: code)
-        computer.loadInput(2)
+        computer.input(2)
         try computer.run()
         
         return computer.output.last

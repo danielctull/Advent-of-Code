@@ -20,19 +20,19 @@ struct ControlsView: View {
 fileprivate struct InputView: View {
 
     @Binding var computer: IntcodeComputer
-    @State var input = ""
+    @State var string = ""
 
-    func loadInput() {
-        guard let integer = Int(input) else { return }
-        computer.loadInput(integer)
+    func input() {
+        guard let integer = Int(string) else { return }
+        computer.input(integer)
     }
 
     var body: some View {
         HStack {
-            TextField("Input", text: $input)
+            TextField("Input", text: $string)
                 .frame(width: 150)
             
-            Button(action: loadInput) { Text("Load Input") }
+            Button(action: input) { Text("Input") }
         }
     }
 }

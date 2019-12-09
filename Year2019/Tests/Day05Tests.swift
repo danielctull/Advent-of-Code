@@ -14,7 +14,7 @@ final class Day05Tests: XCTestCase {
 
     private func run(code: [Int], input: Int) throws -> Int {
         var computer = IntcodeComputer(code: code)
-        computer.loadInput(input)
+        computer.input(input)
         try computer.run()
         return computer.output.first ?? .min
     }
