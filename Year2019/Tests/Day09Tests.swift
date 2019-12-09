@@ -29,4 +29,11 @@ final class Day09Tests: XCTestCase {
         let result = try day.part1(input: file)
         XCTAssertEqual(result, 3518157894)
     }
+
+    func testPart2Puzzle() throws {
+        let day = Day09()
+        let file = try Input(named: "Day09")
+        let result = try day.part2(input: file)
+        XCTAssertEqual(result, 80379)
+    }
 }
