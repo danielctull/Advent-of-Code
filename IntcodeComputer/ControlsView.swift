@@ -45,7 +45,7 @@ fileprivate struct ButtonsView: View {
     func step() { try? computer.step() }
     func run() {
         try? computer.step()
-        if !computer.isHalted {
+        if !computer.isHalted || !computer.isWaiting {
             DispatchQueue.main.asyncAfter(deadline: .now() + (1 - speed), execute: run)
         }
     }
