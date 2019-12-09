@@ -42,11 +42,10 @@ private struct State {
     var inputs: [Int] = [] {
         didSet { waiting = false }
     }
-    var output: Int? = nil
+    var output: [Int] = []
     var relativeBase = Pointer()
     var pointer = Pointer()
     var halted = false
-    var value: Int { output ?? .min }
     var code: [Int]
 
     mutating func nextInput() -> Int? {
@@ -65,7 +64,7 @@ extension IntcodeComputer {
     public var instructionPointer: Int { state.pointer.value }
     public var isHalted: Bool { state.halted }
     public var isWaiting: Bool { state.waiting }
-    public var output: Int? { state.output }
+    public var output: [Int] { state.output }
     public var operationName: String? {
         guard let code = state.instruction?.code else { return nil }
         return operations[code]?.name
@@ -118,7 +117,7 @@ extension Operation {
     }
 
     static let output = Operation(name: "Output") { instruction, state in
-        state.output = state[instruction + 1]
+        state.output.append(state[instruction + 1])
         state.pointer += 2
     }
 

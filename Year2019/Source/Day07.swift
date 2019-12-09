@@ -26,7 +26,7 @@ public struct Day07 {
             computer.loadInput(phase)
             computer.loadInput(result)
             try computer.run()
-            return computer.output ?? .min
+            return computer.output.last ?? .min
         }
     }
 
@@ -61,7 +61,7 @@ public struct Day07 {
             var computer = computers[index]
             computer.loadInput(value)
             try computer.run()
-            value = computer.output ?? .min
+            value = computer.output.last ?? .min
             computers[index] = computer
         }
 

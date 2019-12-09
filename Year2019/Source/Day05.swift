@@ -6,7 +6,7 @@ public struct Day05 {
 
     public init() {}
 
-    public func part1(input: Input) throws -> Int {
+    public func part1(input: Input) throws -> Int? {
 
         let intcode = input
             .lines
@@ -17,10 +17,10 @@ public struct Day05 {
         var computer =  IntcodeComputer(code: intcode)
         computer.loadInput(1)
         try computer.run()
-        return computer.output ?? .min
+        return computer.output.last
     }
 
-    public func part2(input: Input) throws -> Int {
+    public func part2(input: Input) throws -> Int? {
 
         let intcode = input
             .lines
@@ -31,6 +31,6 @@ public struct Day05 {
         var computer =  IntcodeComputer(code: intcode)
         computer.loadInput(5)
         try computer.run()
-        return computer.output ?? .min
+        return computer.output.last
     }
 }
