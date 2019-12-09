@@ -11,7 +11,7 @@ struct IntcodeComputerView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             RegistersView(computer: container.computer)
             Spacer()
             InformationView(computer: container.computer)

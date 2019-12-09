@@ -40,14 +40,35 @@ fileprivate struct InputView: View {
 fileprivate struct ButtonsView: View {
 
     @Binding var computer: IntcodeComputer
+    @State var speed = 0.8
 
     func step() { try? computer.step() }
-    func run() { try? computer.run() }
+    func run() {
+        try? computer.step()
+        if !computer.isHalted {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (1 - speed), execute: run)
+        }
+    }
 
     var body: some View {
         HStack {
             Button(action: step) { Text("Step") }
             Button(action: run) { Text("Run") }
+            SpeedView(speed: $speed)
+        }
+    }
+}
+
+
+fileprivate struct SpeedView: View {
+
+    @Binding var speed: Double
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text("Speed")
+            Slider(value: $speed, in: 0...1, minimumValueLabel: Text("🐢"), maximumValueLabel: Text("🐇")) { EmptyView() }
+                .frame(width: 200)
         }
     }
 }
