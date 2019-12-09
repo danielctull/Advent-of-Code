@@ -137,7 +137,6 @@ extension Operation {
 
     static let adjustRelativeBase = Operation(name: "Adjust Relative Base") {
         instruction, state in
-        print(state.relativeBase.value, instruction + 1, state[instruction + 1])
         state.relativeBase += state[instruction + 1]
         state.pointer += 2
     }
