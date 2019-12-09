@@ -43,6 +43,7 @@ private struct State {
         didSet { waiting = false }
     }
     var output: Int? = nil
+    var relativeBase = Pointer()
     var pointer = Pointer()
     var halted = false
     var value: Int { output ?? .min }
@@ -82,6 +83,7 @@ fileprivate let operations: [Int: Operation] = [
      6: .jump("Jump If False") { $0 == 0 },
      7: .calculation("Less Than") { $0 < $1 ? 1 : 0 },
      8: .calculation("Equals") { $0 == $1 ? 1 : 0 },
+     9: .adjustRelativeBase,
     99: .halt
 ]
 
@@ -133,6 +135,13 @@ extension Operation {
             }
         }
     }
+
+    static let adjustRelativeBase = Operation(name: "Adjust Relative Base") {
+        instruction, state in
+        print(state.relativeBase.value, instruction + 1, state[instruction + 1])
+        state.relativeBase += state[instruction + 1]
+        state.pointer += 2
+    }
 }
 
 // MARK: - Instruction
@@ -168,6 +177,7 @@ fileprivate func +(_ instruction: Instruction, offset: Int) -> Parameter {
     switch parameterCode {
     case 0: return .position(instruction.pointer + offset)
     case 1: return .immediate(instruction.pointer + offset)
+    case 2: return .relative(instruction.pointer + offset)
     default: fatalError()
     }
 }
@@ -177,6 +187,7 @@ fileprivate func +(_ instruction: Instruction, offset: Int) -> Parameter {
 fileprivate enum Parameter {
     case immediate(Pointer)
     case position(Pointer)
+    case relative(Pointer)
 }
 
 extension State {
@@ -186,12 +197,14 @@ extension State {
             switch parameter {
             case let .immediate(pointer): return self[pointer]
             case let .position(pointer): return code[self[pointer]]
+            case let .relative(pointer): return self[relativeBase + self[pointer]]
             }
         }
         set(newValue) {
             switch parameter {
             case let .immediate(pointer): self[pointer] = newValue
             case let .position(pointer): code[self[pointer]] = newValue
+            case let .relative(pointer): self[relativeBase + self[pointer]] = newValue
             }
         }
     }
