@@ -196,14 +196,14 @@ extension State {
         get {
             switch parameter {
             case let .immediate(pointer): return self[pointer]
-            case let .position(pointer): return code[self[pointer]]
+            case let .position(pointer): return self[Pointer(self[pointer])]
             case let .relative(pointer): return self[relativeBase + self[pointer]]
             }
         }
         set(newValue) {
             switch parameter {
             case let .immediate(pointer): self[pointer] = newValue
-            case let .position(pointer): code[self[pointer]] = newValue
+            case let .position(pointer): self[Pointer(self[pointer])] = newValue
             case let .relative(pointer): self[relativeBase + self[pointer]] = newValue
             }
         }
@@ -221,8 +221,17 @@ fileprivate struct Pointer {
 extension State {
 
     fileprivate subscript(pointer: Pointer) -> Int {
-        get { code[pointer.value] }
-        set { code[pointer.value] = newValue }
+        get {
+            guard pointer.value < code.count else { return 0 }
+            return code[pointer.value]
+        }
+        set {
+            if pointer.value >= code.count {
+                code += Array(repeating: 0, count: pointer.value + 1 - code.count)
+
+            }
+            code[pointer.value] = newValue
+        }
     }
 }
 
