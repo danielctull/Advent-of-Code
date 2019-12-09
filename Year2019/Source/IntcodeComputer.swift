@@ -27,7 +27,7 @@ public struct IntcodeComputer {
             throw UnknownInstruction(code: instruction.opcode)
         }
 
-        operation.action(instruction, &state)
+        try operation.action(instruction, &state)
     }
 }
 
@@ -44,6 +44,10 @@ extension IntcodeComputer {
 
 struct UnknownInstruction: Error {
     let code: Int
+}
+
+struct UnknownParameterMode: Error {
+    let value: Int
 }
 
 // MARK: - State
@@ -74,7 +78,7 @@ private struct State {
 
 fileprivate struct Operation {
     let name: String
-    let action: (Instruction, inout State) -> ()
+    let action: (Instruction, inout State) throws -> ()
 }
 
 fileprivate let operations: [Int: Operation] = [
@@ -103,20 +107,20 @@ extension Operation {
     ) -> Operation {
 
         Operation(name: name) { instruction, state in
-            state[instruction + 3] = operation(state[instruction + 1],
-                                               state[instruction + 2])
+            try state[instruction + 3] = operation(state[instruction + 1],
+                                                   state[instruction + 2])
             state.pointer += 4
         }
     }
 
     static let input = Operation(name: "Input") { instruction, state in
         guard let input = state.nextInput() else { return }
-        state[instruction + 1] = input
+        try state[instruction + 1] = input
         state.pointer += 2
     }
 
     static let output = Operation(name: "Output") { instruction, state in
-        state.output.append(state[instruction + 1])
+        try state.output.append(state[instruction + 1])
         state.pointer += 2
     }
 
@@ -126,8 +130,8 @@ extension Operation {
     ) -> Operation {
         
         Operation(name: name) { instruction, state in
-            if expression(state[instruction + 1]) {
-                state.pointer = Pointer(state[instruction + 2])
+            if try expression(state[instruction + 1]) {
+                state.pointer = try Pointer(state[instruction + 2])
             } else {
                 state.pointer += 3
             }
@@ -136,7 +140,7 @@ extension Operation {
 
     static let adjustRelativeBase = Operation(name: "Adjust Relative Base") {
         instruction, state in
-        state.relativeBase += state[instruction + 1]
+        state.relativeBase += try state[instruction + 1]
         state.pointer += 2
     }
 }
@@ -161,21 +165,21 @@ extension State {
     }
 }
 
-fileprivate func +(_ instruction: Instruction, offset: Int) -> Parameter {
+fileprivate func +(_ instruction: Instruction, offset: Int) throws -> Parameter {
 
-    let parameterCode: Int
+    let parameterMode: Int
     switch offset {
-    case 1: parameterCode = instruction.value % 10000 % 1000 / 100
-    case 2: parameterCode = instruction.value % 10000 / 1000
-    case 3: parameterCode = instruction.value / 10000
+    case 1: parameterMode = instruction.value % 10000 % 1000 / 100
+    case 2: parameterMode = instruction.value % 10000 / 1000
+    case 3: parameterMode = instruction.value / 10000
     default: fatalError()
     }
 
-    switch parameterCode {
+    switch parameterMode {
     case 0: return .position(instruction.pointer + offset)
     case 1: return .immediate(instruction.pointer + offset)
     case 2: return .relative(instruction.pointer + offset)
-    default: fatalError()
+    default: throw UnknownParameterMode(value: parameterMode)
     }
 }
 
