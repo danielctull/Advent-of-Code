@@ -69,20 +69,6 @@ public struct Day10 {
         .last!
     }
 
-    struct Angle {
-        let start: Position
-        let end: Position
-
-        var value: Double {
-            let opposite = Double(end.x - start.x)
-            let adjacent = Double(end.y - start.y)
-            let angle = atan2(adjacent, opposite)
-            // Angles start from y = 0 so this bumps 90° and makes all values
-            // between 0 and 2π.
-            return (angle + 2.5 * .pi).truncatingRemainder(dividingBy: 2 * .pi)
-        }
-    }
-
     public func part2(input: Input) throws -> Int {
 
         let max = maximumVisibleAsteroids(for: input)
@@ -90,9 +76,11 @@ public struct Day10 {
         let asteroids = max.1
 
         let sortedAsteroids = asteroids
-            .map { asteroid -> (Position, Double) in
+            .map { asteroid -> (Position, Angle) in
                 let angle = Angle(start: position, end: asteroid)
-                return (asteroid, angle.value)
+                // Angles start from the 3 o'clock position so add 90° such that
+                // 12 o'clock values become "zero".
+                return (asteroid, angle + Angle(degrees: 90))
             }
             .sorted { $0.1 < $1.1 }
 
