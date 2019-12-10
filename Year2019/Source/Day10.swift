@@ -38,6 +38,11 @@ public struct Day10 {
     public init() {}
 
     public func part1(input: Input) throws -> (Position, Int) {
+        let max = maximumVisibleAsteroids(for: input)
+        return (max.0, max.1.count)
+    }
+
+    private func maximumVisibleAsteroids(for input: Input) -> (Position, [Position]) {
 
         let asteroids = input
             .lines
@@ -51,33 +56,47 @@ public struct Day10 {
 
         return asteroids.map { position in
 
-            let count = asteroids.count(where: { other in
+            let visible = asteroids.filter { other in
                 guard position != other else { return false }
                 let line = Line(start: position, end: other)
                 let blocker = asteroids.first(where: { line.contains($0) })
                 return blocker == nil
-            })
+            }
 
-            return (position, count)
+            return (position, visible)
         }
-        .sorted(by: { $0.1 < $1.1 })
+        .sorted(by: { $0.1.count < $1.1.count })
         .last!
     }
 
-    public func part2(input: Input) throws -> Int {
-        0
-    }
-}
+    struct Angle {
+        let start: Position
+        let end: Position
 
-extension Sequence {
-
-    func count(where predicate: (Element) -> Bool) -> Int {
-        var count = 0
-        for element in self {
-            if predicate(element) {
-                count += 1
-            }
+        var value: Double {
+            let opposite = Double(end.x - start.x)
+            let adjacent = Double(end.y - start.y)
+            let angle = atan2(adjacent, opposite)
+            // Angles start from y = 0 so this bumps 90° and makes all values
+            // between 0 and 2π.
+            return (angle + 2.5 * .pi).truncatingRemainder(dividingBy: 2 * .pi)
         }
-        return count
+    }
+
+    public func part2(input: Input) throws -> Int {
+
+        let max = maximumVisibleAsteroids(for: input)
+        let position = max.0
+        let asteroids = max.1
+
+        let sortedAsteroids = asteroids
+            .map { asteroid -> (Position, Double) in
+                let angle = Angle(start: position, end: asteroid)
+                return (asteroid, angle.value)
+            }
+            .sorted { $0.1 < $1.1 }
+
+        let asteroidPosition = sortedAsteroids[199].0
+        return asteroidPosition.x * 100 + asteroidPosition.y
     }
 }
