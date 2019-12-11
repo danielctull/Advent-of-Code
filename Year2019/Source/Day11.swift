@@ -28,8 +28,26 @@ public struct Day11 {
         return robot.panels.count
     }
 
-    public func part2(input: Input) throws -> Int {
-        0
+    public func part2(input: Input) throws -> String {
+
+        let code = input
+            .lines
+            .map { $0.string }
+            .flatMap { $0.components(separatedBy: ",") }
+            .compactMap { Int($0) }
+
+        var robot = RobotPainter(startingPanel: .white)
+        var computer = IntcodeComputer(code: code)
+
+        while !computer.isHalted {
+            let input = robot.currentPanel == .black ? 0 : 1
+            computer.input(input)
+            try computer.run()
+            robot.paint(value: computer.paint)
+            robot.move(value: computer.move)
+        }
+
+        return robot.state(showingRobot: false)
     }
 }
 
@@ -43,11 +61,13 @@ public enum Panel {
 }
 
 public struct RobotPainter {
-    var panels = [Position.origin: Panel.black]
+    var panels: [Position: Panel]
     var direction = Direction.up
     var position = Position.origin
 
-    public init() {}
+    public init(startingPanel: Panel = .black) {
+        panels = [.origin: startingPanel]
+    }
 
     public mutating func move(value: Int) {
         let turn = value == 0 ? Turn.left : .right
