@@ -29,13 +29,6 @@ public struct Move {
     }
 }
 
-public enum Direction: Equatable, Hashable {
-    case up
-    case down
-    case left
-    case right
-}
-
 extension Position {
 
     public func move(_ move: Move) -> Position {
@@ -46,5 +39,9 @@ extension Position {
         case .left: return Position(x: x - move.amount, y: y)
         case .right: return Position(x: x + move.amount, y: y)
         }
+    }
+
+    public func offsetting(x xOffset: Int, y yOffset: Int) -> Position {
+        Position(x: x + xOffset, y: y + yOffset)
     }
 }
