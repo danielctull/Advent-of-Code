@@ -8,14 +8,8 @@ public struct Day11 {
 
     public func part1(input: Input) throws -> Int {
 
-        let code = input
-            .lines
-            .map { $0.string }
-            .flatMap { $0.components(separatedBy: ",") }
-            .compactMap { Int($0) }
-
         var robot = RobotPainter()
-        var computer = IntcodeComputer(code: code)
+        var computer = IntcodeComputer(input: input)
 
         while !computer.isHalted {
             let input = robot.currentPanel == .black ? 0 : 1
@@ -30,14 +24,8 @@ public struct Day11 {
 
     public func part2(input: Input) throws -> String {
 
-        let code = input
-            .lines
-            .map { $0.string }
-            .flatMap { $0.components(separatedBy: ",") }
-            .compactMap { Int($0) }
-
         var robot = RobotPainter(startingPanel: .white)
-        var computer = IntcodeComputer(code: code)
+        var computer = IntcodeComputer(input: input)
 
         while !computer.isHalted {
             let input = robot.currentPanel == .black ? 0 : 1
