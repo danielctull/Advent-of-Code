@@ -11,7 +11,7 @@ public struct Day12 {
         let moons = input.lines.map { Moon($0.string) }
 
         return (1...steps)
-            .reduce(moons) { moons, iteration -> [Moon] in
+            .reduce(moons) { moons, _ -> [Moon] in
                 let newMoons = moons.map { moon in
                     moon.adjustingVelocity(for: moons)
                         .moving()
@@ -21,9 +21,30 @@ public struct Day12 {
             .map { $0.position.sum * $0.velocity.sum }
             .reduce(0, +)
     }
+
+    public func part2(input: Input) throws -> Int {
+
+        var moons = input.lines.map { Moon($0.string) }
+
+        var set = Set<[Moon]>()
+
+        for iteration in (0...) {
+            let newMoons = moons.map { moon in
+                moon.adjustingVelocity(for: moons)
+                    .moving()
+            }
+
+            if set.contains(newMoons) { return iteration }
+
+            set.insert(newMoons)
+            moons = newMoons
+        }
+
+        return -1
+    }
 }
 
-struct Moon {
+struct Moon: Hashable, Equatable {
     var position: Position3D
     var velocity: Position3D
 
