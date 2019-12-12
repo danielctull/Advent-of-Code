@@ -21,27 +21,6 @@ public struct Day12 {
             .map { $0.position.sum * $0.velocity.sum }
             .reduce(0, +)
     }
-
-    public func part2(input: Input) throws -> Int {
-
-        var moons = input.lines.map { Moon($0.string) }
-
-        var set = Set<[Moon]>()
-
-        for iteration in (0...) {
-            let newMoons = moons.map { moon in
-                moon.adjustingVelocity(for: moons)
-                    .moving()
-            }
-
-            if set.contains(newMoons) { return iteration }
-
-            set.insert(newMoons)
-            moons = newMoons
-        }
-
-        return -1
-    }
 }
 
 struct Moon: Hashable, Equatable {
@@ -98,4 +77,66 @@ extension Moon {
         moon.move()
         return moon
     }
+}
+
+extension Day12 {
+
+    public func part2(input: Input) throws -> Int {
+
+        let moons = input.lines.map { Moon($0.string) }
+
+        func iterations(for axis: [Moon1D]) -> Int {
+            var moons = axis
+            var set = Set<[Moon1D]>()
+
+            for iteration in (0...) {
+                let newMoons = moons.map { moon in
+                    moon.adjustingVelocity(for: moons)
+                        .moving()
+                }
+
+                if set.contains(newMoons) { return iteration }
+
+                set.insert(newMoons)
+                moons = newMoons
+            }
+
+            return -1
+        }
+
+        let x = iterations(for: moons.map { Moon1D(position: $0.position.x) })
+        let y = iterations(for: moons.map { Moon1D(position: $0.position.y) })
+        let z = iterations(for: moons.map { Moon1D(position: $0.position.z) })
+        return lowestCommonMultiple(lowestCommonMultiple(x, y), z)
+    }
+}
+
+struct Moon1D: Equatable, Hashable {
+    var position: Int
+    var velocity: Int = 0
+}
+
+extension Moon1D {
+
+    func adjustingVelocity(for otherMoons: [Moon1D]) -> Moon1D {
+
+        otherMoons.reduce(into: self) { this, other in
+
+            func offset(this: Int, other: Int) -> Int {
+                let base = other - this
+                guard base != 0 else { return base }
+                return base / abs(base)
+            }
+
+            this.velocity += offset(this: this.position, other: other.position)
+        }
+    }
+
+   mutating func move() { position += velocity }
+
+   func moving() -> Moon1D {
+       var moon = self
+       moon.move()
+       return moon
+   }
 }

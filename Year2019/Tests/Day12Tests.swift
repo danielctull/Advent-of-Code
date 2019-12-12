@@ -49,13 +49,13 @@ final class Day12Tests: XCTestCase {
             "<x=2, y=-7, z=3>",
             "<x=9, y=-8, z=-3>"
         ])
-        XCTAssertEqual(output, 1940)
+        XCTAssertEqual(output, 4686774924)
     }
 
     func testPart2Puzzle() throws {
         let day = Day12()
         let file = try Input(named: "Day12")
         let result = try day.part2(input: file)
-        XCTAssertEqual(result, 0)
+        XCTAssertEqual(result, 469671086427712)
     }
 }
