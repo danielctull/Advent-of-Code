@@ -32,7 +32,10 @@ public struct IntcodeComputer {
 }
 
 extension IntcodeComputer {
-    public var code: [Int] { state.code }
+    public var code: [Int] {
+        get { state.code }
+        set { state.code = newValue }
+    }
     public var instructionPointer: Int { state.pointer.value }
     public var isHalted: Bool { state.isHalted }
     public var isWaiting: Bool { state.isWaiting }
