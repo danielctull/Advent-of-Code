@@ -8,7 +8,7 @@ public struct Day14 {
 
     public func part1(input: Input) throws -> Int {
 
-        let reactions = input
+        let reactions: [String: Reaction] = input
             .lines
             .map { Reaction($0.string) }
             .group(by: { $0.output[0] })
@@ -16,27 +16,29 @@ public struct Day14 {
 
         var required = reactions["FUEL"]!.input
         var excess: [String] = []
+        var ore = 0
 
-        while let requiredIndex = required.firstIndex(where: { $0 != "ORE" }) {
+        while let chemical = required.first {
 
-            let chemical = required[requiredIndex]
             if let excessIndex = excess.firstIndex(of: chemical) {
-                required.remove(at: requiredIndex)
+                required.removeFirst()
                 excess.remove(at: excessIndex)
             } else {
                 let reaction = reactions[chemical]!
                 required.append(contentsOf: reaction.input)
                 excess.append(contentsOf: reaction.output)
+                ore += reaction.ore
             }
         }
 
-        return required.count
+        return ore
     }
 }
 
 fileprivate struct Reaction {
     let input: [String]
     let output: [String]
+    let ore: Int
 
     init(_ string: String) {
 
@@ -51,6 +53,12 @@ fileprivate struct Reaction {
 
         let recipe = string.components(separatedBy: "=>")
         output = chemicals(from: recipe[1])
-        input = recipe[0].components(separatedBy: ",").flatMap(chemicals(from:))
+
+        let inputChemicals = recipe[0]
+            .components(separatedBy: ",")
+            .flatMap(chemicals(from:))
+
+        input = inputChemicals.filter { $0 != "ORE" }
+        ore = inputChemicals.count - input.count
     }
 }
