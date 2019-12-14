@@ -7,61 +7,68 @@ public struct Day14 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        let processor = FuelProcessor(input: input)
-        var excess: [Chemical: Int] = [:]
-        var requiredOre = 0
-        processor.createFuel(excess: &excess, ore: &requiredOre)
-        return requiredOre
+        Reactor(input: input).create(.fuel, amount: 1)
     }
 
     public func part2(input: Input) throws -> Int {
-        let processor = FuelProcessor(input: input)
-        let storedOre = 1000000000000
+        let reactor = Reactor(input: input)
+        let storedOre = 1_000_000_000_000
         var excess: [Chemical: Int] = [:]
         var requiredOre = 0
         var fuel = 0
 
-        repeat {
-            processor.createFuel(excess: &excess, ore: &requiredOre)
-            fuel += 1
-        } while requiredOre < storedOre && excess.filter({ $0.value > 0 }).count > 0
+        for multiplier in (0...7).map({ 10.power($0) }).reversed() {
 
-        let amount = storedOre / requiredOre
-        fuel *= amount
-        requiredOre *= amount
-
-        repeat {
-            processor.createFuel(excess: &excess, ore: &requiredOre)
-            fuel += 1
-        } while requiredOre < storedOre
-
-        return fuel - 1 // Take into account the over production in the final loop.
-    }
-}
-
-fileprivate struct FuelProcessor {
-
-    let reactions: [Chemical: Reaction]
-
-    func createFuel(excess: inout [Chemical: Int], ore: inout Int) {
-
-        var required = reactions[.fuel]!.input
-
-        while let (chemical, amount) = required.first(where: { $0.value > 0 && $0.key != .ore }) {
-
-            if let excessChemical = excess[chemical], excessChemical > 0 {
-                let remainingRequired = max(amount - excessChemical, 0)
-                let remainingExcess = max(excessChemical - amount, 0)
-                required[chemical] = remainingRequired
-                excess[chemical] = remainingExcess
-            } else {
-                let reaction = reactions[chemical]!
-                required.merge(reaction.input, uniquingKeysWith: +)
-                excess[chemical, default: 0] += reaction.output.1
+            while true {
+                var localExcess = excess
+                let ore = reactor.create(.fuel,
+                                         amount: multiplier,
+                                         excess: &localExcess)
+                guard ore + requiredOre <= storedOre else { break }
+                excess = localExcess
+                requiredOre += ore
+                fuel += multiplier
             }
         }
 
-        ore += required[.ore]!
+        return fuel
+    }
+}
+
+fileprivate struct Reactor {
+    let reactions: [Chemical: Reaction]
+}
+
+extension Reactor {
+
+    func create(_  chemical: Chemical, amount: Int) -> Int {
+        var excess: [Chemical: Int] = [:]
+        return create(chemical, amount: amount, excess: &excess)
+    }
+
+    func create(
+        _ chemical: Chemical,
+        amount: Int,
+        excess: inout [Chemical: Int]
+    ) -> Int {
+
+        guard chemical != .ore else { return amount }
+
+        var required = amount
+        if let excessAmount = excess[chemical], excessAmount > 0 {
+            let used = required > excessAmount ? excessAmount : required
+            required -= used
+            excess[chemical]! -= used
+        }
+
+        guard required > 0 else { return 0 }
+
+        let reaction = reactions[chemical]!.requiringAmount(required)
+        excess[chemical] = reaction.output.amount - required
+
+        return reaction.input.reduce(0) { (ore, chemical) -> Int in
+            ore + create(chemical.key, amount: chemical.value, excess: &excess)
+        }
     }
 
     init(input: Input) {
@@ -81,7 +88,10 @@ fileprivate struct Chemical: Equatable, Hashable {
 
 fileprivate struct Reaction {
     let input: [Chemical: Int]
-    let output: (Chemical, Int)
+    let output: (chemical: Chemical, amount: Int)
+}
+
+extension Reaction {
 
     init(_ string: String) {
 
@@ -103,4 +113,23 @@ fileprivate struct Reaction {
             .group(by: { $0.0 })
             .mapValues { $0[0].1 }
     }
+}
+
+extension Reaction {
+
+    func requiringAmount(_ amount: Int) -> Reaction {
+        let multiplier = Int(ceil(Double(amount) / Double(output.amount)))
+        return Reaction(input: input.mapValues { $0 * multiplier },
+                        output: (output.0, output.1 * multiplier))
+    }
+}
+
+// CustomStringConvertible
+
+extension Chemical: CustomStringConvertible {
+    var description: String { value }
+}
+
+extension Reaction: CustomStringConvertible {
+    var description: String { "Reaction(input: \(input), output: \(output))" }
 }

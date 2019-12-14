@@ -1,4 +1,6 @@
 
+import Foundation
+
 public func greatestCommonDivisor(_ lhs: Int, _ rhs: Int) -> Int {
     var a = 0
     var b = max(lhs, rhs)
@@ -13,4 +15,10 @@ public func greatestCommonDivisor(_ lhs: Int, _ rhs: Int) -> Int {
 
 public func lowestCommonMultiple(_ lhs: Int, _ rhs: Int) -> Int {
     abs(lhs * rhs) / greatestCommonDivisor(lhs, rhs)
+}
+
+extension Int {
+    public func power(_ power: Int) -> Int {
+        Int(pow(Double(self), Double(power)))
+    }
 }
