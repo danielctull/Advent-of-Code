@@ -953,7 +953,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1120;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Daniel Tull";
 				TargetAttributes = {
 					246DC45B239D385600EE867D = {
@@ -1295,11 +1295,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24DD577821B3FFF900A9E99B /* macOS Application.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = IntcodeComputer/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				CODE_SIGN_IDENTITY = "-";
 			};
 			name = Debug;
 		};
@@ -1307,11 +1303,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24DD577821B3FFF900A9E99B /* macOS Application.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = IntcodeComputer/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				CODE_SIGN_IDENTITY = "-";
 			};
 			name = Release;
 		};
@@ -1376,6 +1368,7 @@
 			baseConfigurationReference = 24DD578121B3FFF900A9E99B /* Debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = B2M757K4LG;
+				INFOPLIST_FILE = "${TARGET_NAME}/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.danieltull.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1390,6 +1383,7 @@
 			baseConfigurationReference = 24DD578221B3FFFA00A9E99B /* Release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = B2M757K4LG;
+				INFOPLIST_FILE = "${TARGET_NAME}/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.danieltull.$(PRODUCT_NAME:rfc1034identifier)";
