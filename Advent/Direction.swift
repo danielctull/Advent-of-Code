@@ -1,5 +1,5 @@
 
-public enum Direction: Equatable, Hashable {
+public enum Direction: Equatable, Hashable, CaseIterable {
     case up
     case down
     case left
@@ -12,6 +12,21 @@ public enum Turn {
 }
 
 extension Direction {
+
+    public var opposite: Direction {
+        switch self {
+        case .down: return .up
+        case .up: return .down
+        case .left: return .right
+        case .right: return .left
+        }
+    }
+
+    public var otherDirections: [Direction] {
+        var all = Direction.allCases
+        all.removeAll(where: { $0 == self })
+        return all
+    }
 
     public func perform(_ turn: Turn) -> Direction {
         switch (self, turn) {
@@ -27,3 +42,4 @@ extension Direction {
         }
     }
 }
+
