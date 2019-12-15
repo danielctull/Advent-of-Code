@@ -7,38 +7,35 @@ public struct Day15 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-
         var map = Map<RepairDroid.Tile>()
+        let droid = RepairDroid(computer: IntcodeComputer(input: input))
+        return try Direction
+            .allCases
+            .compactMap { try findOxygen(map: &map, droid: droid, direction: $0) }
+            .min() ?? Int.max
+    }
 
-        func wallHugging(turning turn: Turn) throws {
-            let computer = IntcodeComputer(input: input)
-            var droid = RepairDroid(computer: computer)
-            var directions = [Direction.up]
-            while droid.tile != .oxygen {
-                let direction = directions.remove(at: 0)
-                try droid.move(direction: direction)
-                map.tiles.merge(droid.map.tiles) { lhs, rhs in lhs }
-                print("----------")
-                print(map)
-
-                if droid.tile == .wall {
-                    directions.insert(direction.perform(turn), at: 0)
-                    directions.insert(direction, at: 1)
-                } else {
-                    directions.append(direction)
-                }
-            }
+    fileprivate func findOxygen(
+        map: inout Map<RepairDroid.Tile>,
+        droid inDroid: RepairDroid,
+        direction: Direction
+    ) throws -> Int? {
+        var droid = inDroid
+        try droid.move(direction: direction)
+        map.tiles.merge(droid.map.tiles) { lhs, rhs in lhs }
+        let tile = RepairDroid.Tile(value: droid.computer.output.last!)
+        switch tile {
+        case .wall: return nil
+        case .start: return nil
+        case .oxygen: return 1
+        case .empty:
+            return try direction
+                .opposite
+                .otherDirections
+                .compactMap { try findOxygen(map: &map, droid: droid, direction: $0) }
+                .min()
+                .flatMap { $0 + 1 }
         }
-
-        try wallHugging(turning: .right)
-        try wallHugging(turning: .left)
-
-        let removeWalls = map
-        .tiles
-        .filter { [RepairDroid.Tile.start, .empty, .oxygen].contains($0.value) }
-        print(Map(tiles: removeWalls))
-
-        return 0
     }
 }
 
