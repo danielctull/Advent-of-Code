@@ -15,6 +15,7 @@ public struct Day15 {
             .min() ?? Int.max
     }
 
+    @discardableResult
     fileprivate func findOxygen(
         map: inout Map<RepairDroid.Tile>,
         droid inDroid: RepairDroid,
@@ -34,6 +35,40 @@ public struct Day15 {
                 .otherDirections
                 .compactMap { try findOxygen(map: &map, droid: droid, direction: $0) }
                 .min()
+                .flatMap { $0 + 1 }
+        }
+    }
+
+    public func part2(input: Input) throws -> Int {
+        var map = Map<RepairDroid.Tile>()
+        let droid = RepairDroid(computer: IntcodeComputer(input: input))
+        try Direction
+            .allCases
+            .forEach { try findOxygen(map: &map, droid: droid, direction: $0) }
+
+        let oxygen = map.tiles.first(where: { $0.value == .oxygen })!
+        return Direction
+            .allCases
+            .compactMap { spreadOxygen(map: map, position: oxygen.key, direction: $0) }
+            .max() ?? Int.min
+    }
+
+    fileprivate func spreadOxygen(
+        map: Map<RepairDroid.Tile>,
+        position: Position,
+        direction: Direction
+    ) -> Int? {
+        let new = position.move(in: direction)
+        let tile = map.tiles[new]!
+        switch tile {
+        case .wall: return 0
+        case .oxygen: return nil
+        case .start, .empty:
+            return direction
+                .opposite
+                .otherDirections
+                .compactMap { spreadOxygen(map: map, position: new, direction: $0) }
+                .max()
                 .flatMap { $0 + 1 }
         }
     }

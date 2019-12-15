@@ -11,4 +11,11 @@ final class Day15Tests: XCTestCase {
         let result = try day.part1(input: file)
         XCTAssertEqual(result, 232)
     }
+
+    func testPart2Puzzle() throws {
+        let day = Day15()
+        let file = try Input(named: "Day15")
+        let result = try day.part2(input: file)
+        XCTAssertEqual(result, 320)
+    }
 }

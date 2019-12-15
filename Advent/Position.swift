@@ -31,6 +31,10 @@ public struct Move {
 
 extension Position {
 
+    public func move(in direction: Direction) -> Position {
+        move(Move(direction: direction, amount: 1))
+    }
+
     public func move(_ move: Move) -> Position {
 
         switch move.direction {
