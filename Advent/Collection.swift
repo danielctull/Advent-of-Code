@@ -30,3 +30,10 @@ extension Collection {
         }
     }
 }
+
+extension Collection {
+    
+    public func takeFirst(_ amount: Int) -> SubSequence {
+        dropLast(count - amount)
+    }
+}
