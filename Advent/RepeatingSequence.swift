@@ -23,11 +23,10 @@ extension RepeatingSequence {
 
     public struct Iterator {
         private let base: [Element]
-        private var iterator: Array<Element>.Iterator
+        private var pointer = 0
 
         fileprivate init(base: [Element]) {
             self.base = base
-            self.iterator = base.makeIterator()
         }
     }
 }
@@ -36,9 +35,11 @@ extension RepeatingSequence.Iterator: IteratorProtocol {
 
     mutating public func next() -> Base.Element? {
 
-        if let element = iterator.next() { return element }
+        defer {
+            pointer += 1
+            if pointer >= base.count { pointer = 0 }
+        }
 
-        iterator = base.makeIterator()
-        return iterator.next()
+        return base[pointer]
     }
 }

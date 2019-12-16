@@ -16,13 +16,13 @@ public struct Day16 {
 
         let basePattern = [0, 1, 0, -1]
 
-        let output = (1...phases)
-            .reduce(values) { values, phase -> [Int] in
+        return (1...phases)
+            .reduce(values) { values, _ -> [Int] in
 
-                values.enumerated().map { iteration, value -> Int in
+                (1...values.count).map { iteration -> Int in
 
                     let base = basePattern
-                        .repeatingElements(iteration + 1)
+                        .repeatingElements(iteration)
                         .repeating
                         .dropFirst()
 
@@ -30,11 +30,9 @@ public struct Day16 {
                     return abs(value) % 10
                 }
             }
+            .prefix(8)
             .map(String.init)
             .joined()
-            .prefix(8)
-
-        return String(output)
     }
 
     // Because we remove more than 50% of the values, the new value
