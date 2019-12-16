@@ -65,13 +65,33 @@ public struct Day16 {
         let output = (1...phases)
             .reduce(values) { values, phase -> [Int] in
 
-                let base = values.reduce(0, +)
-                let accumulation = Array(values.accumulating(0, +))
+                // Because we remove more than 50% of the values, the new value
+                // will be the sum of all of the values furth than its index.
+                //
+                // For the list: a b c d e f g
+                // We want to add from the end of the list, because:
+                //
+                // a b c d e f g
+                // 1 1 1 1 1 1 1 => new a = a + b + c + d + e + f + g
+                // 0 1 1 1 1 1 1 => new b = b + c + d + e + f + g
+                // 0 0 1 1 1 1 1 => new c = c + d + e + f + g
+                // 0 0 0 1 1 1 1 => new d = d + e + f + g
+                // 0 0 0 0 1 1 1 => new e = e + f + g
+                // 0 0 0 0 0 1 1 => new f = f + g
+                // 0 0 0 0 0 0 1 => new g = g
+                //
+                // So lets accumulate from the end of values: reverse,
+                // accumulate, dropFirst (fucking stupid, need scan), reverse
+                // it back, then apply the remainder logic to each.
 
-                let y = accumulation
-                    .map { abs(base - $0).quotientAndRemainder(dividingBy: 10).remainder }
-
-                return y
+                values
+                    .reversed()
+                    .accumulating(0, +)
+                    .dropFirst()
+                    .reversed()
+                    .map {
+                        abs($0).quotientAndRemainder(dividingBy: 10).remainder
+                    }
             }
             .map(String.init)
             .joined()
