@@ -15,34 +15,26 @@ public struct Day16 {
             .map { Int(String($0))! }
 
         let basePattern = [0, 1, 0, -1]
-        let count = values.count
 
         let output = (1...phases)
             .reduce(values) { values, phase -> [Int] in
 
-                Array(zip(values.repeating, 0..<count*count)) // Limit repeating length
-                    .map { $0.0 } // Remove count value used to limit
-                    .split(length: count) // Split into arrays
-                    .enumerated()
-                    .map { x -> Int in
-                        let (iteration, values) = x
+                values.enumerated().map { iteration, value -> Int in
 
-                        let base = basePattern
-                            .repeatingElements(iteration + 1)
-                            .repeating
-                            .dropFirst()
+                    let base = basePattern
+                        .repeatingElements(iteration + 1)
+                        .repeating
+                        .dropFirst()
 
-                        let y = zip(values, base)
-                            .map(*)
-                            .reduce(0, +)
-
-                        return abs(y) % 10
+                    let value = zip(values, base).map(*).reduce(0, +)
+                    return abs(value) % 10
                 }
-        }
-        .map(String.init)
-        .joined()
-        
-        return String(output.prefix(8))
+            }
+            .map(String.init)
+            .joined()
+            .prefix(8)
+
+        return String(output)
     }
 
     // Because we remove more than 50% of the values, the new value
