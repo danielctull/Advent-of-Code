@@ -69,9 +69,8 @@ public struct Day16 {
 
                 var total = values.reduce(0, +)
                 return values.map { value in
-                    let result = abs(total) % 10
-                    total -= value
-                    return result
+                    defer { total -= value }
+                    return total % 10
                 }
             }
             .prefix(8)
