@@ -36,17 +36,29 @@ public struct Day16 {
                             .map(*)
                             .reduce(0, +)
 
-                        return abs(y)
-                            .quotientAndRemainder(dividingBy: 10)
-                            .remainder
+                        return abs(y) % 10
                 }
         }
         .map(String.init)
         .joined()
         
-        return String(output.takeFirst(8))
+        return String(output.prefix(8))
     }
 
+    // Because we remove more than 50% of the values, the new value
+    // will be the sum of all of the values further than its index.
+    //
+    // For the list: a b c d e f g
+    // We want to add from the end of the list, because:
+    //
+    // a b c d e f g
+    // 1 1 1 1 1 1 1 => new a = a + b + c + d + e + f + g
+    // 0 1 1 1 1 1 1 => new b = b + c + d + e + f + g
+    // 0 0 1 1 1 1 1 => new c = c + d + e + f + g
+    // 0 0 0 1 1 1 1 => new d = d + e + f + g
+    // 0 0 0 0 1 1 1 => new e = e + f + g
+    // 0 0 0 0 0 1 1 => new f = f + g
+    // 0 0 0 0 0 0 1 => new g = g
     public func part2(input: Input, phases: Int = 100) -> String {
 
         let string = input
@@ -54,48 +66,26 @@ public struct Day16 {
             .first!
             .string
 
-        let dropAmount = Int(String(string.takeFirst(7))) ?? 0
-
-        let values = Array(repeating: string, count: 10000)
-            .joined()
+        let dropAmount = Int(String(string.prefix(7)))!
+        let values = string
             .map { Int(String($0))! }
+            .repeating(10_000)
+            .flatMap { $0 }
             .dropFirst(dropAmount)
             .map { $0 }
 
-        let output = (1...phases)
+        return (1...phases)
             .reduce(values) { values, phase -> [Int] in
 
-                // Because we remove more than 50% of the values, the new value
-                // will be the sum of all of the values furth than its index.
-                //
-                // For the list: a b c d e f g
-                // We want to add from the end of the list, because:
-                //
-                // a b c d e f g
-                // 1 1 1 1 1 1 1 => new a = a + b + c + d + e + f + g
-                // 0 1 1 1 1 1 1 => new b = b + c + d + e + f + g
-                // 0 0 1 1 1 1 1 => new c = c + d + e + f + g
-                // 0 0 0 1 1 1 1 => new d = d + e + f + g
-                // 0 0 0 0 1 1 1 => new e = e + f + g
-                // 0 0 0 0 0 1 1 => new f = f + g
-                // 0 0 0 0 0 0 1 => new g = g
-                //
-                // So lets accumulate from the end of values: reverse,
-                // accumulate, dropFirst (fucking stupid, need scan), reverse
-                // it back, then apply the remainder logic to each.
-
-                values
-                    .reversed()
-                    .accumulating(0, +)
-                    .dropFirst()
-                    .reversed()
-                    .map {
-                        abs($0).quotientAndRemainder(dividingBy: 10).remainder
-                    }
+                var total = values.reduce(0, +)
+                return values.map { value in
+                    let result = abs(total) % 10
+                    total -= value
+                    return result
+                }
             }
+            .prefix(8)
             .map(String.init)
             .joined()
-
-        return String(output.takeFirst(8))
     }
 }
