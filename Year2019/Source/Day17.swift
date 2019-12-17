@@ -7,25 +7,23 @@ public struct Day17 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        let robot = try VacuumRobot(computer: IntcodeComputer(input: input))
-        return robot
-            .map
+        let map = try Map(computer: IntcodeComputer(input: input))
+        return map
             .tiles
             .keys
-            .compactMap { robot.isScaffoldIntersection($0) ? $0.x * $0.y : nil }
+            .compactMap { map.isScaffoldIntersection($0) ? $0.x * $0.y : nil }
             .reduce(0, +)
     }
 }
 
-fileprivate struct VacuumRobot {
+extension Map where Tile == Day17.Tile {
 
-    var computer: IntcodeComputer
-    var map: Map<Tile>
-    init(computer: IntcodeComputer) throws {
-        self.computer = computer
-        try self.computer.run()
+    fileprivate init(computer inComputer: IntcodeComputer) throws {
 
-        let characters = self.computer
+        var computer = inComputer
+        try computer.run()
+
+        let characters = computer
             .output
             .compactMap(UnicodeScalar.init)
             .map(Character.init)
@@ -41,20 +39,17 @@ fileprivate struct VacuumRobot {
             .group(by: { $0.0 })
             .mapValues { $0[0].1 }
 
-        map = Map(tiles: tiles)
+        self.init(tiles: tiles)
     }
-}
-
-extension VacuumRobot {
 
     func isScaffoldIntersection(_ position: Position) -> Bool {
 
         guard
-            case .scaffold = map.tiles[position],
-            case .scaffold = map.tiles[position.move(.up)],
-            case .scaffold = map.tiles[position.move(.down)],
-            case .scaffold = map.tiles[position.move(.left)],
-            case .scaffold = map.tiles[position.move(.right)]
+            case .scaffold = tiles[position],
+            case .scaffold = tiles[position.move(.up)],
+            case .scaffold = tiles[position.move(.down)],
+            case .scaffold = tiles[position.move(.left)],
+            case .scaffold = tiles[position.move(.right)]
         else {
             return false
         }
@@ -63,18 +58,21 @@ extension VacuumRobot {
     }
 }
 
-fileprivate enum Tile {
-    case scaffold
-    case robot(Direction?)
-    case space
-}
+extension Day17 {
 
+    fileprivate enum Tile {
+        case scaffold
+        case robot(Direction?)
+        case space
+    }
+
+}
 
 fileprivate struct UnknownTile: Error {
     let character: Character
 }
 
-extension Tile {
+extension Day17.Tile {
 
     fileprivate init(_ character: Character) throws {
         switch character {
@@ -90,7 +88,7 @@ extension Tile {
     }
 }
 
-extension Tile: CustomStringConvertible {
+extension Day17.Tile: CustomStringConvertible {
 
     var description: String {
         switch self {
