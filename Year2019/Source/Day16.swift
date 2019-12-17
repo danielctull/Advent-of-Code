@@ -26,7 +26,11 @@ public struct Day16 {
                         .repeating
                         .dropFirst()
 
-                    let value = zip(values, base).map(*).reduce(0, +)
+                    let value = zip(values, base)
+                        .dropFirst(iteration - 1) // Numbers before this will have a base value of zero.
+                        .map(*)
+                        .reduce(0, +)
+
                     return abs(value) % 10
                 }
             }
@@ -65,7 +69,7 @@ public struct Day16 {
             .map { $0 }
 
         return (1...phases)
-            .reduce(values) { values, phase -> [Int] in
+            .reduce(values) { values, _ -> [Int] in
 
                 var total = values.reduce(0, +)
                 return values.map { value in
