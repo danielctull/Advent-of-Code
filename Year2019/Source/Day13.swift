@@ -27,7 +27,7 @@ public struct Day13 {
     }
 }
 
-struct BlockGame {
+fileprivate struct BlockGame {
 
     var computer: IntcodeComputer
     init(computer: IntcodeComputer, credits: Int = -1) throws {
@@ -85,7 +85,7 @@ extension BlockGame {
     }
 }
 
-enum Tile {
+fileprivate enum Tile {
     case empty
     case wall
     case block

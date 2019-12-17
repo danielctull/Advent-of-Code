@@ -57,7 +57,7 @@ public struct Day15 {
         position: Position,
         direction: Direction
     ) -> Int {
-        let new = position.move(in: direction)
+        let new = position.move(direction)
         let tile = map.tiles[new]!
         switch tile {
         case .oxygen, .wall: return 0
