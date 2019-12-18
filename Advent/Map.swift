@@ -33,30 +33,28 @@ extension Map {
     public subscript(position: Position) -> Tile? { tiles[position] }
 }
 
-// MARK: - Creating a Map from a Sequence of Sequences of Characters
+// MARK: - Creating a Map from a Sequence of Sequences of RawValues
 
-public protocol ExpressibleByCharacter {
-    init(_ character: Character) throws
-}
+extension Map where Tile: RawRepresentable {
 
-extension Map where Tile: ExpressibleByCharacter {
-
-    /// Takes a Sequence of Sequences of characters and makes a map of them.
+    /// Takes a Sequence of Sequences of RawValues and makes a map of them.
     ///
     /// If you have an array of array of Characters this works.
     /// If you have an array of Strings this works. :)
+    /// If you have an array of array of Ints this works! :D
     ///
-    /// - Parameter characters: The 2D array of characters.
-    public init<Rows, Columns>(characters: Rows) throws
+    /// - Parameter characters: The sequence of sequences of raw values.
+    public init<Rows, Columns, RawValue>(rawValues: Rows) throws
         where
         Rows: Sequence,
         Rows.Element == Columns,
         Columns: Sequence,
-        Columns.Element == Character
+        Columns.Element == RawValue,
+        Tile.RawValue == RawValue
     {
-        let tiles = try characters.enumerated().flatMap { y, line in
-            try line.enumerated().map { x, character in
-                try (Position(x: x, y: y), Tile(character))
+        let tiles = try rawValues.enumerated().flatMap { y, line in
+            try line.enumerated().map { x, rawValue in
+                try (Position(x: x, y: y), Tile(rawValue))
             }
         }
         .group(by: { $0.0 })

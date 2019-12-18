@@ -29,7 +29,7 @@ extension Map where Tile == Day17.Tile {
             .map(Character.init)
             .split(separator: "\n")
 
-        try self.init(characters: characters)
+        try self.init(rawValues: characters)
     }
 
     func isScaffoldIntersection(_ position: Position) -> Bool {
@@ -60,10 +60,10 @@ extension Day17 {
 
 }
 
-extension Day17.Tile: ExpressibleByCharacter {
+extension Day17.Tile: RawRepresentable {
 
-    fileprivate init(_ character: Character) throws {
-        switch character {
+    fileprivate init?(rawValue: Character) {
+        switch rawValue {
         case "v": self = .robot(.down)
         case "^": self = .robot(.up)
         case "<": self = .robot(.left)
@@ -71,14 +71,11 @@ extension Day17.Tile: ExpressibleByCharacter {
         case "X": self = .robot(nil)
         case "#": self = .scaffold
         case ".": self = .space
-        default: throw UnexpectedValue(character)
+        default: return nil
         }
     }
-}
 
-extension Day17.Tile: CustomStringConvertible {
-
-    var description: String {
+    var rawValue: Character {
         switch self {
         case .robot(.down): return "v"
         case .robot(.up): return "^"
@@ -89,4 +86,9 @@ extension Day17.Tile: CustomStringConvertible {
         case .space: return "."
         }
     }
+}
+
+extension Day17.Tile: CustomStringConvertible {
+
+    var description: String { String(rawValue) }
 }

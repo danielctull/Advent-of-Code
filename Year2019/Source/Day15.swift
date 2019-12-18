@@ -107,25 +107,15 @@ extension Direction {
 
 extension Day15 {
 
-    fileprivate enum Tile {
-        case empty
-        case wall
-        case oxygen
-        case start
+    fileprivate enum Tile: Int {
+        case wall = 0
+        case empty = 1
+        case oxygen = 2
+        case start = -1
     }
 }
 
-extension Day15.Tile {
-
-    init(_ value: Int) throws {
-        switch value {
-        case 0: self = .wall
-        case 1: self = .empty
-        case 2: self = .oxygen
-        default: throw UnexpectedValue(value)
-        }
-    }
-}
+extension Day15.Tile: RawRepresentable {}
 
 extension Day15.Tile: CustomStringConvertible {
 

@@ -12,7 +12,7 @@ public struct Day18 {
             .lines
             .map { $0.string.map { $0 } }
 
-        let map = try Map<Day18.Tile>(characters: values)
+        let map = try Map<Day18.Tile>(rawValues: values)
         let allKeys = map.tiles.filter { $0.value.isKey }
 
         func findKeys(
@@ -97,29 +97,31 @@ extension Day18.Tile {
 
 extension Day18.Tile: Equatable {}
 
-extension Day18.Tile: ExpressibleByCharacter {
+extension Day18.Tile: RawRepresentable {
 
-    init(_ character: Character) throws {
-        switch character {
+    init?(rawValue: Character) {
+        switch rawValue {
         case "#": self = .wall
         case ".": self = .passage
         case "@": self = .start
-        case "a"..."z": self = .key(character)
-        case "A"..."Z": self = .door(Character(character.lowercased()))
-        default: throw UnexpectedValue(character)
+        case "a"..."z": self = .key(rawValue)
+        case "A"..."Z": self = .door(Character(rawValue.lowercased()))
+        default: return nil
+        }
+    }
+
+    var rawValue: Character {
+        switch self {
+        case .wall: return "#"
+        case .passage: return "."
+        case .door(let value): return Character(value.uppercased())
+        case .key(let value): return value
+        case .start: return "@"
         }
     }
 }
 
 extension Day18.Tile: CustomStringConvertible {
 
-    var description: String {
-        switch self {
-        case .wall: return "#"
-        case .passage: return "."
-        case .door(let value): return String(value).uppercased()
-        case .key(let value): return String(value)
-        case .start: return "@"
-        }
-    }
+    var description: String { String(rawValue) }
 }

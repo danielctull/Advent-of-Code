@@ -86,28 +86,17 @@ extension BlockGame {
 
 extension Day13 {
 
-    fileprivate enum Tile {
-        case empty
-        case wall
-        case block
-        case paddle
-        case ball
+    fileprivate enum Tile: Int {
+        case empty = 0
+        case wall = 1
+        case block = 2
+        case paddle = 3
+        case ball = 4
     }
 }
 
-extension Day13.Tile {
-
-    init(_ id: Int) throws {
-        switch id {
-        case 0: self = .empty
-        case 1: self = .wall
-        case 2: self = .block
-        case 3: self = .paddle
-        case 4: self = .ball
-        default: throw UnexpectedValue(id)
-        }
-    }
-}
+extension Day13.Tile: Equatable {}
+extension Day13.Tile: RawRepresentable {}
 
 extension Day13.Tile: CustomStringConvertible {
 
