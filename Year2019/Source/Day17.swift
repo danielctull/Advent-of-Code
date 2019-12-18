@@ -27,19 +27,9 @@ extension Map where Tile == Day17.Tile {
             .output
             .compactMap(UnicodeScalar.init)
             .map(Character.init)
-
-        let tiles = try String(characters)
             .split(separator: "\n")
-            .enumerated()
-            .flatMap { y, string in
-                try string.enumerated().map { x, character in
-                    try (Position(x: x, y: y), Tile(character))
-                }
-            }
-            .group(by: { $0.0 })
-            .mapValues { $0[0].1 }
 
-        self.init(tiles: tiles)
+        try self.init(characters: characters)
     }
 
     func isScaffoldIntersection(_ position: Position) -> Bool {
@@ -68,7 +58,7 @@ extension Day17 {
 
 }
 
-extension Day17.Tile {
+extension Day17.Tile: ExpressibleByCharacter {
 
     fileprivate init(_ character: Character) throws {
         switch character {

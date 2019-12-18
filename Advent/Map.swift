@@ -33,7 +33,7 @@ extension Map {
     public subscript(position: Position) -> Tile? { tiles[position] }
 }
 
-// MARK: - Creating a Map from a 2D array of Characters
+// MARK: - Creating a Map from a Sequence of Sequences of Characters
 
 public protocol ExpressibleByCharacter {
     init(_ character: Character) throws
@@ -41,10 +41,19 @@ public protocol ExpressibleByCharacter {
 
 extension Map where Tile: ExpressibleByCharacter {
 
-    /// Takes a 2D array of characters.
+    /// Takes a Sequence of Sequences of characters and makes a map of them.
+    ///
+    /// If you have an array of array of Characters this works.
+    /// If you have an array of Strings this works. :)
     ///
     /// - Parameter characters: The 2D array of characters.
-    public init(characters: [[Character]]) throws {
+    public init<Rows, Columns>(characters: Rows) throws
+        where
+        Rows: Sequence,
+        Rows.Element == Columns,
+        Columns: Sequence,
+        Columns.Element == Character
+    {
         let tiles = try characters.enumerated().flatMap { y, line in
             try line.enumerated().map { x, character in
                 try (Position(x: x, y: y), Tile(character))
