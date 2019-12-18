@@ -41,6 +41,7 @@ extension IntcodeComputer {
     public var isWaiting: Bool { state.isWaiting }
     public var operationName: String? { state.instruction?.operation?.name }
     public var output: [Int] { state.output }
+    public mutating func nextOutput() -> [Int] { state.nextOutput() }
 }
 
 // MARK: - Errors
@@ -56,16 +57,11 @@ struct UnknownParameterMode: Error {
 // MARK: - State
 
 private struct State {
+
     var isWaiting = false
     var inputs: [Int] = [] {
         didSet { isWaiting = false }
     }
-    var output: [Int] = []
-    var relativeBase = Pointer()
-    var pointer = Pointer()
-    var isHalted = false
-    var code: [Int]
-
     mutating func nextInput() -> Int? {
 
         guard inputs.count > 0 else {
@@ -75,6 +71,19 @@ private struct State {
 
         return inputs.removeFirst()
     }
+
+    var outputPointer = 0
+    var output: [Int] = []
+    mutating func nextOutput() -> [Int] {
+        let next = output[outputPointer...]
+        outputPointer += next.count
+        return Array(next)
+    }
+
+    var relativeBase = Pointer()
+    var pointer = Pointer()
+    var isHalted = false
+    var code: [Int]
 }
 
 // MARK: - Operations
