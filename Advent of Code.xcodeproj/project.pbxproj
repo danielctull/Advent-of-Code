@@ -21,7 +21,7 @@
 		243FCEB523A6229A00FF5A29 /* Day15.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243FCEB423A6229A00FF5A29 /* Day15.swift */; };
 		243FCEB723A622B200FF5A29 /* Day15Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243FCEB623A622B200FF5A29 /* Day15Tests.swift */; };
 		243FCEB923A622CB00FF5A29 /* Day15.txt in Resources */ = {isa = PBXBuildFile; fileRef = 243FCEB823A622CB00FF5A29 /* Day15.txt */; };
-		243FCEBB23A62B7D00FF5A29 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243FCEBA23A62B7D00FF5A29 /* Map.swift */; };
+		243FCEBB23A62B7D00FF5A29 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243FCEBA23A62B7D00FF5A29 /* Grid.swift */; };
 		243FCEBD23A6E5B200FF5A29 /* Day16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243FCEBC23A6E5B200FF5A29 /* Day16.swift */; };
 		243FCEBF23A6E5DD00FF5A29 /* Day16.txt in Resources */ = {isa = PBXBuildFile; fileRef = 243FCEBE23A6E5DD00FF5A29 /* Day16.txt */; };
 		243FCEC123A6E5F000FF5A29 /* Day16Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243FCEC023A6E5F000FF5A29 /* Day16Tests.swift */; };
@@ -218,7 +218,7 @@
 		243FCEB423A6229A00FF5A29 /* Day15.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day15.swift; sourceTree = "<group>"; };
 		243FCEB623A622B200FF5A29 /* Day15Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day15Tests.swift; sourceTree = SOURCE_ROOT; };
 		243FCEB823A622CB00FF5A29 /* Day15.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Day15.txt; sourceTree = "<group>"; };
-		243FCEBA23A62B7D00FF5A29 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		243FCEBA23A62B7D00FF5A29 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		243FCEBC23A6E5B200FF5A29 /* Day16.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day16.swift; sourceTree = "<group>"; };
 		243FCEBE23A6E5DD00FF5A29 /* Day16.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Day16.txt; sourceTree = "<group>"; };
 		243FCEC023A6E5F000FF5A29 /* Day16Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day16Tests.swift; sourceTree = "<group>"; };
@@ -790,7 +790,7 @@
 				247F17BF239D00AD004C4EE4 /* ZipMany.swift */,
 				2455406923A0D2CF0007485A /* Direction.swift */,
 				2458AC4923A2906D0015BB4D /* Maths.swift */,
-				243FCEBA23A62B7D00FF5A29 /* Map.swift */,
+				243FCEBA23A62B7D00FF5A29 /* Grid.swift */,
 				243BEE9523AA48CC00BC88BF /* RawRepresentable.swift */,
 			);
 			path = Advent;
@@ -1272,7 +1272,7 @@
 				247B627B21BFA10300E167FD /* LookingAheadSequence.swift in Sources */,
 				247B621A21BDCF9200E167FD /* RepeatingSequence.swift in Sources */,
 				2458AC4A23A2906D0015BB4D /* Maths.swift in Sources */,
-				243FCEBB23A62B7D00FF5A29 /* Map.swift in Sources */,
+				243FCEBB23A62B7D00FF5A29 /* Grid.swift in Sources */,
 				247B627D21BFA44E00E167FD /* ProductSequence.swift in Sources */,
 				247F17C0239D00AD004C4EE4 /* ZipMany.swift in Sources */,
 				246DC434239BAFA900EE867D /* PermutationsSequence.swift in Sources */,

@@ -1,14 +1,14 @@
 
 import Foundation
 
-public struct Map<Tile: CustomStringConvertible> {
+public struct Grid<Tile: CustomStringConvertible> {
     public var tiles: [Position: Tile]
     public init(tiles: [Position: Tile] = [:]) {
         self.tiles = tiles
     }
 }
 
-extension Map: CustomStringConvertible {
+extension Grid: CustomStringConvertible {
 
     public var description: String {
         let maxX = tiles.keys.map { $0.x }.max()!
@@ -29,13 +29,13 @@ extension Map: CustomStringConvertible {
     }
 }
 
-extension Map {
+extension Grid {
     public subscript(position: Position) -> Tile? { tiles[position] }
 }
 
 // MARK: - Creating a Map from a Sequence of Sequences of RawValues
 
-extension Map where Tile: RawRepresentable {
+extension Grid where Tile: RawRepresentable {
 
     /// Takes a Sequence of Sequences of RawValues and makes a map of them.
     ///

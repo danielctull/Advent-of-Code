@@ -7,23 +7,23 @@ public struct Day15 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        var map = Map(tiles: [.origin: Tile.start])
+        var grid = Grid(tiles: [.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         return try Direction
             .allCases
-            .compactMap { try findOxygen(map: &map, droid: droid, direction: $0) }
+            .compactMap { try findOxygen(grid: &grid, droid: droid, direction: $0) }
             .min()!
     }
 
     @discardableResult
     fileprivate func findOxygen(
-        map: inout Map<Tile>,
+        grid: inout Grid<Tile>,
         droid inDroid: RepairDroid,
         direction: Direction
     ) throws -> Int? {
         var droid = inDroid
         try droid.move(direction: direction)
-        map.tiles.merge(droid.map.tiles) { lhs, rhs in lhs }
+        grid.tiles.merge(droid.grid.tiles) { lhs, rhs in lhs }
         switch droid.tile {
         case .wall: return nil
         case .start: return nil
@@ -32,41 +32,41 @@ public struct Day15 {
             return try direction
                 .opposite
                 .otherDirections
-                .compactMap { try findOxygen(map: &map, droid: droid, direction: $0) }
+                .compactMap { try findOxygen(grid: &grid, droid: droid, direction: $0) }
                 .min()
                 .flatMap { $0 + 1 }
         }
     }
 
     public func part2(input: Input) throws -> Int {
-        var map = Map(tiles: [.origin: Tile.start])
+        var grid = Grid(tiles: [.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         try Direction
             .allCases
-            .forEach { try findOxygen(map: &map, droid: droid, direction: $0) }
+            .forEach { try findOxygen(grid: &grid, droid: droid, direction: $0) }
 
-        let oxygen = map.tiles.first(where: { $0.value == .oxygen })!
+        let oxygen = grid.tiles.first(where: { $0.value == .oxygen })!
         return Direction
             .allCases
-            .map { spreadOxygen(map: &map, position: oxygen.key, direction: $0) }
+            .map { spreadOxygen(grid: &grid, position: oxygen.key, direction: $0) }
             .max()!
     }
 
     fileprivate func spreadOxygen(
-        map: inout Map<Tile>,
+        grid: inout Grid<Tile>,
         position: Position,
         direction: Direction
     ) -> Int {
         let new = position.move(direction)
-        let tile = map.tiles[new]!
+        let tile = grid.tiles[new]!
         switch tile {
         case .oxygen, .wall: return 0
         case .start, .empty:
-            map.tiles[new] = .oxygen
+            grid.tiles[new] = .oxygen
             return direction
                 .opposite
                 .otherDirections
-                .map { spreadOxygen(map: &map, position: new, direction: $0) }
+                .map { spreadOxygen(grid: &grid, position: new, direction: $0) }
                 .max()! + 1
         }
     }
@@ -76,7 +76,7 @@ fileprivate struct RepairDroid {
     var computer: IntcodeComputer
     var position = Position.origin
     var tile = Day15.Tile.start
-    var map = Map<Day15.Tile>()
+    var grid = Grid<Day15.Tile>()
 }
 
 extension RepairDroid {
@@ -86,7 +86,7 @@ extension RepairDroid {
         computer.input(direction.code)
         try computer.run()
         tile = try Day15.Tile(computer.output.last!)
-        map.tiles[new] = tile
+        grid.tiles[new] = tile
         if tile != .wall { position = new }
     }
 }

@@ -7,16 +7,16 @@ public struct Day17 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        let map = try Map(computer: IntcodeComputer(input: input))
-        return map
+        let grid = try Grid(computer: IntcodeComputer(input: input))
+        return grid
             .tiles
             .keys
-            .compactMap { map.isScaffoldIntersection($0) ? $0.x * $0.y : nil }
+            .compactMap { grid.isScaffoldIntersection($0) ? $0.x * $0.y : nil }
             .reduce(0, +)
     }
 }
 
-extension Map where Tile == Day17.Tile {
+extension Grid where Tile == Day17.Tile {
 
     fileprivate init(computer inComputer: IntcodeComputer) throws {
 

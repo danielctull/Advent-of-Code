@@ -12,8 +12,8 @@ public struct Day18 {
             .lines
             .map { $0.string.map { $0 } }
 
-        let map = try Map<Day18.Tile>(rawValues: values)
-        let allKeys = map.tiles.filter { $0.value.isKey }
+        let grid = try Grid<Day18.Tile>(rawValues: values)
+        let allKeys = grid.tiles.filter { $0.value.isKey }
 
         func findKeys(
             keys inKeys: Set<Character> = [],
@@ -22,7 +22,7 @@ public struct Day18 {
         ) -> Int? {
 
             let new = position.move(direction)
-            guard let tile = map[new] else { return nil }
+            guard let tile = grid[new] else { return nil }
 
             var keys = inKeys
             var nextDirections: [Direction]
@@ -53,7 +53,7 @@ public struct Day18 {
                 .min()
         }
 
-        let start = map.firstPosition(of: .start)!
+        let start = grid.firstPosition(of: .start)!
 
         return Direction
             .allCases
@@ -62,7 +62,7 @@ public struct Day18 {
     }
 }
 
-extension Map where Tile: Equatable {
+extension Grid where Tile: Equatable {
 
     func firstPosition(of tile: Tile) -> Position? {
         tiles.first(where: { $0.value == tile })?.key
