@@ -41,7 +41,6 @@ fileprivate struct BlockGame {
     var blocks: [Position] { tiles.filter { $0.value == .block }.map { $0.key } }
     var ball: Position { tiles.first(where: { $0.value == .ball })!.key }
     var paddle: Position { tiles.first(where: { $0.value == .paddle })!.key }
-    var outputPointer = 0
 }
 
 extension BlockGame {
@@ -70,9 +69,7 @@ extension BlockGame {
         guard !computer.isHalted else { return }
 
         try computer.run()
-        let newOutput = computer.output[outputPointer...]
-        let output = newOutput.split(length: 3).map(Array.init)
-        outputPointer += newOutput.count
+        let output = computer.nextOutput().split(length: 3).map(Array.init)
 
         for values in output {
             let x = values[0]
