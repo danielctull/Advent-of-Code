@@ -23,7 +23,7 @@ public struct Day16 {
 
                     let base = basePattern
                         .repeatingElements(iteration)
-                        .repeating
+                        .repeating()
                         .dropFirst()
 
                     let value = zip(values, base)

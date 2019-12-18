@@ -43,7 +43,7 @@ public struct Day07 {
             return computer
         }
 
-        var iterator = (0..<phases.count).repeating.makeIterator()
+        var iterator = (0..<phases.count).repeating().makeIterator()
         var value = 0
 
         while !computers.last!.isHalted, let index = iterator.next() {

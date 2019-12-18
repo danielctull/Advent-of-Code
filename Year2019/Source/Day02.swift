@@ -19,7 +19,7 @@ public struct Day02 {
 
     public func part2(input: Input) throws -> Int {
 
-        for (noun, verb) in zip((0...99).repeatingElements(100), (0...99).repeating) {
+        for (noun, verb) in zip((0...99).repeatingElements(100), (0...99).repeating()) {
 
             var computer =  IntcodeComputer(input: input)
             computer.code[1] = noun

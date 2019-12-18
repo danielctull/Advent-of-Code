@@ -27,7 +27,7 @@ extension TrianglePairsSequence {
 
         fileprivate init(base: Base) {
             let array = Array(base)
-            let repeating = array.enumerated().repeating
+            let repeating = array.enumerated().repeating()
             let repeatingElements = array.enumerated().repeatingElements(array.count)
             iterator = zip(repeatingElements, repeating).makeIterator()
         }

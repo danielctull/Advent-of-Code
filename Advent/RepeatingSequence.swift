@@ -2,7 +2,7 @@
 extension Sequence {
 
     /// Creates a sequence which repeats the receiver's elements.
-    public var repeating: RepeatingSequence<Self> {
+    public func repeating() -> RepeatingSequence<Self> {
         return RepeatingSequence(base: self)
     }
 }

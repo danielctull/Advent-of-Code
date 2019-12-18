@@ -22,7 +22,7 @@ extension ProductSequence {
         private var iterator: Zip2Sequence<RepeatingSequence<Base1>, RepeatingElementsSequence<Base2>>.Iterator
 
         fileprivate init(base1: Base1, base2: Base2) {
-            let sequence1 = base1.repeating
+            let sequence1 = base1.repeating()
             let sequence2 = base2.repeatingElements(Array(base1).count)
             iterator = zip(sequence1, sequence2).makeIterator()
         }
