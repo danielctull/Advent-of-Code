@@ -36,7 +36,7 @@ fileprivate struct BlockGame {
         try run()
     }
 
-    var tiles: [Position: Tile] = [:]
+    var tiles: [Position: Day13.Tile] = [:]
     var score: Int = -1
     var blocks: [Position] { tiles.filter { $0.value == .block }.map { $0.key } }
     var ball: Position { tiles.first(where: { $0.value == .ball })!.key }
@@ -76,35 +76,40 @@ extension BlockGame {
             let y = values[1]
             switch (x, y) {
             case (-1, 0): self.score = values[2]
-            default: tiles[Position(x: x, y: y)] = Tile(id: values[2])
+            default: tiles[Position(x: x, y: y)] = try Day13.Tile(values[2])
             }
         }
     }
 }
 
-fileprivate enum Tile {
-    case empty
-    case wall
-    case block
-    case paddle
-    case ball
+// MARK: - Tile
+
+extension Day13 {
+
+    fileprivate enum Tile {
+        case empty
+        case wall
+        case block
+        case paddle
+        case ball
+    }
 }
 
-extension Tile {
+extension Day13.Tile {
 
-    init(id: Int) {
+    init(_ id: Int) throws {
         switch id {
         case 0: self = .empty
         case 1: self = .wall
         case 2: self = .block
         case 3: self = .paddle
         case 4: self = .ball
-        default: fatalError()
+        default: throw UnexpectedValue(id)
         }
     }
 }
 
-extension Tile: CustomStringConvertible {
+extension Day13.Tile: CustomStringConvertible {
 
     var description: String {
         switch self {

@@ -69,10 +69,11 @@ extension Map where Tile: Equatable {
     }
 }
 
+// MARK: - Tile
 
 extension Day18 {
 
-    enum Tile: Equatable {
+    fileprivate enum Tile {
         case wall
         case passage
         case start
@@ -94,6 +95,8 @@ extension Day18.Tile {
     }
 }
 
+extension Day18.Tile: Equatable {}
+
 extension Day18.Tile: ExpressibleByCharacter {
 
     init(_ character: Character) throws {
@@ -103,7 +106,7 @@ extension Day18.Tile: ExpressibleByCharacter {
         case "@": self = .start
         case "a"..."z": self = .key(character)
         case "A"..."Z": self = .door(Character(character.lowercased()))
-        default: throw UnexpectedCharacter(character)
+        default: throw UnexpectedValue(character)
         }
     }
 }

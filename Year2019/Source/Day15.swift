@@ -7,7 +7,7 @@ public struct Day15 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        var map = Map(tiles: [.origin: RepairDroid.Tile.start])
+        var map = Map(tiles: [.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         return try Direction
             .allCases
@@ -17,7 +17,7 @@ public struct Day15 {
 
     @discardableResult
     fileprivate func findOxygen(
-        map: inout Map<RepairDroid.Tile>,
+        map: inout Map<Tile>,
         droid inDroid: RepairDroid,
         direction: Direction
     ) throws -> Int? {
@@ -39,7 +39,7 @@ public struct Day15 {
     }
 
     public func part2(input: Input) throws -> Int {
-        var map = Map(tiles: [.origin: RepairDroid.Tile.start])
+        var map = Map(tiles: [.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         try Direction
             .allCases
@@ -53,7 +53,7 @@ public struct Day15 {
     }
 
     fileprivate func spreadOxygen(
-        map: inout Map<RepairDroid.Tile>,
+        map: inout Map<Tile>,
         position: Position,
         direction: Direction
     ) -> Int {
@@ -75,8 +75,8 @@ public struct Day15 {
 fileprivate struct RepairDroid {
     var computer: IntcodeComputer
     var position = Position.origin
-    var tile = Tile.start
-    var map = Map<RepairDroid.Tile>()
+    var tile = Day15.Tile.start
+    var map = Map<Day15.Tile>()
 }
 
 extension RepairDroid {
@@ -85,7 +85,7 @@ extension RepairDroid {
         let new = position.move(Move(direction: direction, amount: 1))
         computer.input(direction.code)
         try computer.run()
-        tile = RepairDroid.Tile(value: computer.output.last!)
+        tile = try Day15.Tile(computer.output.last!)
         map.tiles[new] = tile
         if tile != .wall { position = new }
     }
@@ -103,11 +103,11 @@ extension Direction {
     }
 }
 
-// MARK: - RepairDroid.Tile
+// MARK: - Tile
 
-extension RepairDroid {
+extension Day15 {
 
-    enum Tile {
+    fileprivate enum Tile {
         case empty
         case wall
         case oxygen
@@ -115,19 +115,19 @@ extension RepairDroid {
     }
 }
 
-extension RepairDroid.Tile {
+extension Day15.Tile {
 
-    init(value: Int) {
+    init(_ value: Int) throws {
         switch value {
         case 0: self = .wall
         case 1: self = .empty
         case 2: self = .oxygen
-        default: fatalError()
+        default: throw UnexpectedValue(value)
         }
     }
 }
 
-extension RepairDroid.Tile: CustomStringConvertible {
+extension Day15.Tile: CustomStringConvertible {
 
     var description: String {
         switch self {

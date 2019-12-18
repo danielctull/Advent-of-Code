@@ -1,7 +1,7 @@
 
-public struct UnexpectedCharacter: Error {
-    public let character: Character
-    public init(_ character: Character) {
-        self.character = character
+public struct UnexpectedValue<Value>: Error {
+    public let value: Value
+    public init(_ value: Value) {
+        self.value = value
     }
 }

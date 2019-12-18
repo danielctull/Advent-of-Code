@@ -48,6 +48,8 @@ extension Map where Tile == Day17.Tile {
     }
 }
 
+// MARK: - Tile
+
 extension Day17 {
 
     fileprivate enum Tile {
@@ -69,7 +71,7 @@ extension Day17.Tile: ExpressibleByCharacter {
         case "X": self = .robot(nil)
         case "#": self = .scaffold
         case ".": self = .space
-        default: throw UnexpectedCharacter(character)
+        default: throw UnexpectedValue(character)
         }
     }
 }
