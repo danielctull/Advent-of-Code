@@ -63,6 +63,46 @@ extension Grid where Tile: Equatable {
     }
 }
 
+// MARK: - Finding the shortest distance
+
+extension Grid {
+
+    public func shortestDistance(
+        from start: Position,
+        to end: Position,
+        isPath: (Tile) -> Bool
+    ) -> Int? {
+
+        var queue = Direction.allCases.map {
+            (position: start, direction: $0, distance: 0)
+        }
+        var visited = Set<Position>()
+
+        while let (position, direction, distance) = queue.first {
+            queue.removeFirst()
+
+            let position = position.move(direction)
+            let distance = distance + 1
+
+            guard !visited.contains(position) else { continue }
+            visited.insert(position)
+
+            guard let tile = self[position] else { continue }
+            guard isPath(tile) else { continue }
+
+            guard position != end else { return distance }
+
+            let next = direction.opposite.otherDirections.map {
+                (position: position, direction: $0, distance: distance)
+            }
+
+            queue.append(contentsOf: next)
+        }
+
+        return nil
+    }
+}
+
 // MARK: - Creating a Map from a Sequence of Sequences of RawValues
 
 extension Grid where Tile: RawRepresentable {
