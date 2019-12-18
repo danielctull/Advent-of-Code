@@ -94,10 +94,6 @@ extension Day18.Tile {
     }
 }
 
-struct UnexpectedCharacter: Error {
-    let character: Character
-}
-
 extension Day18.Tile: ExpressibleByCharacter {
 
     init(_ character: Character) throws {
@@ -107,7 +103,7 @@ extension Day18.Tile: ExpressibleByCharacter {
         case "@": self = .start
         case "a"..."z": self = .key(character)
         case "A"..."Z": self = .door(Character(character.lowercased()))
-        default: throw UnexpectedCharacter(character: character)
+        default: throw UnexpectedCharacter(character)
         }
     }
 }

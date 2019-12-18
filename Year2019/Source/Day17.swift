@@ -68,10 +68,6 @@ extension Day17 {
 
 }
 
-fileprivate struct UnknownTile: Error {
-    let character: Character
-}
-
 extension Day17.Tile {
 
     fileprivate init(_ character: Character) throws {
@@ -83,7 +79,7 @@ extension Day17.Tile {
         case "X": self = .robot(nil)
         case "#": self = .scaffold
         case ".": self = .space
-        default: throw UnknownTile(character: character)
+        default: throw UnexpectedCharacter(character)
         }
     }
 }
