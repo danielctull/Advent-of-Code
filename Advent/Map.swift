@@ -28,3 +28,31 @@ extension Map: CustomStringConvertible {
         ].joined(separator: "\n")
     }
 }
+
+extension Map {
+    public subscript(position: Position) -> Tile? { tiles[position] }
+}
+
+// MARK: - Creating a Map from a 2D array of Characters
+
+public protocol ExpressibleByCharacter {
+    init(_ character: Character) throws
+}
+
+extension Map where Tile: ExpressibleByCharacter {
+
+    /// Takes a 2D array of characters.
+    ///
+    /// - Parameter characters: The 2D array of characters.
+    public init(characters: [[Character]]) throws {
+        let tiles = try characters.enumerated().flatMap { y, line in
+            try line.enumerated().map { x, character in
+                try (Position(x: x, y: y), Tile(character))
+            }
+        }
+        .group(by: { $0.0 })
+        .mapValues { $0[0].1 }
+
+        self.init(tiles: tiles)
+    }
+}
