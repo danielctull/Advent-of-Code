@@ -6,7 +6,7 @@ import XCTest
 final class Day11Tests: XCTestCase {
 
     func testRobot() {
-        var robot = RobotPainter()
+        var robot = Day11.RobotPainter()
         XCTAssertEqual(robot.state(), """
             ^
             """)

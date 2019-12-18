@@ -4,6 +4,7 @@ import Foundation
 public struct Grid<Tile: CustomStringConvertible> {
     public var origin: Origin
     public var tiles: [Position: Tile]
+    public var empty: String = " "
     public init(origin: Origin = .topLeft, tiles: [Position: Tile] = [:]) {
         self.origin = origin
         self.tiles = tiles
@@ -28,7 +29,7 @@ extension Grid: CustomStringConvertible {
         let sizeX = maxX - minX + 1
         let sizeY = maxY - minY + 1
 
-        var output = Array(repeating: Array(repeating: " ", count: sizeX), count: sizeY)
+        var output = Array(repeating: Array(repeating: empty, count: sizeX), count: sizeY)
         for tile in tiles {
             output[tile.key.y - minY][tile.key.x - minX] = String(describing: tile.value)
         }
