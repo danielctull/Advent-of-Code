@@ -8,40 +8,25 @@ public struct Day02 {
 
     public func part1(input: Input) throws -> [Int] {
 
-        var intcode = input
-            .lines
-            .map { $0.string }
-            .flatMap { $0.components(separatedBy: ",") }
-            .compactMap { Int($0) }
-
+        var computer =  IntcodeComputer(input: input)
         if !input.testing {
-            intcode[1] = 12
-            intcode[2] = 2
+            computer.code[1] = 12
+            computer.code[2] = 2
         }
-
-        var computer =  IntcodeComputer(code: intcode)
         try computer.run()
         return computer.code
     }
 
     public func part2(input: Input) throws -> Int {
 
-        let intcode = input
-            .lines
-            .map { $0.string }
-            .flatMap { $0.components(separatedBy: ",") }
-            .compactMap { Int($0) }
-
         for (noun, verb) in zip((0...99).repeatingElements(100), (0...99).repeating) {
-            var code = intcode
-            code[1] = noun
-            code[2] = verb
 
-            var computer =  IntcodeComputer(code: code)
+            var computer =  IntcodeComputer(input: input)
+            computer.code[1] = noun
+            computer.code[2] = verb
             try computer.run()
-            let output = computer.code
 
-            if output[0] == 19690720 {
+            if computer.code[0] == 19690720 {
                 return 100 * noun + verb
             }
         }
