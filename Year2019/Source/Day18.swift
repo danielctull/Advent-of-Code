@@ -15,50 +15,58 @@ public struct Day18 {
         let grid = try Grid<Day18.Tile>(rawValues: values)
         let allKeys = grid.tiles.filter { $0.value.isKey }
 
-        func findKeys(
-            keys inKeys: Set<Character> = [],
-            position: Position,
-            direction: Direction
-        ) -> Int? {
+        struct State: Hashable {
+            var keys = Set<Character>()
+            var position: Position
+            var direction: Direction
+        }
 
-            let new = position.move(direction)
-            guard let tile = grid[new] else { return nil }
+        let start = grid.firstPosition(of: .start)!
+        var queue = Direction.allCases.map { (0, State(position: start, direction: $0)) }
+        var evaluated = Set<State>()
 
-            var keys = inKeys
+        while var (steps, state) = queue.first {
+            queue.removeFirst()
+
+            state.position = state.position.move(state.direction)
+            steps += 1
+
+            guard !evaluated.contains(state) else { continue }
+            evaluated.insert(state)
+
+            guard let tile = grid[state.position] else { continue }
+
             var nextDirections: [Direction]
 
             switch tile {
 
             // Blocked path, stop exploring
             case .wall:
-                return nil
-            case .door(let door) where !keys.contains(door):
-                return nil
+                continue
+            case .door(let door) where !state.keys.contains(door):
+                continue
 
             // Explore in all directions to locate newly accessible door.
-            case .key(let key) where !keys.contains(key):
-                keys.insert(key)
+            case .key(let key) where !state.keys.contains(key):
+                state.keys.insert(key)
                 nextDirections = Direction.allCases
 
             // Keep exploring forward, left and right.
             case .start, .passage, .key, .door:
-                nextDirections = direction.opposite.otherDirections
+                nextDirections = state.direction.opposite.otherDirections
             }
 
-            guard keys.count < allKeys.count else { return 1 }
+            guard state.keys.count < allKeys.count else { return steps }
 
-            return nextDirections
-                .compactMap { findKeys(keys: keys, position: new, direction: $0) }
-                .map { $0 + 1 }
-                .min()
+            let next = nextDirections.map { direction -> (Int, State) in
+                let state = State(keys: state.keys, position: state.position, direction: direction)
+                return (steps, state)
+            }
+
+            queue.append(contentsOf: next)
         }
 
-        let start = grid.firstPosition(of: .start)!
-
-        return Direction
-            .allCases
-            .compactMap { findKeys(position: start, direction: $0) }
-            .min()!
+        return 0
     }
 }
 

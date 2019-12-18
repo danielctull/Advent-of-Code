@@ -67,6 +67,6 @@ final class Day18Tests: XCTestCase {
         let day = Day18()
         let file = try Input(named: "Day18")
         let result = try day.part1(input: file)
-        XCTAssertEqual(result, 0)
+        XCTAssertEqual(result, 5402)
     }
 }
