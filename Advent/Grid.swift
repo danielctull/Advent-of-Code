@@ -2,9 +2,19 @@
 import Foundation
 
 public struct Grid<Tile: CustomStringConvertible> {
+    public var origin: Origin
     public var tiles: [Position: Tile]
-    public init(tiles: [Position: Tile] = [:]) {
+    public init(origin: Origin = .topLeft, tiles: [Position: Tile] = [:]) {
+        self.origin = origin
         self.tiles = tiles
+    }
+}
+
+extension Grid {
+
+    public enum Origin {
+        case topLeft
+        case bottomLeft
     }
 }
 
@@ -23,14 +33,33 @@ extension Grid: CustomStringConvertible {
             output[tile.key.y - minY][tile.key.x - minX] = String(describing: tile.value)
         }
 
+        if origin == .topLeft {
+            output = output.reversed()
+        }
+
         return [
-            output.reversed().map { $0.joined() }.joined(separator: "\n")
+            output.map { $0.joined() }.joined(separator: "\n")
         ].joined(separator: "\n")
     }
 }
 
 extension Grid {
-    public subscript(position: Position) -> Tile? { tiles[position] }
+
+    public subscript(position: Position) -> Tile? {
+        get { tiles[position] }
+        set { tiles[position] = newValue }
+    }
+}
+
+extension Grid where Tile: Equatable {
+
+    public func positions(of tile: Tile) -> [Position] {
+        tiles.filter { $0.value == tile }.map { $0.key }
+    }
+
+    public func firstPosition(of tile: Tile) -> Position? {
+        tiles.first(where: { $0.value == tile })?.key
+    }
 }
 
 // MARK: - Creating a Map from a Sequence of Sequences of RawValues

@@ -36,11 +36,11 @@ fileprivate struct BlockGame {
         try run()
     }
 
-    var tiles: [Position: Day13.Tile] = [:]
+    var grid = Grid<Day13.Tile>(origin: .bottomLeft)
     var score: Int = -1
-    var blocks: [Position] { tiles.filter { $0.value == .block }.map { $0.key } }
-    var ball: Position { tiles.first(where: { $0.value == .ball })!.key }
-    var paddle: Position { tiles.first(where: { $0.value == .paddle })!.key }
+    var blocks: [Position] { grid.positions(of: .block) }
+    var ball: Position { grid.firstPosition(of: .ball)! }
+    var paddle: Position { grid.firstPosition(of: .paddle)! }
 }
 
 extension BlockGame {
@@ -76,7 +76,7 @@ extension BlockGame {
             let y = values[1]
             switch (x, y) {
             case (-1, 0): self.score = values[2]
-            default: tiles[Position(x: x, y: y)] = try Day13.Tile(values[2])
+            default: grid[Position(x: x, y: y)] = try Day13.Tile(values[2])
             }
         }
     }
@@ -95,7 +95,6 @@ extension Day13 {
     }
 }
 
-extension Day13.Tile: Equatable {}
 extension Day13.Tile: RawRepresentable {}
 
 extension Day13.Tile: CustomStringConvertible {
@@ -114,16 +113,6 @@ extension Day13.Tile: CustomStringConvertible {
 extension BlockGame: CustomStringConvertible {
 
     var description: String {
-        let maxX = tiles.keys.map { $0.x }.max()! + 1
-        let maxY = tiles.keys.map { $0.y }.max()! + 1
-        var output = Array(repeating: Array(repeating: " ", count: maxX), count: maxY)
-        for tile in tiles {
-            output[tile.key.y][tile.key.x] = String(describing: tile.value)
-        }
-
-        return [
-            "Score: \(score)",
-            output.map { $0.joined() }.joined(separator: "\n")
-        ].joined(separator: "\n")
+        ["Score: \(score)", grid.description].joined(separator: "\n")
     }
 }

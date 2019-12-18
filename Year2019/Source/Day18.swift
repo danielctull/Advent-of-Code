@@ -62,13 +62,6 @@ public struct Day18 {
     }
 }
 
-extension Grid where Tile: Equatable {
-
-    func firstPosition(of tile: Tile) -> Position? {
-        tiles.first(where: { $0.value == tile })?.key
-    }
-}
-
 // MARK: - Tile
 
 extension Day18 {
