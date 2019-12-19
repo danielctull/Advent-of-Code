@@ -25,16 +25,6 @@ public struct Day19 {
 
     public func part2(input: Input) throws -> Int {
 
-        func scan(_ position: Position) throws -> (Drone, Bool) {
-
-            let d = try drone(input: input, position: position)
-            guard case .pulled = d else { return (.stationary, false) }
-
-            let droneX = try drone(input: input, position: position.offsetting(x: 99, y: 0))
-            let droneY = try drone(input: input, position: position.offsetting(x: 0, y: 99))
-            return (.pulled, droneX == .pulled && droneY == .pulled)
-        }
-
         let start = try Grid(origin: .topLeft, width: 10, height: 10) { position -> Drone in
                 try drone(input: input, position: position)
             }
@@ -48,26 +38,29 @@ public struct Day19 {
         while let position = positions.first {
             positions.removeFirst()
 
-            let result = try scan(position)
-
-            guard !result.1 else { return position.x * 10_000 + position.y }
-
-            switch (result.0, entrances.contains(position.x)) {
+            switch (try drone(input: input, position: position), entrances.contains(position.x)) {
 
             case (.pulled, false):
                 entrances.insert(position.x)
-                positions.insert(position.offsetting(x: 0, y: 1), at: 0)
                 positions.append(position.offsetting(x: 1, y: 0))
+                guard try drone(input: input, position: position.offsetting(x: 0, y: 99)) == .pulled else { continue }
+                positions.insert(position.offsetting(x: 0, y: 1), at: 0)
 
             case (.pulled, true):
                 positions.append(position.offsetting(x: 0, y: 1))
 
             case (.stationary, false):
                 positions.append(position.offsetting(x: 0, y: 1))
+                continue
 
             case (.stationary, true):
                 continue
             }
+
+            guard try drone(input: input, position: position.offsetting(x: 99, y:  0)) == .pulled else { continue }
+            guard try drone(input: input, position: position.offsetting(x:  0, y: 99)) == .pulled else { continue }
+
+            return position.x * 10_000 + position.y
         }
 
         return 0
