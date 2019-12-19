@@ -152,7 +152,6 @@ extension Grid {
         for x in (0..<width) {
             for y in (0..<height) {
                 let position = Position(x: x, y: y)
-                print(position, try tile(position))
                 tiles[position] = try tile(position)
             }
         }
