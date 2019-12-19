@@ -36,7 +36,7 @@ fileprivate struct BlockGame {
         try run()
     }
 
-    var grid = Grid<Day13.Tile>(origin: .bottomLeft)
+    var grid = Grid<Day13.Tile>(origin: .topLeft)
     var score: Int = -1
     var blocks: [Position] { grid.positions(of: .block) }
     var ball: Position { grid.firstPosition(of: .ball)! }
@@ -79,6 +79,7 @@ extension BlockGame {
             default: grid[Position(x: x, y: y)] = try Day13.Tile(values[2])
             }
         }
+        print(grid)
     }
 }
 

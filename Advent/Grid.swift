@@ -5,7 +5,7 @@ public struct Grid<Tile: CustomStringConvertible> {
     public var origin: Origin
     public var tiles: [Position: Tile]
     public var empty: String = " "
-    public init(origin: Origin = .topLeft, tiles: [Position: Tile] = [:]) {
+    public init(origin: Origin = .bottomLeft, tiles: [Position: Tile] = [:]) {
         self.origin = origin
         self.tiles = tiles
     }
@@ -34,7 +34,7 @@ extension Grid: CustomStringConvertible {
             output[tile.key.y - minY][tile.key.x - minX] = String(describing: tile.value)
         }
 
-        if origin == .topLeft {
+        if origin == .bottomLeft {
             output = output.reversed()
         }
 
@@ -103,7 +103,7 @@ extension Grid {
     }
 }
 
-// MARK: - Creating a Map from a Sequence of Sequences of RawValues
+// MARK: - Creating a Grid from a Sequence of Sequences of RawValues
 
 extension Grid where Tile: RawRepresentable {
 
@@ -114,7 +114,10 @@ extension Grid where Tile: RawRepresentable {
     /// If you have an array of array of Ints this works! :D
     ///
     /// - Parameter characters: The sequence of sequences of raw values.
-    public init<Rows, Columns, RawValue>(rawValues: Rows) throws
+    public init<Rows, Columns, RawValue>(
+        origin: Origin = .bottomLeft,
+        rawValues: Rows
+    ) throws
         where
         Rows: Sequence,
         Rows.Element == Columns,
@@ -130,6 +133,30 @@ extension Grid where Tile: RawRepresentable {
         .group(by: { $0.0 })
         .mapValues { $0[0].1 }
 
-        self.init(tiles: tiles)
+        self.init(origin: origin, tiles: tiles)
+    }
+}
+
+// MARK: - Creating a Grid using a closure
+
+extension Grid {
+
+    public init(
+        origin: Origin = .bottomLeft,
+        width: Int,
+        height: Int,
+        tile: (Position) throws -> Tile
+    ) rethrows {
+
+        var tiles: [Position: Tile] = [:]
+        for x in (0..<width) {
+            for y in (0..<height) {
+                let position = Position(x: x, y: y)
+                print(position, try tile(position))
+                tiles[position] = try tile(position)
+            }
+        }
+
+        self.init(origin: origin, tiles: tiles)
     }
 }
