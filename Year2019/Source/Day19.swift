@@ -25,9 +25,15 @@ public struct Day19 {
 
     public func part2(input: Input) throws -> Int {
 
-        let start = try Grid(origin: .topLeft, width: 10, height: 10) { position -> Drone in
-                try drone(input: input, position: position)
-            }
+        var drones: [Position: Drone] = [:]
+        func drone(at position: Position) throws -> Drone {
+            if let drone = drones[position] { return drone }
+            let drone = try self.drone(input: input, position: position)
+            drones[position] = drone
+            return drone
+        }
+
+        let start = try Grid(origin: .topLeft, width: 10, height: 10, tile: drone(at:))
             .positions(of: .pulled)
             .sorted(by: { lhs, rhs in rhs.x < lhs.x && lhs.y < rhs.y })
             .first!
@@ -38,27 +44,33 @@ public struct Day19 {
         while let position = positions.first {
             positions.removeFirst()
 
-            switch (try drone(input: input, position: position), entrances.contains(position.x)) {
+            switch (try drone(at: position), entrances.contains(position.x)) {
 
+            // We've not hit the top of the beam yet.
             case (.pulled, false):
                 entrances.insert(position.x)
                 positions.append(position.offsetting(x: 1, y: 0))
-                guard try drone(input: input, position: position.offsetting(x: 0, y: 99)) == .pulled else { continue }
+                guard try drone(at: position.offsetting(x: 0, y: 99)) == .pulled else { continue }
                 positions.insert(position.offsetting(x: 0, y: 1), at: 0)
 
+            // We're inspecting the beam.
             case (.pulled, true):
                 positions.append(position.offsetting(x: 0, y: 1))
 
+            // We've not hit the beam yet.
             case (.stationary, false):
                 positions.append(position.offsetting(x: 0, y: 1))
                 continue
 
+            // We've gone beyond the scope of the beam.
             case (.stationary, true):
                 continue
             }
 
-            guard try drone(input: input, position: position.offsetting(x: 99, y:  0)) == .pulled else { continue }
-            guard try drone(input: input, position: position.offsetting(x:  0, y: 99)) == .pulled else { continue }
+            // If the drones at x+99 and y+99 are being pulled, then this is
+            // the top left of the 100x100 square.
+            guard try drone(at: position.offsetting(x: 99, y:  0)) == .pulled else { continue }
+            guard try drone(at: position.offsetting(x:  0, y: 99)) == .pulled else { continue }
 
             return position.x * 10_000 + position.y
         }
