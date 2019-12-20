@@ -50,6 +50,10 @@ extension Grid {
         get { tiles[position] }
         set { tiles[position] = newValue }
     }
+    
+    public var maximum: Position {
+        tiles.keys.max(by: { lhs, rhs in (lhs.y, lhs.x) < (rhs.y, rhs.x) })!
+    }
 }
 
 extension Grid where Tile: Equatable {
@@ -67,17 +71,18 @@ extension Grid where Tile: Equatable {
 
 extension Grid {
 
-    public func shortestDistance(
-        from start: Position,
-        to end: Position,
-        move: (Position, Direction) -> (Position, Direction) = { ($0.move($1), $1) },
+    public func shortestDistance<Node>(
+        from start: Node,
+        to end: Node,
+        move: (Node, Direction) -> (Node, Direction),
+        tile: (Node) -> Tile?,
         isPath: (Tile) -> Bool
-    ) -> Int? {
+    ) -> Int? where Node: Hashable {
 
         var queue = Direction.allCases.map {
             (position: start, direction: $0, distance: 0)
         }
-        var visited = Set<Position>()
+        var visited = Set<Node>()
 
         while let (position, direction, distance) = queue.first {
             queue.removeFirst()
@@ -88,8 +93,8 @@ extension Grid {
             guard !visited.contains(position) else { continue }
             visited.insert(position)
 
-            guard let tile = self[position] else { continue }
-            guard isPath(tile) else { continue }
+            guard let t = tile(position) else { continue }
+            guard isPath(t) else { continue }
 
             guard position != end else { return distance }
 

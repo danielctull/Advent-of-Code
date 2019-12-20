@@ -23,29 +23,77 @@ public struct Day20 {
         return grid.shortestDistance(
             from: start,
             to: end,
-            move: grid.plutoMovement,
+            move: { position, direction in
+
+                let position = position.move(direction)
+
+                guard
+                    let entrance = grid.portal(at: position),
+                    let exit = grid.exit(of: entrance),
+                    let output = grid.vector(leaving: exit)
+                else {
+                    return (position, direction)
+                }
+
+                return output
+            },
+            tile: { grid[$0] },
+            isPath: { $0 == .passage })!
+    }
+
+    public func part2(input: Input) throws -> Int {
+
+        let grid = try Grid<Day20.Tile>(input: input)
+
+        let start = grid
+            .portals("A", "A")
+            .compactMap(grid.vector(leaving:))
+            .first!.0
+
+        let end = grid
+            .portals("Z", "Z")
+            .compactMap(grid.vector(leaving:))
+            .first!.0
+
+        struct Node: Hashable {
+            var level = 0
+            var position = Position.origin
+        }
+
+        return grid.shortestDistance(
+            from: Node(position: start),
+            to: Node(position: end),
+            move: { node, direction in
+
+                var node = node
+                node.position = node.position.move(direction)
+                let isOuter = grid.isOuter(node.position)
+
+                guard
+                    node.level != 0 || !isOuter,
+                    let entrance = grid.portal(at: node.position),
+                    let exit = grid.exit(of: entrance),
+                    let output = grid.vector(leaving: exit)
+                else {
+                    return (node, direction)
+                }
+
+                node.position = output.0
+                node.level += isOuter ? -1 : 1
+                return (node, output.1)
+            },
+            tile: { grid[$0.position] },
             isPath: { $0 == .passage })!
     }
 }
 
 extension Grid where Tile == Day20.Tile {
-
-    fileprivate func plutoMovement(
-        position: Position,
-        direction: Direction
-    ) -> (Position, Direction) {
-
-        let position = position.move(direction)
-
-        guard
-            let entrance = portal(at: position),
-            let exit = exit(of: entrance),
-            let output = vector(leaving: exit)
-        else {
-            return (position, direction)
-        }
-
-        return output
+    
+    fileprivate func isOuter(_ position: Position) -> Bool {
+        return position.x < 2
+            || position.y < 2
+            || position.x > maximum.x - 2
+            || position.y > maximum.y - 2
     }
 
     fileprivate func exit(of portal: Portal) -> Portal? {
