@@ -70,6 +70,7 @@ extension Grid {
     public func shortestDistance(
         from start: Position,
         to end: Position,
+        move: (Position, Direction) -> (Position, Direction) = { ($0.move($1), $1) },
         isPath: (Tile) -> Bool
     ) -> Int? {
 
@@ -81,7 +82,7 @@ extension Grid {
         while let (position, direction, distance) = queue.first {
             queue.removeFirst()
 
-            let position = position.move(direction)
+            let (position, direction) = move(position, direction)
             let distance = distance + 1
 
             guard !visited.contains(position) else { continue }
@@ -134,6 +135,14 @@ extension Grid where Tile: RawRepresentable {
         .mapValues { $0[0].1 }
 
         self.init(origin: origin, tiles: tiles)
+    }
+}
+
+extension Grid where Tile: RawRepresentable, Tile.RawValue == Character {
+
+    public init(input: Input) throws {
+        let rawValues = input.lines.map { $0.string.map { $0 } }
+        try self.init(origin: .topLeft, rawValues: rawValues)
     }
 }
 

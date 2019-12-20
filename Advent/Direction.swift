@@ -13,6 +13,16 @@ public enum Turn {
 
 extension Direction {
 
+    public init?(start: Position, end: Position) {
+        switch (end.x - start.x, end.y - start.y) {
+        case (...0, 0): self = .left
+        case (0..., 0): self = .right
+        case (0, ...0): self = .down
+        case (0, 0...): self = .up
+        default: return nil
+        }
+    }
+
     public var opposite: Direction {
         switch self {
         case .down: return .up
