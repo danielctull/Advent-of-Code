@@ -11,7 +11,8 @@ public struct Day17 {
         return grid
             .tiles
             .keys
-            .compactMap { grid.isScaffoldIntersection($0) ? $0.x * $0.y : nil }
+            .filter(grid.isScaffoldIntersection)
+            .map { $0.x * $0.y }
             .reduce(0, +)
     }
 }
@@ -19,19 +20,13 @@ public struct Day17 {
 extension Grid where Tile == Day17.Tile {
 
     fileprivate init(computer inComputer: IntcodeComputer) throws {
-
         var computer = inComputer
         try computer.run()
-
-        let characters = computer
-            .ascii
-            .output
-            .split(separator: "\n")
-
+        let characters = computer.ascii.output.split(separator: "\n")
         try self.init(rawValues: characters)
     }
 
-    func isScaffoldIntersection(_ position: Position) -> Bool {
+    fileprivate func isScaffoldIntersection(_ position: Position) -> Bool {
 
         guard
             case .scaffold = tiles[position],
