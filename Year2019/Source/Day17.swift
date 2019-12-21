@@ -24,9 +24,8 @@ extension Grid where Tile == Day17.Tile {
         try computer.run()
 
         let characters = computer
+            .ascii
             .output
-            .compactMap(UnicodeScalar.init)
-            .map(Character.init)
             .split(separator: "\n")
 
         try self.init(rawValues: characters)

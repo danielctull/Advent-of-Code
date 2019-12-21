@@ -10,6 +10,10 @@ public struct IntcodeComputer {
         state.inputs.append(input)
     }
 
+    public mutating func input(_ input: [Int]) {
+        state.inputs.append(contentsOf: input)
+    }
+
     public mutating func run() throws {
         while !isWaiting, let instruction = state.instruction {
             try perform(instruction)
