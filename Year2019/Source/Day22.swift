@@ -7,48 +7,48 @@ public struct Day22 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-
-        let instructions = try input.lines.map { try Instruction($0.string) }
-        let cards = Array(0...10_006)
-        return cards
-            .shuffled(with: instructions)
-            .firstIndex(of: 2019)!
+        try Deck(count: 10_007).shuffleCard(at: 2019, instructions: input)
     }
 
     public func shuffle(cards: ClosedRange<Int>, input: Input) throws -> [Int] {
-        let instructions = try input.lines.map { try Instruction($0.string) }
-        return Array(cards).shuffled(with: instructions)
+        let deck = Deck(count: cards.count)
+        let endPositions = try cards.map { try deck.shuffleCard(at: $0, instructions: input) }
+        let result = Array(repeating: 0, count: cards.count)
+        return endPositions.enumerated().reduce(into: result) { (result, arg) in
+            let (offset, element) = arg
+            result[element] = offset
+        }
     }
 }
 
-extension Array {
+extension Day22 {
 
-    fileprivate func shuffled(with instructions: [Day22.Instruction]) -> Self {
-        return instructions.reduce(self) { cards, instruction in
-            switch instruction {
-            case .newStack: return cards.reversed()
-            case .cut(let value): return cards.cut(at: value)
-            case .increment(let value): return cards.increment(with: value)
+    public struct Deck {
+        let count: Int
+    }
+}
+
+extension Day22.Deck {
+
+    func shuffleCard(
+        at index: Int,
+        instructions input: Input
+    ) throws -> Int {
+
+        try input
+            .lines
+            .map { try Day22.Instruction($0.string) }
+            .reduce(index) { index, instruction in
+                switch instruction {
+                case .newStack: return count - 1 - index
+                case .cut(let value): return (count + index - value) % count
+                case .increment(let value): return index * value % count
+                }
             }
-        }
-    }
-
-    fileprivate func cut(at value: Int) -> Self {
-        guard value != 0 else { return self }
-        let value = value > 0 ? value : count + value
-        return Array(self[value...] + self[..<value])
-    }
-
-    fileprivate func increment(with value: Int) -> Self {
-        guard value != 0 else { return self }
-        let result = Self(repeating: self[0], count: count)
-        return enumerated().reduce(into: result) { (result, argument) in
-            let (offset, element) = argument
-            let index = offset * value % count
-            result[index] = element
-        }
     }
 }
+
+// MARK: - Instruction
 
 extension Day22 {
 

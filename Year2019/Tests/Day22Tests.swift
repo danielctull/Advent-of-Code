@@ -27,7 +27,6 @@ final class Day22Tests: XCTestCase {
         XCTAssertEqual(result, [3, 0, 7, 4, 1, 8, 5, 2, 9, 6])
     }
 
-
     func testPart1Example3() throws {
         let result = try Day22().shuffle(
             cards: 0...9,
