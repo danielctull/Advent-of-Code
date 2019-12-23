@@ -16,6 +16,48 @@ public struct Day23 {
 
         return controller.nextPacket(for: 255)!.y
     }
+
+    public func part2(input: Input) throws -> Int {
+
+        let computers = (0...49).map { _ in IntcodeComputer(input: input) }
+        let controller = try NetworkInerfaceController(computers: computers)
+        var nat = NotAlwaysTransmitting(controller: controller)
+
+        while nat.sentYValueTwice == nil {
+            try nat.run()
+        }
+
+        return nat.sentYValueTwice!
+    }
+}
+
+fileprivate struct NotAlwaysTransmitting {
+
+    var controller: NetworkInerfaceController
+    var sent: [Packet] = []
+
+    mutating func run() throws {
+        try controller.run()
+
+        let hasPackets = controller.packets.contains {
+            (key: Int, value: [Packet]) -> Bool in
+            key != 255 && value.count > 0
+        }
+
+        guard !hasPackets else { return }
+        guard let packet = controller.packets[255]?.last else { return }
+        sent.append(packet)
+        controller.packets[0] = [packet]
+    }
+}
+
+extension NotAlwaysTransmitting {
+
+    var sentYValueTwice: Int? {
+        sent.group(by: { $0.y })
+            .first(where: { $0.value.count == 2 })?
+            .key
+    }
 }
 
 fileprivate struct NetworkInerfaceController {
