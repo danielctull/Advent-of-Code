@@ -8,8 +8,8 @@ public struct Day24 {
 
     public func part1(input: Input) throws -> Int {
 
-        var states = Set<Grid<Day24.Tile>>()
-        var current = try Grid<Day24.Tile>(input: input)
+        var states = Set<Grid<Position, Day24.Tile>>()
+        var current = try Grid<Position, Day24.Tile>(input: input)
 
         while true {
             let new = current.nextState()
@@ -24,7 +24,7 @@ public struct Day24 {
     }
 }
 
-extension Grid where Tile == Day24.Tile {
+extension Grid where Location == Position, Tile == Day24.Tile {
 
     var biodiversityRating: Int {
         tiles

@@ -8,7 +8,7 @@ public struct Day20 {
 
     public func part1(input: Input) throws -> Int {
 
-        let grid = try Grid<Day20.Tile>(input: input)
+        let grid = try Grid<Position, Day20.Tile>(input: input)
 
         let start = grid
             .portals("A", "A")
@@ -43,7 +43,7 @@ public struct Day20 {
 
     public func part2(input: Input) throws -> Int {
 
-        let grid = try Grid<Day20.Tile>(input: input)
+        let grid = try Grid<Position, Day20.Tile>(input: input)
 
         let start = grid
             .portals("A", "A")
@@ -87,7 +87,7 @@ public struct Day20 {
     }
 }
 
-extension Grid where Tile == Day20.Tile {
+extension Grid where Location == Position, Tile == Day20.Tile {
     
     fileprivate func isOuter(_ position: Position) -> Bool {
         return position.x < 2

@@ -17,7 +17,7 @@ public struct Day17 {
     }
 }
 
-extension Grid where Tile == Day17.Tile {
+extension Grid where Location == Position, Tile == Day17.Tile {
 
     fileprivate init(computer inComputer: IntcodeComputer) throws {
         var computer = inComputer

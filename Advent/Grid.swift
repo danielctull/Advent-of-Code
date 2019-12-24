@@ -1,13 +1,16 @@
 
 import Foundation
 
-public struct Grid<Tile> {
+public struct Grid<Location, Tile>
+    where
+    Location: Hashable
+{
     public var origin: Origin
-    public var tiles: [Position: Tile]
+    public var tiles: [Location: Tile]
     public var empty: String
     public init(
         origin: Origin = .bottomLeft,
-        tiles: [Position: Tile] = [:],
+        tiles: [Location: Tile] = [:],
         empty: String = " "
     ) {
         self.origin = origin
@@ -27,7 +30,11 @@ extension Origin: Hashable {}
 extension Grid: Equatable where Tile: Equatable {}
 extension Grid: Hashable where Tile: Hashable {}
 
-extension Grid: CustomStringConvertible where Tile: CustomStringConvertible {
+extension Grid: CustomStringConvertible
+    where
+    Location == Position,
+    Tile: CustomStringConvertible
+{
 
     public var description: String {
         let maxX = tiles.keys.map { $0.x }.max()!
@@ -54,17 +61,20 @@ extension Grid: CustomStringConvertible where Tile: CustomStringConvertible {
 
 extension Grid {
 
-    public subscript(position: Position) -> Tile? {
-        get { tiles[position] }
-        set { tiles[position] = newValue }
+    public subscript(location: Location) -> Tile? {
+        get { tiles[location] }
+        set { tiles[location] = newValue }
     }
-    
+}
+
+extension Grid where Location == Position {
+
     public var maximum: Position {
         tiles.keys.max(by: { lhs, rhs in (lhs.y, lhs.x) < (rhs.y, rhs.x) })!
     }
 }
 
-extension Grid where Tile: Equatable {
+extension Grid where Location == Position, Tile: Equatable {
 
     public func positions(of tile: Tile) -> [Position] {
         tiles.filter { $0.value == tile }.map { $0.key }
@@ -122,24 +132,24 @@ extension Grid {
 extension Grid {
 
     public func mapTiles<NewTile>(
-        _ transform: (Position, Tile) throws -> NewTile
-    ) rethrows -> Grid<NewTile> {
+        _ transform: (Location, Tile) throws -> NewTile
+    ) rethrows -> Grid<Location, NewTile> {
 
-        var new: [Position: NewTile] = [:]
+        var new: [Location: NewTile] = [:]
         new.reserveCapacity(tiles.count)
 
-        for (position, tile) in tiles {
-            let newTile = try transform(position, tile)
-            new[position] = newTile
+        for (location, tile) in tiles {
+            let newTile = try transform(location, tile)
+            new[location] = newTile
         }
 
-        return Grid<NewTile>(origin: origin, tiles: new, empty: empty)
+        return Grid<Location, NewTile>(origin: origin, tiles: new, empty: empty)
     }
 }
 
 // MARK: - Creating a Grid from a Sequence of Sequences of RawValues
 
-extension Grid where Tile: RawRepresentable {
+extension Grid where Location == Position, Tile: RawRepresentable {
 
     /// Takes a Sequence of Sequences of RawValues and makes a map of them.
     ///
@@ -171,7 +181,12 @@ extension Grid where Tile: RawRepresentable {
     }
 }
 
-extension Grid where Tile: RawRepresentable, Tile.RawValue == Character {
+extension Grid
+    where
+    Location == Position,
+    Tile: RawRepresentable,
+    Tile.RawValue == Character
+{
 
     public init(input: Input) throws {
         let rawValues = input.lines.map { $0.string.map { $0 } }
@@ -181,7 +196,7 @@ extension Grid where Tile: RawRepresentable, Tile.RawValue == Character {
 
 // MARK: - Creating a Grid using a closure
 
-extension Grid {
+extension Grid where Location == Position {
 
     public init(
         origin: Origin = .bottomLeft,

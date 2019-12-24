@@ -7,7 +7,7 @@ public struct Day15 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        var grid = Grid(tiles: [.origin: Tile.start])
+        var grid = Grid(tiles: [Position.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         return try Direction
             .allCases
@@ -17,7 +17,7 @@ public struct Day15 {
 
     @discardableResult
     fileprivate func findOxygen(
-        grid: inout Grid<Tile>,
+        grid: inout Grid<Position, Tile>,
         droid inDroid: RepairDroid,
         direction: Direction
     ) throws -> Int? {
@@ -39,7 +39,7 @@ public struct Day15 {
     }
 
     public func part2(input: Input) throws -> Int {
-        var grid = Grid(tiles: [.origin: Tile.start])
+        var grid = Grid(tiles: [Position.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         try Direction
             .allCases
@@ -53,7 +53,7 @@ public struct Day15 {
     }
 
     fileprivate func spreadOxygen(
-        grid: inout Grid<Tile>,
+        grid: inout Grid<Position, Tile>,
         position: Position,
         direction: Direction
     ) -> Int {
@@ -76,7 +76,7 @@ fileprivate struct RepairDroid {
     var computer: IntcodeComputer
     var position = Position.origin
     var tile = Day15.Tile.start
-    var grid = Grid<Day15.Tile>()
+    var grid = Grid<Position, Day15.Tile>()
 }
 
 extension RepairDroid {
