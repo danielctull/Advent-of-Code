@@ -1,25 +1,33 @@
 
 import Foundation
 
-public struct Grid<Tile: CustomStringConvertible> {
+public struct Grid<Tile> {
     public var origin: Origin
     public var tiles: [Position: Tile]
-    public var empty: String = " "
-    public init(origin: Origin = .bottomLeft, tiles: [Position: Tile] = [:]) {
+    public var empty: String
+    public init(
+        origin: Origin = .bottomLeft,
+        tiles: [Position: Tile] = [:],
+        empty: String = " "
+    ) {
         self.origin = origin
         self.tiles = tiles
+        self.empty = empty
     }
 }
 
-extension Grid {
-
-    public enum Origin {
-        case topLeft
-        case bottomLeft
-    }
+public enum Origin {
+    case topLeft
+    case bottomLeft
 }
 
-extension Grid: CustomStringConvertible {
+extension Origin: Equatable {}
+extension Origin: Hashable {}
+
+extension Grid: Equatable where Tile: Equatable {}
+extension Grid: Hashable where Tile: Hashable {}
+
+extension Grid: CustomStringConvertible where Tile: CustomStringConvertible {
 
     public var description: String {
         let maxX = tiles.keys.map { $0.x }.max()!
@@ -106,6 +114,26 @@ extension Grid {
         }
 
         return nil
+    }
+}
+
+// MARK: - Converting a Grid
+
+extension Grid {
+
+    public func mapTiles<NewTile>(
+        _ transform: (Position, Tile) throws -> NewTile
+    ) rethrows -> Grid<NewTile> {
+
+        var new: [Position: NewTile] = [:]
+        new.reserveCapacity(tiles.count)
+
+        for (position, tile) in tiles {
+            let newTile = try transform(position, tile)
+            new[position] = newTile
+        }
+
+        return Grid<NewTile>(origin: origin, tiles: new, empty: empty)
     }
 }
 

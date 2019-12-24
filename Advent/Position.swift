@@ -15,6 +15,12 @@ extension Position {
 
 extension Position {
 
+    /// An array of positions orthogonally adjacent to the receiver.
+    public var adjacent: [Position] { Direction.allCases.map { move($0) } }
+}
+
+extension Position {
+
     public func manhattenDistance(to other: Position) -> Int {
         return abs(other.x - x) + abs(other.y - y)
     }
