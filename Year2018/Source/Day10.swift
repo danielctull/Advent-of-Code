@@ -22,7 +22,7 @@ public struct Day10 {
             .map(Light.init)
 
         return [lights]
-            .repeating
+            .repeating()
             .accumulating(lights) { previous, _ -> [Light]? in
 
                 let next: [Light] = previous.map {

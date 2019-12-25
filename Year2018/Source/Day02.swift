@@ -29,7 +29,7 @@ public struct Day02 {
             .lines
             .compactMap { $0.string }
 
-        let repeating = strings.enumerated().repeating
+        let repeating = strings.enumerated().repeating()
         let repeatingElements = strings.enumerated().repeatingElements(strings.count)
         return zip(repeating, repeatingElements).reduce("") { result, tuple in
 

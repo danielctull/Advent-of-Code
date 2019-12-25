@@ -22,7 +22,7 @@ public struct Day06 {
         let minY = ys.min()!
         let maxY = ys.max()!
 
-        let x = ((minX-1)...(maxX+1)).repeating
+        let x = ((minX-1)...(maxX+1)).repeating()
         let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
 
         var ignored: Set<Position> = []
@@ -78,7 +78,7 @@ public struct Day06 {
         let minY = ys.min()!
         let maxY = ys.max()!
 
-        let x = ((minX-1)...(maxX+1)).repeating
+        let x = ((minX-1)...(maxX+1)).repeating()
         let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
 
         return zip(x, y)

@@ -36,7 +36,7 @@ public struct Day09 {
 
     private func calculateScore(players playerCount: Int, marbles marbleCount: Int) -> Int {
 
-        let players = (0..<playerCount).repeating
+        let players = (0..<playerCount).repeating()
         let marbles = (1...marbleCount)
 
         var scores: [Int: Int] = [:]

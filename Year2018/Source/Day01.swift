@@ -19,7 +19,7 @@ public struct Day01 {
         return input
             .lines
             .compactMap { Int($0.string) }
-            .repeating
+            .repeating()
             .accumulating(0, +)
             .firstDuplicate!
     }
