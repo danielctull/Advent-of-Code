@@ -13,7 +13,8 @@ let package = Package(
     products: [
         .library(name: "Year2015", targets: ["Year2015"]),
         .library(name: "Year2018", targets: ["Year2018"]),
-        .library(name: "Year2019", targets: ["Year2019"])
+        .library(name: "Year2019", targets: ["Year2019"]),
+        .executable(name: "intcode", targets: ["IntcodeComputer tool"])
     ],
 	targets: [
 
@@ -58,6 +59,11 @@ let package = Package(
             name: "Year2019 Tests",
             dependencies: ["Advent", "Year2018"],
             path: "Year2019/Tests"),
+
+        .target(
+            name: "IntcodeComputer tool",
+            dependencies: ["Advent", "Year2019"],
+            path: "Year2019/IntcodeComputer tool"),
 	],
 	swiftLanguageVersions: [.v5]
 )
