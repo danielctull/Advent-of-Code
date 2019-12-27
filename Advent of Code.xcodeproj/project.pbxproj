@@ -240,7 +240,7 @@
 		243BEE9B23AE146200BC88BF /* Day21Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day21Tests.swift; sourceTree = "<group>"; };
 		243BEE9D23AE14E000BC88BF /* IntcodeComputer+ASCII.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IntcodeComputer+ASCII.swift"; sourceTree = "<group>"; };
 		243FCEB423A6229A00FF5A29 /* Day15.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day15.swift; sourceTree = "<group>"; };
-		243FCEB623A622B200FF5A29 /* Day15Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day15Tests.swift; sourceTree = SOURCE_ROOT; };
+		243FCEB623A622B200FF5A29 /* Day15Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Day15Tests.swift; path = Year2019/Tests/Day15Tests.swift; sourceTree = SOURCE_ROOT; };
 		243FCEB823A622CB00FF5A29 /* Day15.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Day15.txt; sourceTree = "<group>"; };
 		243FCEBA23A62B7D00FF5A29 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		243FCEBC23A6E5B200FF5A29 /* Day16.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day16.swift; sourceTree = "<group>"; };
