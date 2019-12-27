@@ -11,7 +11,6 @@ public struct Day08 {
         input
             .lines
             .first!
-            .string
             .split(length: width * height)
             .map { string -> (Int, Int) in
                 let characters = string.group(by: { $0 })
@@ -29,7 +28,6 @@ public struct Day08 {
         input
             .lines
             .first!
-            .string
             .split(length: width * height)
             .zipped
             .map {

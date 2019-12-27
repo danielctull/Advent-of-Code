@@ -18,7 +18,6 @@ public struct Day10 {
 
         let lights = input
             .lines
-            .map { $0.string }
             .map(Light.init)
 
         return [lights]

@@ -37,7 +37,7 @@ extension Day22.Deck {
 
         try input
             .lines
-            .map { try Day22.Instruction($0.string) }
+            .map(Day22.Instruction.init(_:))
             .reduce(index) { index, instruction in
                 switch instruction {
                 case .newStack: return count - 1 - index

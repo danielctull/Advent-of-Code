@@ -10,7 +10,6 @@ public struct Day01 {
 
         return input
             .lines
-            .map { $0.string }
             .first!
             .map(convert)
             .reduce(0, +)
@@ -20,7 +19,6 @@ public struct Day01 {
 
         return input
             .lines
-            .map { $0.string }
             .first!
             .map(convert)
             .accumulating(0, +)

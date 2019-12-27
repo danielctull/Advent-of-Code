@@ -11,7 +11,6 @@ public struct Day09 {
         let components = input
             .lines
             .first!
-            .string
             .components(separatedBy: " ")
 
         let playerCount = Int(components[0])!
@@ -25,7 +24,6 @@ public struct Day09 {
         let components = input
             .lines
             .first!
-            .string
             .components(separatedBy: " ")
 
         let playerCount = Int(components[0])!

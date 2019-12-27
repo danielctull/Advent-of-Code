@@ -55,7 +55,6 @@ public struct Day04 {
 
         return input
             .lines
-            .map { $0.string }
             .sorted()
             .map(Event.init)
             .flatMap { event -> [MinuteAsleep] in

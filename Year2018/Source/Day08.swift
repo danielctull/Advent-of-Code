@@ -11,7 +11,6 @@ public struct Day08 {
         var iterator = input
             .lines
             .first!
-            .string
             .components(separatedBy: " ")
             .map { Int($0)! }
             .makeIterator()
@@ -40,7 +39,6 @@ public struct Day08 {
         var iterator = input
             .lines
             .first!
-            .string
             .components(separatedBy: " ")
             .map { Int($0)! }
             .makeIterator()

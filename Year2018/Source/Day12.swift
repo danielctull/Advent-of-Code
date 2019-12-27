@@ -16,7 +16,7 @@ public struct Day12 {
 
     private func count(input: Input, generations: Int) -> Int {
 
-        let lines = input.lines.map { $0.string }
+        let lines = input.lines
         let empty = CharacterSet(charactersIn: ".")
 
         var result = lines[0].replacingOccurrences(of: "initial state: ", with: "")

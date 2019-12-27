@@ -74,7 +74,7 @@ extension Reactor {
     init(input: Input) {
         reactions = input
             .lines
-            .map { Reaction($0.string) }
+            .map(Reaction.init)
             .group(by: { $0.output.0 })
             .mapValues { $0[0] }
     }

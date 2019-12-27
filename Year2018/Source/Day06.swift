@@ -10,7 +10,6 @@ public struct Day06 {
 
         let coordinates = input
             .lines
-            .map { $0.string }
             .map(Position.init)
 
         let xs = coordinates.map { $0.x }
@@ -66,7 +65,6 @@ public struct Day06 {
 
         let coordinates = input
             .lines
-            .map { $0.string }
             .map(Position.init)
 
         let xs = coordinates.map { $0.x }

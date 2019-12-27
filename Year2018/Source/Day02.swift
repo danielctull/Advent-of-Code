@@ -10,7 +10,6 @@ public struct Day02 {
 
         let result = input
             .lines
-            .compactMap { $0.string }
             .map { string in
 
             let characterCounts = string.countByElement.values
@@ -25,9 +24,7 @@ public struct Day02 {
 
     public func part2(input: Input) -> String {
 
-        let strings = input
-            .lines
-            .compactMap { $0.string }
+        let strings = input.lines
 
         let repeating = strings.enumerated().repeating()
         let repeatingElements = strings.enumerated().repeatingElements(strings.count)

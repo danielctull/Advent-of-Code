@@ -9,7 +9,6 @@ extension IntcodeComputer {
 
         let code = input
               .lines
-              .map { $0.string }
               .flatMap { $0.components(separatedBy: ",") }
               .compactMap { Int($0) }
 

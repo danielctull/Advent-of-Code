@@ -10,7 +10,7 @@ public struct Day04 {
 
         input
             .lines
-            .map { ClosedRange($0.string) }
+            .map(ClosedRange.init)
             .first!
             .filter(digitsDontDecrease)
             .filter(twoAdjacentDigits)
@@ -21,7 +21,7 @@ public struct Day04 {
 
         input
             .lines
-            .map { ClosedRange($0.string) }
+            .map(ClosedRange.init)
             .first!
             .filter(digitsDontDecrease)
             .filter(exactlyTwoAdjacentDigits)

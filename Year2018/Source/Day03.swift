@@ -10,7 +10,6 @@ public struct Day03 {
 
         return input
             .lines
-            .map { $0.string }
             .compactMap(Claim.init)
             .flatMap { $0.locations }
             .countByElement
@@ -23,7 +22,6 @@ public struct Day03 {
 
         let claims = input
             .lines
-            .map { $0.string }
             .compactMap(Claim.init)
 
         let soloClaimLocations = claims

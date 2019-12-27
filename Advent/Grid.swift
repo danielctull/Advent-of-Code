@@ -189,7 +189,7 @@ extension Grid
 {
 
     public init(input: Input) throws {
-        let rawValues = input.lines.map { $0.string.map { $0 } }
+        let rawValues = input.lines.map { $0.map { $0 } }
         try self.init(origin: .topLeft, rawValues: rawValues)
     }
 }

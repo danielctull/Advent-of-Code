@@ -10,7 +10,7 @@ public struct Day06 {
 
         input
             .lines
-            .map { Object(string: $0.string) }
+            .map(Object.init)
             .indirectOrbits
             .values
             .reduce(0, +)
@@ -20,7 +20,7 @@ public struct Day06 {
 
         let objects = input
             .lines
-            .map { Object(string: $0.string) }
+            .map(Object.init)
 
         let youPath = objects.orbitPath(for: "YOU")
         let santaPath = objects.orbitPath(for: "SAN")

@@ -3,16 +3,8 @@ import Foundation
 
 public struct Input {
 
-    public let lines: [Line]
+    public let lines: [String]
     public let testing: Bool
-}
-
-extension Input {
-
-    public struct Line {
-
-        public let string: String
-    }
 }
 
 extension Input {
@@ -28,7 +20,6 @@ extension Input {
         lines = string
             .components(separatedBy: .newlines)
             .filter { !$0.isEmpty }
-            .map(Line.init)
     }
 }
 
@@ -36,7 +27,7 @@ extension Input: ExpressibleByArrayLiteral {
 
     public init(arrayLiteral elements: String...) {
         testing = true
-        lines = elements.map(Line.init)
+        lines = elements
     }
 }
 
@@ -47,6 +38,5 @@ extension Input: ExpressibleByStringLiteral {
         lines = value
             .components(separatedBy: ",")
             .map { $0.trimmingCharacters(in: .whitespaces) }
-            .map(Line.init)
     }
 }

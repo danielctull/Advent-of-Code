@@ -13,7 +13,6 @@ public struct Day02 {
             .map {
 
                 let sides = $0
-                    .string
                     .components(separatedBy: "x")
                     .compactMap(Int.init)
                     .trianglePairs
@@ -33,7 +32,6 @@ public struct Day02 {
             .map {
 
                 let lengths = $0
-                    .string
                     .components(separatedBy: "x")
                     .compactMap(Int.init)
 

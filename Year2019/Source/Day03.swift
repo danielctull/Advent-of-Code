@@ -52,9 +52,8 @@ extension Array where Element == Position {
 
 extension Array where Element == Move {
 
-    fileprivate init(moves: Input.Line) {
+    fileprivate init(moves: String) {
         self = moves
-            .string
             .components(separatedBy: ",")
             .map(Move.init)
     }

@@ -11,7 +11,6 @@ public struct Day16 {
         let values = input
             .lines
             .first!
-            .string
             .map { Int(String($0))! }
 
         let basePattern = [0, 1, 0, -1]
@@ -58,7 +57,6 @@ public struct Day16 {
         let string = input
             .lines
             .first!
-            .string
 
         let dropAmount = Int(String(string.prefix(7)))!
         let values = string

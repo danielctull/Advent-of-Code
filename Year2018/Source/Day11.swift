@@ -8,7 +8,7 @@ public struct Day11 {
 
     public func part1(input: Input) -> String {
 
-        let serial = input.lines.map { Int($0.string)! }.first!
+        let serial = input.lines.map { Int($0)! }.first!
         let row = (1...300).lookingAhead(3)
 
         return product(row, row)
@@ -29,7 +29,7 @@ public struct Day11 {
 
     public func part2(input: Input) -> String {
 
-        let serial = input.lines.map { Int($0.string)! }.first!
+        let serial = input.lines.map { Int($0)! }.first!
         let totalSize = 300
         let grid = 1...300
 

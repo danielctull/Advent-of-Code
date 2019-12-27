@@ -10,7 +10,7 @@ public struct Day01 {
 
         input
             .lines
-            .compactMap { Double($0.string) }
+            .compactMap(Double.init)
             .map { Int(floor($0 / 3)) - 2 }
             .reduce(0, +)
     }
@@ -19,7 +19,7 @@ public struct Day01 {
 
         input
             .lines
-            .compactMap { Int($0.string) }
+            .compactMap(Int.init)
             .map(fuel(for:))
             .reduce(0, +)
     }

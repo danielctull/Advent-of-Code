@@ -10,7 +10,6 @@ public struct Day07 {
 
         return input
             .lines
-            .map { $0.string }
             .reduce(into: DependencyGraph<String>()) { graph, string in
 
                 let components = string.components(separatedBy: " ")
@@ -33,7 +32,6 @@ public struct Day07 {
 
         return input
             .lines
-            .map { $0.string }
             .reduce(into: DependencyGraph<String>()) { graph, string in
 
                 let components = string.components(separatedBy: " ")

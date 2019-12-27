@@ -8,7 +8,7 @@ public struct Day12 {
 
     public func part1(steps: Int, input: Input) throws -> Int {
 
-        let moons = input.lines.map { Moon($0.string) }
+        let moons = input.lines.map(Moon.init)
 
         return (1...steps)
             .reduce(moons) { moons, _ -> [Moon] in
@@ -83,7 +83,7 @@ extension Day12 {
 
     public func part2(input: Input) throws -> Int {
 
-        let moons = input.lines.map { Moon($0.string) }
+        let moons = input.lines.map(Moon.init)
 
         func iterations(for axis: [Moon1D]) -> Int {
             var moons = axis

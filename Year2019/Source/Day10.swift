@@ -46,7 +46,6 @@ public struct Day10 {
 
         let asteroids = input
             .lines
-            .map { $0.string }
             .enumerated()
             .flatMap { y, string in
                 string.enumerated().compactMap { x, character -> Position? in

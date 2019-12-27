@@ -10,23 +10,16 @@ public struct Day05 {
 
         return input
             .lines
-            .first?
-            .string
-            .map {$0}
+            .first!
             .reducingPolymer
-            .count ?? 0
+            .count
     }
 
     public func part2(input: Input) -> Int {
 
-        guard let characters = input
+        let characters = input
             .lines
-            .first?
-            .string
-            .map({$0})
-        else {
-            return 0
-        }
+            .first!
 
         let uniqueCharacters = Set(characters.map { $0.lowercased })
 
@@ -52,7 +45,7 @@ extension Character {
     }
 }
 
-extension Array where Element == Character {
+extension Sequence where Element == Character {
 
     fileprivate var reducingPolymer: [Character] {
 

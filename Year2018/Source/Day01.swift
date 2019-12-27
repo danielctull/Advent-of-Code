@@ -10,7 +10,7 @@ public struct Day01 {
 
         return input
             .lines
-            .compactMap { Int($0.string) }
+            .compactMap(Int.init)
             .reduce(0, +)
     }
 
@@ -18,7 +18,7 @@ public struct Day01 {
 
         return input
             .lines
-            .compactMap { Int($0.string) }
+            .compactMap(Int.init)
             .repeating()
             .accumulating(0, +)
             .firstDuplicate!
