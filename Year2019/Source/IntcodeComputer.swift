@@ -98,8 +98,8 @@ fileprivate struct Operation {
 }
 
 fileprivate let operations: [Int: Operation] = [
-     1: .calculation("Add", +),
-     2: .calculation("Multiply", *),
+     1: .calculation("Add") { $0.addingReportingOverflow($1).0 },
+     2: .calculation("Multiply") { $0.multipliedReportingOverflow(by: $1).0 },
      3: .input,
      4: .output,
      5: .jump("Jump If True") { $0 != 0 },

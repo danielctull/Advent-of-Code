@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>classNames</key>
+	<dict>
+		<key>IntcodeBenchmarks</key>
+		<dict>
+			<key>test_ackermann()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.051446</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+			<key>test_divmod()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.00022777</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+			<key>test_factor_1()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.20759</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+			<key>test_factor_2()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.50663</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+			<key>test_isqrt()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.00020442</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+			<key>test_sum_of_primes_1()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.082338</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+			<key>test_sum_of_primes_2()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>2.005</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>28 Dec 2019 at 18:53:50</string>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>
