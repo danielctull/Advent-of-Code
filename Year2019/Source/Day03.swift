@@ -61,13 +61,10 @@ extension Array where Element == Move {
 
     fileprivate var positions: [Position] {
 
-        accumulating([Position.origin]) {
-            (positions, move) -> [Position] in
+        scan([Position.origin]) { positions, move -> [Position] in
             move.positions(from: positions.last!)
         }
         .flatMap { $0 }
-        .dropFirst()
-        .map { $0 }
     }
 }
 

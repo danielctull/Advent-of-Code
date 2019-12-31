@@ -143,6 +143,7 @@
 		249B695423AA308600B0EE78 /* Day18.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249B695323AA308600B0EE78 /* Day18.swift */; };
 		249B695623AA309E00B0EE78 /* Day18.txt in Resources */ = {isa = PBXBuildFile; fileRef = 249B695523AA309E00B0EE78 /* Day18.txt */; };
 		249B695823AA30D000B0EE78 /* Day18Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249B695723AA30D000B0EE78 /* Day18Tests.swift */; };
+		24A1A15823BB663D0013EC6A /* ScanSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A1A15723BB663D0013EC6A /* ScanSequence.swift */; };
 		24C6BAB3239646E600582C71 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C6BAB2239646E600582C71 /* Position.swift */; };
 		24C6BABA23967F5500582C71 /* Day03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C6BAB923967F5500582C71 /* Day03.swift */; };
 		24C6BABC23967F5C00582C71 /* Day03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C6BABB23967F5C00582C71 /* Day03Tests.swift */; };
@@ -358,6 +359,7 @@
 		249B695323AA308600B0EE78 /* Day18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day18.swift; sourceTree = "<group>"; };
 		249B695523AA309E00B0EE78 /* Day18.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Day18.txt; sourceTree = "<group>"; };
 		249B695723AA30D000B0EE78 /* Day18Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day18Tests.swift; sourceTree = "<group>"; };
+		24A1A15723BB663D0013EC6A /* ScanSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanSequence.swift; sourceTree = "<group>"; };
 		24C6BAB2239646E600582C71 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		24C6BAB923967F5500582C71 /* Day03.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day03.swift; sourceTree = "<group>"; };
 		24C6BABB23967F5C00582C71 /* Day03Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day03Tests.swift; sourceTree = "<group>"; };
@@ -841,6 +843,7 @@
 				247B621D21BDD47700E167FD /* RepeatingElementsSequence.swift */,
 				247B621921BDCF9200E167FD /* RepeatingSequence.swift */,
 				247B626C21BF093500E167FD /* TrianglePairsSequence.swift */,
+				24A1A15723BB663D0013EC6A /* ScanSequence.swift */,
 				24F2BC2721C6C9CC005F84B2 /* Collection.swift */,
 				247B621F21BDD58100E167FD /* Sequence.swift */,
 				246DC483239FDE6000EE867D /* Angle.swift */,
@@ -1354,6 +1357,7 @@
 				2458AC4A23A2906D0015BB4D /* Maths.swift in Sources */,
 				243FCEBB23A62B7D00FF5A29 /* Grid.swift in Sources */,
 				247B627D21BFA44E00E167FD /* ProductSequence.swift in Sources */,
+				24A1A15823BB663D0013EC6A /* ScanSequence.swift in Sources */,
 				247F17C0239D00AD004C4EE4 /* ZipMany.swift in Sources */,
 				246DC434239BAFA900EE867D /* PermutationsSequence.swift in Sources */,
 				2458AC4723A225140015BB4D /* Position3D.swift in Sources */,
