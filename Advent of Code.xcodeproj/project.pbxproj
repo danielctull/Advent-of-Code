@@ -512,14 +512,14 @@
 			path = IntcodeComputer;
 			sourceTree = "<group>";
 		};
-		247B624721BF014100E167FD /* Source */ = {
+		247B624721BF014100E167FD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				247B626021BF021500E167FD /* Day01.swift */,
 				247B626621BF07B000E167FD /* Day02.swift */,
 				247B626E21BF1AA600E167FD /* Day03.swift */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		247B625321BF014E00E167FD /* Tests */ = {
@@ -537,7 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				2482FF0923D9FB1A001DED6E /* Inputs */,
-				247B624721BF014100E167FD /* Source */,
+				247B624721BF014100E167FD /* Sources */,
 				247B625321BF014E00E167FD /* Tests */,
 			);
 			path = Year2015;
@@ -613,7 +613,7 @@
 			isa = PBXGroup;
 			children = (
 				2482FF0A23D9FB2C001DED6E /* Inputs */,
-				248787CB2395211F005AA771 /* Source */,
+				248787CB2395211F005AA771 /* Sources */,
 				248787C1239520FD005AA771 /* Tests */,
 			);
 			path = Year2019;
@@ -651,7 +651,7 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		248787CB2395211F005AA771 /* Source */ = {
+		248787CB2395211F005AA771 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				248787CC239521A3005AA771 /* Day01.swift */,
@@ -682,7 +682,7 @@
 				2426037323A0F2C600DBD5C0 /* IntcodeComputer+Input.swift */,
 				243BEE9D23AE14E000BC88BF /* IntcodeComputer+ASCII.swift */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		24DD573D21B3FDF800A9E99B = {
@@ -719,7 +719,7 @@
 			isa = PBXGroup;
 			children = (
 				2482FF0823D9FAFE001DED6E /* Inputs */,
-				24DD576F21B3FEDC00A9E99B /* Source */,
+				24DD576F21B3FEDC00A9E99B /* Sources */,
 				24DD576521B3FECB00A9E99B /* Tests */,
 			);
 			path = Year2018;
@@ -745,7 +745,7 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		24DD576F21B3FEDC00A9E99B /* Source */ = {
+		24DD576F21B3FEDC00A9E99B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				24DD579E21B400F600A9E99B /* Day01.swift */,
@@ -761,7 +761,7 @@
 				247B627621BF9D6900E167FD /* Day11.swift */,
 				24F2BC2121C5C0DE005F84B2 /* Day12.swift */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		24DD577021B3FFF900A9E99B /* Configurations */ = {
