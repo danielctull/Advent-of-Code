@@ -24,3 +24,4 @@ Version.xcconfig
 # Swift Package Manager
 Package.resolved
 .build
+.swiftpm
