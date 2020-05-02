@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -34,7 +34,8 @@ let package = Package(
 		.testTarget(
 			name: "Year2015 Tests",
 			dependencies: ["Advent", "Year2015"],
-			path: "Year2015/Tests"),
+			path: "Year2015/Tests",
+            resources: [.copy("Inputs")]),
 
 		// MARK: - Year2018
 
@@ -46,7 +47,8 @@ let package = Package(
 		.testTarget(
 			name: "Year2018 Tests",
 			dependencies: ["Advent", "Year2018"],
-			path: "Year2018/Tests"),
+			path: "Year2018/Tests",
+            resources: [.copy("Inputs")]),
 
         // MARK: - Year2019
 
@@ -57,8 +59,9 @@ let package = Package(
 
         .testTarget(
             name: "Year2019 Tests",
-            dependencies: ["Advent", "Year2018"],
-            path: "Year2019/Tests"),
+            dependencies: ["Advent", "Year2019"],
+            path: "Year2019/Tests",
+            resources: [.copy("Inputs")]),
 
         .target(
             name: "IntcodeComputer tool",

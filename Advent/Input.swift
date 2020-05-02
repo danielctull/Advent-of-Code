@@ -7,6 +7,28 @@ public struct Input {
     public let testing: Bool
 }
 
+extension Bundle {
+
+    func url(forDirectory directory: String) throws -> URL {
+
+        guard let directory = url(forResource: directory, withExtension: nil) else {
+            struct CannotFindDirectory: Error {}
+            throw CannotFindDirectory()
+        }
+
+        return directory
+    }
+
+    public func input(named name: String, extension: String = "txt") throws -> Input {
+
+        let url = try self.url(forDirectory: "Inputs")
+            .appendingPathComponent(name)
+            .appendingPathExtension(`extension`)
+
+        return try Input(url: url)
+    }
+}
+
 extension Input {
 
     public init(url: URL) throws {
