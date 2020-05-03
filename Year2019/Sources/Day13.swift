@@ -79,7 +79,6 @@ extension BlockGame {
             default: grid[Position(x: x, y: y)] = try Day13.Tile(values[2])
             }
         }
-        print(grid)
     }
 }
 
