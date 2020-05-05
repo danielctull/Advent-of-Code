@@ -1,5 +1,0 @@
-test:
-  image: swift:5.0.1
-  stage: test
-  script:
-    - swift test
