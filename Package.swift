@@ -3,51 +3,51 @@
 import PackageDescription
 
 let package = Package(
-	name: "Advent of Code",
-	platforms: [
-		.iOS(.v9),
-		.macOS(.v10_12),
-		.tvOS(.v9),
-		.watchOS(.v2),
-	],
+    name: "Advent of Code",
+    platforms: [
+        .iOS(.v9),
+        .macOS(.v10_12),
+        .tvOS(.v9),
+        .watchOS(.v2),
+    ],
     products: [
         .library(name: "Year2015", targets: ["Year2015"]),
         .library(name: "Year2018", targets: ["Year2018"]),
         .library(name: "Year2019", targets: ["Year2019"]),
         .executable(name: "intcode", targets: ["IntcodeComputer tool"])
     ],
-	targets: [
+    targets: [
 
-		// MARK: - Advent
+        // MARK: - Advent
 
-		.target(
-			name: "Advent",
-			path: "Advent"),
+        .target(
+            name: "Advent",
+            path: "Advent"),
 
-		// MARK: - Year2015
+        // MARK: - Year2015
 
-		.target(
-			name: "Year2015",
-			dependencies: ["Advent"],
-			path: "Year2015/Sources"),
+        .target(
+            name: "Year2015",
+            dependencies: ["Advent"],
+            path: "Year2015/Sources"),
 
-		.testTarget(
-			name: "Year2015 Tests",
-			dependencies: ["Advent", "Year2015"],
-			path: "Year2015/Tests",
+        .testTarget(
+            name: "Year2015 Tests",
+            dependencies: ["Advent", "Year2015"],
+            path: "Year2015/Tests",
             resources: [.copy("Inputs")]),
 
-		// MARK: - Year2018
+        // MARK: - Year2018
 
-		.target(
-			name: "Year2018",
-			dependencies: ["Advent"],
-			path: "Year2018/Sources"),
+        .target(
+            name: "Year2018",
+            dependencies: ["Advent"],
+            path: "Year2018/Sources"),
 
-		.testTarget(
-			name: "Year2018 Tests",
-			dependencies: ["Advent", "Year2018"],
-			path: "Year2018/Tests",
+        .testTarget(
+            name: "Year2018 Tests",
+            dependencies: ["Advent", "Year2018"],
+            path: "Year2018/Tests",
             resources: [.copy("Inputs")]),
 
         // MARK: - Year2019
@@ -67,6 +67,6 @@ let package = Package(
             name: "IntcodeComputer tool",
             dependencies: ["Advent", "Year2019"],
             path: "Year2019/IntcodeComputer tool"),
-	],
-	swiftLanguageVersions: [.v5]
+    ],
+    swiftLanguageVersions: [.v5]
 )
