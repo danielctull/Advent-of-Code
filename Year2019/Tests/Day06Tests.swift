@@ -23,8 +23,8 @@ final class Day06Tests: XCTestCase {
 
     func testPart1Puzzle() throws {
         let day = Day06()
-        let file = try Input(named: "Day06")
-        let result = try day.part1(input: file)
+        let input = try Bundle.module.input(named: "Day06")
+        let result = try day.part1(input: input)
         XCTAssertEqual(result, 278744)
     }
 
@@ -48,8 +48,8 @@ final class Day06Tests: XCTestCase {
 
     func testPart2Puzzle() throws {
         let day = Day06()
-        let file = try Input(named: "Day06")
-        let result = try day.part2(input: file)
+        let input = try Bundle.module.input(named: "Day06")
+        let result = try day.part2(input: input)
         XCTAssertEqual(result, 475)
     }
 }
