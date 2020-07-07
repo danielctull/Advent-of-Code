@@ -20,8 +20,5 @@ Info.h
 Info.m
 Version.xcconfig
 
-
 # Swift Package Manager
-Package.resolved
 .build
-.swiftpm
