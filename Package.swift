@@ -32,7 +32,7 @@ let package = Package(
             path: "Year2015/Sources"),
 
         .testTarget(
-            name: "Year2015 Tests",
+            name: "Year2015Tests",
             dependencies: ["Advent", "Year2015"],
             path: "Year2015/Tests",
             resources: [.copy("Inputs")]),
@@ -45,7 +45,7 @@ let package = Package(
             path: "Year2018/Sources"),
 
         .testTarget(
-            name: "Year2018 Tests",
+            name: "Year2018Tests",
             dependencies: ["Advent", "Year2018"],
             path: "Year2018/Tests",
             resources: [.copy("Inputs")]),
@@ -58,7 +58,7 @@ let package = Package(
             path: "Year2019/Sources"),
 
         .testTarget(
-            name: "Year2019 Tests",
+            name: "Year2019Tests",
             dependencies: ["Advent", "Year2019"],
             path: "Year2019/Tests",
             resources: [.copy("Inputs")]),
