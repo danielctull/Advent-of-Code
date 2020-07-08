@@ -22,6 +22,6 @@ jobs:
     - name: Swift Version
       run: swift --version
     - name: Build
-      run: swift build -c release
+      run: swift build --enable-test-discovery -v
     - name: Test
-      run: swift test -c release
+      run: swift test --enable-test-discovery -v
