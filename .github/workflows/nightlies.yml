@@ -13,7 +13,6 @@ jobs:
       matrix:
         image:
           - "swift:nightly"
-          - "swift:nightly-5.3"
     name: Linux
     runs-on: ubuntu-latest
     container:
