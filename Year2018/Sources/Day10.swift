@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day10 {
@@ -21,7 +22,7 @@ public struct Day10 {
             .map(Light.init)
 
         return [lights]
-            .repeating()
+            .cycled()
             .accumulating(lights) { previous, _ -> [Light]? in
 
                 let next: [Light] = previous.map {

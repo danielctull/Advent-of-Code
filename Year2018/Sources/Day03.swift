@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day03 {
@@ -69,7 +70,7 @@ extension Claim {
         let xs = position.x ..< position.x + size.width
         let ys = position.y ..< position.y + size.height
 
-        return zip(xs.repeating(), ys.repeatingElements(xs.count))
+        return zip(xs.cycled(), ys.repeatingElements(xs.count))
             .map(Position.init)
     }
 }

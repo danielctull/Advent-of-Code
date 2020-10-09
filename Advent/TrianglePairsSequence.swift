@@ -1,4 +1,6 @@
 
+import Algorithms
+
 extension Sequence {
 
     public var trianglePairs: TrianglePairsSequence<Self> {
@@ -21,13 +23,13 @@ extension TrianglePairsSequence {
 
     public struct Iterator {
 
-        private var iterator: Zip2Sequence<RepeatingElementsSequence<EnumeratedSequence<[Base.Element]>>, RepeatingSequence<EnumeratedSequence<[Base.Element]>>>.Iterator
+        private var iterator: Zip2Sequence<RepeatingElementsSequence<EnumeratedSequence<[Base.Element]>>, Cycle<[EnumeratedSequence<[Base.Element]>.Element]>>.Iterator
 
         private var observedPairs: Set<Pair> = []
 
         fileprivate init(base: Base) {
             let array = Array(base)
-            let repeating = array.enumerated().repeating()
+            let repeating = Array(array.enumerated()).cycled()
             let repeatingElements = array.enumerated().repeatingElements(array.count)
             iterator = zip(repeatingElements, repeating).makeIterator()
         }

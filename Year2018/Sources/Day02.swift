@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day02 {
@@ -26,7 +27,7 @@ public struct Day02 {
 
         let strings = input.lines
 
-        let repeating = strings.enumerated().repeating()
+        let repeating = Array(strings.enumerated()).cycled()
         let repeatingElements = strings.enumerated().repeatingElements(strings.count)
         return zip(repeating, repeatingElements).reduce("") { result, tuple in
 

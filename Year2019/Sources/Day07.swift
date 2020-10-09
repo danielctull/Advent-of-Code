@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day07 {
@@ -43,7 +44,7 @@ public struct Day07 {
             return computer
         }
 
-        var iterator = (0..<phases.count).repeating().makeIterator()
+        var iterator = (0..<phases.count).cycled().makeIterator()
         var value = 0
 
         while !computers.last!.isHalted, let index = iterator.next() {

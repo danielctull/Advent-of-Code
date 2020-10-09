@@ -1,4 +1,6 @@
 
+import Algorithms
+
 public func product<Sequence1: Sequence, Sequence2: Sequence>(_ sequence1: Sequence1, _ sequence2: Sequence2) -> ProductSequence<Sequence1, Sequence2> {
     return ProductSequence(base1: sequence1, base2: sequence2)
 }
@@ -19,10 +21,10 @@ extension ProductSequence {
 
     public struct Iterator {
 
-        private var iterator: Zip2Sequence<RepeatingSequence<Base1>, RepeatingElementsSequence<Base2>>.Iterator
+        private var iterator: Zip2Sequence<Cycle<[Base1.Element]>, RepeatingElementsSequence<Base2>>.Iterator
 
         fileprivate init(base1: Base1, base2: Base2) {
-            let sequence1 = base1.repeating()
+            let sequence1 = Array(base1).cycled()
             let sequence2 = base2.repeatingElements(Array(base1).count)
             iterator = zip(sequence1, sequence2).makeIterator()
         }

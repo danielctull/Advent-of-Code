@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day01 {
@@ -19,7 +20,7 @@ public struct Day01 {
         return input
             .lines
             .compactMap(Int.init)
-            .repeating()
+            .cycled()
             .accumulating(0, +)
             .firstDuplicate!
     }

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "swift-algorithms",
+        "repositoryURL": "https://github.com/apple/swift-algorithms.git",
+        "state": {
+          "branch": null,
+          "revision": "6cffd04a4f09cb9111d98ee70dc4314fcb5fc56e",
+          "version": "0.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

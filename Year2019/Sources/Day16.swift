@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day16 {
@@ -22,7 +23,8 @@ public struct Day16 {
 
                     let base = basePattern
                         .repeatingElements(iteration)
-                        .repeating()
+                        .map { $0 }
+                        .cycled()
                         .dropFirst()
 
                     let value = zip(values, base)

@@ -16,12 +16,18 @@ let package = Package(
         .library(name: "Year2019", targets: ["Year2019"]),
         .executable(name: "intcode", targets: ["IntcodeComputer tool"])
     ],
+    dependencies: [
+        .package(name: "swift-algorithms", url: "https://github.com/apple/swift-algorithms.git", from: "0.0.1"),
+    ],
     targets: [
 
         // MARK: - Advent
 
         .target(
             name: "Advent",
+            dependencies: [
+                .product(name: "Algorithms", package: "swift-algorithms"),
+            ],
             path: "Advent"),
 
         // MARK: - Year2015
