@@ -10,7 +10,7 @@ public struct Day07 {
     public func part1(input: Input) throws -> Int {
 
         try [0,1,2,3,4]
-            .permutations
+            .permutations()
             .map { try calculatePart1(input: input, phases: $0) }
             .reduce(0, max)
     }
@@ -29,7 +29,7 @@ public struct Day07 {
     public func part2(input: Input) throws -> Int {
 
         try [5,6,7,8,9]
-            .permutations
+            .permutations()
             .map { try calculatePart2(input: input, phases: $0) }
             .reduce(0, max)
     }
