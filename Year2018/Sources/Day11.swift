@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day11 {
@@ -11,7 +12,7 @@ public struct Day11 {
         let serial = input.lines.map { Int($0)! }.first!
         let row = (1...300).lookingAhead(3)
 
-        return product(row, row)
+        return product(row, Array(row))
             .map { xs, ys -> (Coordinate, Int) in
 
                 let power = product(xs, ys)
