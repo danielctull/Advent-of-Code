@@ -23,20 +23,20 @@ extension Sequence {
     public func scan<Result>(
         _ initial: Result,
         _ transform: @escaping (Result, Element) -> Result
-    ) -> ScanSequence<Result, Self> {
-        ScanSequence(base: self, initial: initial, transform: transform)
+    ) -> Scan<Result, Self> {
+        Scan(base: self, initial: initial, transform: transform)
     }
 }
 
 /// A sequence of applying a transform to the element of a sequence and the
 /// previously transformed result.
-public struct ScanSequence<Result, Base: Sequence> {
+public struct Scan<Result, Base: Sequence> {
     fileprivate let base: Base
     fileprivate let initial: Result
     fileprivate let transform: (Result, Base.Element) -> Result
 }
 
-extension ScanSequence {
+extension Scan {
 
     public struct Iterator {
         fileprivate var base: Base.Iterator
@@ -45,7 +45,7 @@ extension ScanSequence {
     }
 }
 
-extension ScanSequence.Iterator: IteratorProtocol {
+extension Scan.Iterator: IteratorProtocol {
 
     public mutating func next() -> Result? {
         guard let element = base.next() else { return nil }
@@ -54,7 +54,7 @@ extension ScanSequence.Iterator: IteratorProtocol {
     }
 }
 
-extension ScanSequence: Sequence {
+extension Scan: Sequence {
 
     public func makeIterator() -> Iterator {
         Iterator(base: base.makeIterator(),
