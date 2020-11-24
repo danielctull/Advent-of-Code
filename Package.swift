@@ -14,7 +14,6 @@ let package = Package(
         .library(name: "Year2015", targets: ["Year2015"]),
         .library(name: "Year2018", targets: ["Year2018"]),
         .library(name: "Year2019", targets: ["Year2019"]),
-        .library(name: "Year2020", targets: ["Year2020"]),
         .executable(name: "intcode", targets: ["IntcodeComputer tool"])
     ],
     dependencies: [
@@ -74,19 +73,6 @@ let package = Package(
             name: "IntcodeComputer tool",
             dependencies: ["Advent", "Year2019"],
             path: "Year2019/IntcodeComputer tool"),
-
-        // MARK: - Year2020
-
-        .target(
-            name: "Year2020",
-            dependencies: ["Advent"],
-            path: "Year2020/Sources"),
-
-        .testTarget(
-            name: "Year2020Tests",
-            dependencies: ["Advent", "Year2020"],
-            path: "Year2020/Tests",
-            resources: [.copy("Inputs")]),
     ],
     swiftLanguageVersions: [.v5]
 )
