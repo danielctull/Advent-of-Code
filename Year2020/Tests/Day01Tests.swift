@@ -6,18 +6,20 @@ import XCTest
 final class Day01Tests: XCTestCase {
 
     func testPart1Examples() throws {
-        Assert(Day01.part1, "1", 0)
+        XCTAssertEqual(Day01.part1("1"), 0)
     }
 
     func testPart1Puzzle() throws {
-        try Assert(Day01.part1, .file("Day01"), 0)
+        let input = try Bundle.module.input(named: "Day01")
+        XCTAssertEqual(Day01.part1(input), 0)
     }
 
     func testPart2Examples() throws {
-        Assert(Day01.part2, "1", 0)
+        XCTAssertEqual(Day01.part2("1"), 0)
     }
 
     func testPart2Puzzle() throws {
-        try Assert(Day01.part2, .file("Day01"), 0)
+        let input = try Bundle.module.input(named: "Day01")
+        XCTAssertEqual(Day01.part2(input), 0)
     }
 }

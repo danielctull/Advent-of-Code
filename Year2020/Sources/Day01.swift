@@ -4,11 +4,11 @@ import Foundation
 
 public enum Day01 {
 
-    public static func part1(input: Input) -> Int {
+    public static func part1(_ input: Input) -> Int {
         0
     }
 
-    public static func part2(input: Input) -> Int {
+    public static func part2(_ input: Input) -> Int {
         0
     }
 }
