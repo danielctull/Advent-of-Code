@@ -19,9 +19,10 @@ public struct Day01 {
 
         return input
             .lines
+            .lazy
             .compactMap(Int.init)
             .cycled()
-            .accumulating(0, +)
+            .reductions(0, +)
             .firstDuplicate!
     }
 }

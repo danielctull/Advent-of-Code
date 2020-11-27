@@ -42,8 +42,8 @@ public struct Day11 {
         }
 
         let firstRow = Array(repeating: 0, count: totalSize + 1)
-        let accumulatingPowerGrid = powerGrid.accumulating(firstRow) { result, xs in
-            zip(result, xs.accumulating(0, +)).map(+)
+        let accumulatingPowerGrid = powerGrid.reductions(firstRow) { result, xs in
+            zip(result, xs.reductions(0, +)).map(+)
         }.map { $0 }
 
         // ^ This creates an accumulating array of power values:

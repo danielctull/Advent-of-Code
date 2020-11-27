@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day01 {
@@ -21,7 +22,7 @@ public struct Day01 {
             .lines
             .first!
             .map(convert)
-            .accumulating(0, +)
+            .reductions(0, +)
             .enumerated()
             .first { $0.element == -1 }
             .map { $0.offset }!

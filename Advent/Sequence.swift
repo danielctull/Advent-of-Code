@@ -1,7 +1,7 @@
 
 // MARK: - First Duplicate
 
-extension Sequence where Element: Hashable {
+extension LazySequenceProtocol where Element: Hashable {
 
     /// Returns the element which is first duplicated in the sequence.
     ///

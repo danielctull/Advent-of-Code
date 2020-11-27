@@ -18,7 +18,7 @@ let package = Package(
         .executable(name: "intcode", targets: ["IntcodeComputer tool"])
     ],
     dependencies: [
-        .package(name: "swift-algorithms", url: "https://github.com/apple/swift-algorithms.git", from: "0.0.1"),
+        .package(name: "swift-algorithms", url: "https://github.com/danielctull-forks/swift-algorithms.git", .branch("reductions")),
     ],
     targets: [
 

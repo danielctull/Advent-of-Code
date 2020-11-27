@@ -12,7 +12,7 @@ public struct Day03 {
             .lines
             .flatMap { $0 }
             .map { Direction(rawValue: String($0))! }
-            .accumulating(Position(x: 0, y: 0)) { $0.move($1) }
+            .reductions(Position(x: 0, y: 0)) { $0.move($1) }
             .countByElement
             .count
     }
@@ -25,7 +25,7 @@ public struct Day03 {
             .lines
             .flatMap { $0 }
             .map { Direction(rawValue: String($0))! }
-            .accumulating((start, start)) { ($0.1, $0.0.move($1)) } // Flip tuple
+            .reductions((start, start)) { ($0.1, $0.0.move($1)) } // Flip tuple
             .flatMap { [$0, $1] } // Works because we only care about more than one visit, not exact number
             .countByElement
             .count
