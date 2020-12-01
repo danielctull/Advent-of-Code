@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day02 {
@@ -15,8 +16,8 @@ public struct Day02 {
                 let sides = $0
                     .components(separatedBy: "x")
                     .compactMap(Int.init)
-                    .trianglePairs
-                    .map(*)
+                    .combinations(ofCount: 2)
+                    .map { $0.product() }
                     .repeatingElements(2)
 
                 return sides.min()! + sides.sum()
