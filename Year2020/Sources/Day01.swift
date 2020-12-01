@@ -14,6 +14,10 @@ public enum Day01 {
     }
 
     public static func part2(_ input: Input) -> Int {
-        0
+
+        input.integers
+            .combinations(ofCount: 3)
+            .first(where: { $0.sum == 2020 })
+            .map { $0.product } ?? 0
     }
 }
