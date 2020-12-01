@@ -53,3 +53,10 @@ extension Sequence {
         return Dictionary(grouping: self, by: key)
     }
 }
+
+// MARK: - Maths
+
+extension Sequence where Element: Numeric {
+    public var sum: Element { reduce(0, +) }
+    public var product: Element { reduce(1, *) }
+}

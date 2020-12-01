@@ -30,6 +30,10 @@ extension Bundle {
 }
 
 extension Input {
+    public var integers: [Int] { lines.map { Int($0)! } }
+}
+
+extension Input {
 
     public init(url: URL) throws {
 
