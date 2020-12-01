@@ -69,7 +69,7 @@ extension Grid where Location == Position, Tile == Day24.Tile {
         tiles
             .filter { $0.value == .bug }
             .map { 2.power($0.key.y * 5 + $0.key.x) }
-            .reduce(0, +)
+            .sum()
     }
 }
 

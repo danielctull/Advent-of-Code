@@ -12,7 +12,7 @@ public struct Day01 {
             .lines
             .compactMap(Double.init)
             .map { Int(floor($0 / 3)) - 2 }
-            .reduce(0, +)
+            .sum()
     }
 
     public func part2(input: Input) -> Int {
@@ -21,7 +21,7 @@ public struct Day01 {
             .lines
             .compactMap(Int.init)
             .map(fuel(for:))
-            .reduce(0, +)
+            .sum()
     }
 
     private func fuel(for mass: Int) -> Int {

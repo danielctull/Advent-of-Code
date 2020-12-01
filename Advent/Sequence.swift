@@ -57,6 +57,26 @@ extension Sequence {
 // MARK: - Maths
 
 extension Sequence where Element: Numeric {
-    public var sum: Element { reduce(0, +) }
-    public var product: Element { reduce(1, *) }
+
+    /// The sum of all the values in the sequence.
+    ///
+    /// ```
+    /// [1, 2, 3, 4].sum()
+    /// // -> 1 + 2 + 3 + 4
+    /// // -> 10
+    /// ```
+    ///
+    /// - Returns: The sum of all the values.
+    public func sum() -> Element { reduce(0, +) }
+
+    /// The product of all the values in the sequence.
+    ///
+    /// ```
+    /// [1, 2, 3, 4].product()
+    /// // -> 1 * 2 * 3 * 4
+    /// // -> 24
+    /// ```
+    ///
+    /// - Returns: The product of all the values.
+    public func product() -> Element { reduce(1, *) }
 }

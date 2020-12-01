@@ -31,7 +31,7 @@ public struct Day08 {
             return metadata + childrenMetadata
         }
 
-        return fetchMetadata().reduce(0, +)
+        return fetchMetadata().sum()
     }
 
     public func part2(input: Input) -> Int {
@@ -57,7 +57,7 @@ public struct Day08 {
             }
 
             guard childrenCount > 0 else {
-                return metadata.reduce(0, +)
+                return metadata.sum()
             }
 
             return metadata.map {
@@ -70,7 +70,7 @@ public struct Day08 {
 
                 return childrenMetadata[index]
 
-            }.reduce(0, +)
+            }.sum()
         }
 
         return fetchValue()

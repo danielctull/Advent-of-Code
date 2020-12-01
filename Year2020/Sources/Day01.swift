@@ -9,15 +9,15 @@ public enum Day01 {
 
         input.integers
             .combinations(ofCount: 2)
-            .first(where: { $0.sum == 2020 })
-            .map { $0.product } ?? 0
+            .first(where: { $0.sum() == 2020 })
+            .map { $0.product() } ?? 0
     }
 
     public static func part2(_ input: Input) -> Int {
 
         input.integers
             .combinations(ofCount: 3)
-            .first(where: { $0.sum == 2020 })
-            .map { $0.product } ?? 0
+            .first(where: { $0.sum() == 2020 })
+            .map { $0.product() } ?? 0
     }
 }

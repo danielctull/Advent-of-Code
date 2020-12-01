@@ -13,7 +13,7 @@ public struct Day01 {
             .lines
             .first!
             .map(convert)
-            .reduce(0, +)
+            .sum()
     }
 
     public func part2(input: Input) -> Int {

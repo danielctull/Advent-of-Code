@@ -59,6 +59,6 @@ extension String {
 
         return indices(of: "#")
             .map { distance(from: startIndex, to: $0) - offset }
-            .reduce(0, +)
+            .sum()
     }
 }

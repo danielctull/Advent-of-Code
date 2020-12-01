@@ -13,7 +13,7 @@ public struct Day06 {
             .map(Object.init)
             .indirectOrbits
             .values
-            .reduce(0, +)
+            .sum()
     }
 
     public func part2(input: Input) throws -> Int {
