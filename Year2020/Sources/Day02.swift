@@ -8,20 +8,33 @@ public enum Day02 {
 
         try input.lines
             .map(Line.init)
-            .filter { $0.rule.validate($0.password) }
+            .filter { $0.rule.validate1($0.password) }
             .count
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        try input.lines
+            .map(Line.init)
+            .filter { $0.rule.validate2($0.password) }
+            .count
     }
 }
 
 extension Day02.Rule {
 
-    func validate(_ password: Day02.Password) -> Bool {
+    func validate1(_ password: Day02.Password) -> Bool {
         let count = password.rawValue.filter { $0 == character }.count
         return amount.contains(count)
+    }
+
+    func validate2(_ password: Day02.Password) -> Bool {
+        let start = password.rawValue.startIndex
+        let lower = password.rawValue.index(start, offsetBy: amount.lowerBound - 1)
+        let upper = password.rawValue.index(start, offsetBy: amount.upperBound - 1)
+        let lowerMatch = password.rawValue[lower] == character
+        let upperMatch = password.rawValue[upper] == character
+        return lowerMatch != upperMatch
     }
 }
 
@@ -47,7 +60,7 @@ extension Day02.Line {
     init(_ string: String) throws {
         let parts = string.split(separator: ":")
         rule = try Day02.Rule(parts[0])
-        password = try Day02.Password(String(parts[1]))
+        password = try Day02.Password(String(parts[1]).trimmingCharacters(in: .whitespaces))
     }
 }
 
