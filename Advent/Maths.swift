@@ -21,4 +21,10 @@ extension Int {
     public func power(_ power: Int) -> Int {
         Int(pow(Double(self), Double(power)))
     }
+
+    struct NotANumber: Error {}
+    public init<S: StringProtocol>(_ string: S) throws {
+        guard let int = Int(string) else { throw NotANumber() }
+        self = int
+    }
 }
