@@ -8,16 +8,14 @@ public enum Day02 {
 
         try input.lines
             .map(Line.init)
-            .filter { $0.rule.validate1($0.password) }
-            .count
+            .count(where: { $0.rule.validate1($0.password) })
     }
 
     public static func part2(_ input: Input) throws -> Int {
 
         try input.lines
             .map(Line.init)
-            .filter { $0.rule.validate2($0.password) }
-            .count
+            .count(where: { $0.rule.validate2($0.password) })
     }
 }
 

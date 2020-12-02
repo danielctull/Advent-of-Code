@@ -19,7 +19,7 @@ extension LazySequenceProtocol where Element: Hashable {
     }
 }
 
-// MARK: - Count by Element
+// MARK: - Count
 
 extension Sequence where Element: Hashable {
 
@@ -38,6 +38,21 @@ extension Sequence where Element: Hashable {
         return reduce(into: [:]) { result, element in
             result[element, default: 0] += 1
         }
+    }
+}
+
+extension Sequence {
+
+    public func count(
+        where predicate: (Element) throws -> Bool
+    ) rethrows -> Int {
+        var count = 0
+        for element in self {
+            if try predicate(element) {
+                count += 1
+            }
+        }
+        return count
     }
 }
 
