@@ -23,7 +23,8 @@ public enum Day03 {
         let columns = (0...).striding(by: right)
         let rows = input.lines.striding(by: down)
         return zip(columns, rows).count(where: { column, row in
-            Array(row)[column % row.count] == "#"
+            let index = row.index(row.startIndex, offsetBy: column % row.count)
+            return row[index] == "#"
         })
     }
 }
