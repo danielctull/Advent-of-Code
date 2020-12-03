@@ -21,9 +21,10 @@ public enum Day03 {
 
     private static func count(input: Input, right: Int, down: Int) -> Int {
         let columns = stride(from: 0, to: .max, by: right)
-        let rows = input.lines.striding(by: down)
+        let rows = stride(from: 0, to: input.lines.count, by: down)
         let count = input.lines[0].count
         return zip(columns, rows).count(where: { column, row in
+            let row = input.lines[row]
             let index = row.index(row.startIndex, offsetBy: column % count)
             return row[index] == "#"
         })
