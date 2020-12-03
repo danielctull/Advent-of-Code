@@ -41,25 +41,14 @@ struct Forest {
     let rows: [String]
     let rowWidth: Int
 
-    /// Finds the value at given coordinate.
-    subscript(x: Int, y: Int) -> Character {
-        let x = x % rowWidth    // account for infinite repeat
-        let row = rows[y]
-        let index = row.index(row.startIndex, offsetBy: x)
-        return row[index]
-    }
-
-    subscript(coordinate: (Int, Int)) -> Character {
-        return self[coordinate.0, coordinate.1]
-    }
-
     /// The number of trees encountered if taking `slope`, starting from top left.
     func numberOfTrees(following slope: SIMD2<Int>) -> Int {
         let strideX = stride(from: 0, to: .max, by: slope.x)
         let strideY = stride(from: self.rows.startIndex, to: self.rows.endIndex, by: slope.y)
 
         return zip(strideX, strideY).count(where: { x, y in
-            self[x, y] == "#"
+            let row = rows[y]
+            return row[row.index(row.startIndex, offsetBy: x % rowWidth)] == "#"
         })
     }
 }
