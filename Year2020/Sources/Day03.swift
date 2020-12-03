@@ -10,13 +10,16 @@ public enum Day03 {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        [
-            count(input: input, right: 1, down: 1),
-            count(input: input, right: 3, down: 1),
-            count(input: input, right: 5, down: 1),
-            count(input: input, right: 7, down: 1),
-            count(input: input, right: 1, down: 2)
-        ].product()
+        let slopes: [SIMD2<Int>] = [
+            [1, 1],
+            [3, 1],
+            [5, 1],
+            [7, 1],
+            [1, 2]
+        ]
+        let forest = Forest(rows: input.lines)
+        let counts = slopes.lazy.map { forest.numberOfTrees(following: $0) }
+        return counts.reduce(1, *)
     }
 
     private static func count(input: Input, right: Int, down: Int) -> Int {
@@ -24,6 +27,43 @@ public enum Day03 {
         let rows = input.lines.striding(by: down)
         return zip(columns, rows).count(where: { column, row in
             row[row.index(row.startIndex, offsetBy: column % row.count)] == "#"
+        })
+    }
+}
+
+struct Forest {
+
+    init(rows: [String]) {
+        self.rows = rows
+        self.rowWidth = rows[0].count
+    }
+
+    let rows: [String]
+    let rowWidth: Int
+
+    /// Finds the value at given coordinate.
+    subscript(x: Int, y: Int) -> Character {
+        let x = x % rowWidth    // account for infinite repeat
+        let row = rows[y]
+        let index = row.index(row.startIndex, offsetBy: x)
+        return row[index]
+    }
+
+    subscript(coordinate: (Int, Int)) -> Character {
+        return self[coordinate.0, coordinate.1]
+    }
+
+    func isTreeAt(x: Int, y: Int) -> Bool {
+        return self[x, y] == "#"
+    }
+
+    /// The number of trees encountered if taking `slope`, starting from top left.
+    func numberOfTrees(following slope: SIMD2<Int>) -> Int {
+        let strideX = stride(from: 0, to: .max, by: slope.x)
+        let strideY = stride(from: self.rows.startIndex, to: self.rows.endIndex, by: slope.y)
+
+        return zip(strideX, strideY).count(where: { x, y in
+            isTreeAt(x: x, y: y)
         })
     }
 }
