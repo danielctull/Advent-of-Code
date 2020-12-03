@@ -20,11 +20,8 @@ public enum Day03 {
     }
 
     private static func count(input: Input, right: Int, down: Int) -> Int {
-        let columns = (0...).lazy.map { $0 * right }
-        let rows = input.lines
-            .enumerated()
-            .filter { index, _ in index.isMultiple(of: down) }
-            .map { _, row in row.cycled() }
+        let columns = (0...).striding(by: right)
+        let rows = input.lines.striding(by: down).map { $0.cycled() }
         return zip(columns, rows).count(where: { column, row in
             var iterator = row.dropFirst(column).makeIterator()
             let character = iterator.next()!
