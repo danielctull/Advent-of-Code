@@ -21,11 +21,9 @@ public enum Day03 {
 
     private static func count(input: Input, right: Int, down: Int) -> Int {
         let columns = (0...).striding(by: right)
-        let rows = input.lines.striding(by: down).map { $0.cycled() }
+        let rows = input.lines.striding(by: down)
         return zip(columns, rows).count(where: { column, row in
-            var iterator = row.dropFirst(column).makeIterator()
-            let character = iterator.next()!
-            return character == "#"
+            Array(row)[column % row.count] == "#"
         })
     }
 }

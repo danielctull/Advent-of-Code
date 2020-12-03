@@ -11,9 +11,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>0.012351</real>
+					<real>0.001938</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>3 Dec 2020 at 18:39:30</string>
+					<string>3 Dec 2020 at 18:46:29</string>
 				</dict>
 			</dict>
 			<key>testPart2Puzzle()</key>
@@ -21,9 +21,9 @@
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
 				<dict>
 					<key>baselineAverage</key>
-					<real>0.067099</real>
+					<real>0.0066704</real>
 					<key>baselineIntegrationDisplayName</key>
-					<string>3 Dec 2020 at 18:39:30</string>
+					<string>3 Dec 2020 at 18:46:29</string>
 				</dict>
 			</dict>
 		</dict>
