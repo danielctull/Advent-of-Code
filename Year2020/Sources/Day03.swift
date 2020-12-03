@@ -22,8 +22,9 @@ public enum Day03 {
     private static func count(input: Input, right: Int, down: Int) -> Int {
         let columns = (0...).striding(by: right)
         let rows = input.lines.striding(by: down)
+        let count = input.lines[0].count
         return zip(columns, rows).count(where: { column, row in
-            let index = row.index(row.startIndex, offsetBy: column % row.count)
+            let index = row.index(row.startIndex, offsetBy: column % count)
             return row[index] == "#"
         })
     }
