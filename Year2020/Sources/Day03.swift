@@ -33,13 +33,7 @@ public enum Day03 {
 
 struct Forest {
 
-    init(rows: [String]) {
-        self.rows = rows
-        self.rowWidth = rows[0].count
-    }
-
     let rows: [String]
-    let rowWidth: Int
 
     /// The number of trees encountered if taking `slope`, starting from top left.
     func numberOfTrees(following slope: SIMD2<Int>) -> Int {
@@ -48,7 +42,7 @@ struct Forest {
 
         return zip(strideX, strideY).count(where: { x, y in
             let row = rows[y]
-            return row[row.index(row.startIndex, offsetBy: x % rowWidth)] == "#"
+            return row[row.index(row.startIndex, offsetBy: x % row.count)] == "#"
         })
     }
 }
