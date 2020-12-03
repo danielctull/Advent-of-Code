@@ -6,75 +6,37 @@ public enum Day02 {
 
     public static func part1(_ input: Input) throws -> Int {
 
-        try input.lines
-            .map(Line.init)
-            .count(where: { $0.rule.validate1($0.password) })
+        let regex = try RegularExpression(pattern: "([0-9]+)-([0-9]+) (.): (.+)")
+        return try input.lines.count(where: { input in
+            let match = try regex.match(input)
+            let lower = try match.integer(at: 0)
+            let upper = try match.integer(at: 1)
+            let character = try match.character(at: 2)
+            let password = try match.string(at: 3)
+            let count = password.count(of: character)
+            return (lower...upper).contains(count)
+        })
     }
 
     public static func part2(_ input: Input) throws -> Int {
 
-        try input.lines
-            .map(Line.init)
-            .count(where: { $0.rule.validate2($0.password) })
+        let regex = try RegularExpression(pattern: "([0-9]+)-([0-9]+) (.): (.+)")
+        return try input.lines.count(where: { input in
+            let match = try regex.match(input)
+            let index1 = try match.integer(at: 0) - 1
+            let index2 = try match.integer(at: 1) - 1
+            let character = try match.character(at: 2)
+            let password = try match.string(at: 3)
+            let match1 = password.character(at: index1) == character
+            let match2 = password.character(at: index2) == character
+            return match1 != match2
+        })
     }
 }
 
-extension Day02.Rule {
+extension String {
 
-    func validate1(_ password: Day02.Password) -> Bool {
-        let count = password.rawValue.filter { $0 == character }.count
-        return amount.contains(count)
-    }
-
-    func validate2(_ password: Day02.Password) -> Bool {
-        let start = password.rawValue.startIndex
-        let lower = password.rawValue.index(start, offsetBy: amount.lowerBound - 1)
-        let upper = password.rawValue.index(start, offsetBy: amount.upperBound - 1)
-        let lowerMatch = password.rawValue[lower] == character
-        let upperMatch = password.rawValue[upper] == character
-        return lowerMatch != upperMatch
-    }
-}
-
-extension Day02 {
-
-    fileprivate struct Line {
-        let rule: Rule
-        let password: Password
-    }
-
-    fileprivate struct Password: RawRepresentable {
-        let rawValue: String
-    }
-
-    fileprivate struct Rule {
-        let amount: ClosedRange<Int>
-        let character: Character
-    }
-}
-
-extension Day02.Line {
-
-    init(_ string: String) throws {
-        let parts = string.split(separator: ":")
-        rule = try Day02.Rule(parts[0])
-        password = try Day02.Password(String(parts[1]).trimmingCharacters(in: .whitespaces))
-    }
-}
-
-extension Day02.Rule {
-
-    init<S: StringProtocol>(_ string: S) throws {
-        let parts = string.split(separator: " ")
-        character = Character(String(parts[1]))
-        amount = try ClosedRange(parts[0])
-    }
-}
-
-extension ClosedRange where Bound == Int {
-
-    fileprivate init<S: StringProtocol>(_ string: S) throws {
-        let parts = string.split(separator: "-")
-        self = try Int(parts[0])...Int(parts[1])
+    fileprivate func character(at offset: Int) -> Character {
+        self[index(startIndex, offsetBy: offset)]
     }
 }

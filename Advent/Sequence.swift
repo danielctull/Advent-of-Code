@@ -56,6 +56,13 @@ extension Sequence {
     }
 }
 
+extension Sequence where Element: Equatable {
+
+    public func count(of element: Element) -> Int {
+        count(where: { $0 == element })
+    }
+}
+
 // MARK: - Grouping
 
 extension Sequence {
