@@ -27,12 +27,19 @@ extension Validator {
     @dynamicMemberLookup
     public struct Builder<Property> {
 
-        fileprivate let base: Validator<Value>
+        fileprivate let base: Validator
         fileprivate let keyPath: KeyPath<Value, Property>
 
         public func callAsFunction(
             _ predicate: Predicate<Property>
-        ) -> Validator<Value> {
+        ) -> Validator {
+            let new = Predicate<Value> { predicate($0[keyPath: keyPath]) }
+            return Validator(predicate: base.predicate && new)
+        }
+
+        public func callAsFunction(
+            _ predicate: @escaping (Property) -> Bool
+        ) -> Validator {
             let new = Predicate<Value> { predicate($0[keyPath: keyPath]) }
             return Validator(predicate: base.predicate && new)
         }
