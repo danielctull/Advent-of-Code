@@ -15,6 +15,10 @@ public func ~= <T>(predicate: Predicate<T>, value: T) -> Bool {
     predicate(value)
 }
 
+public func && <T>(lhs: Predicate<T>, rhs: Predicate<T>) -> Predicate<T> {
+    Predicate { value in lhs(value) && rhs(value) }
+}
+
 extension Predicate where Value == String {
 
     public static func hasPrefix(_ prefix: String) -> Predicate {

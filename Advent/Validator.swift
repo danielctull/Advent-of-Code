@@ -2,34 +2,37 @@
 @dynamicMemberLookup
 public struct Validator<Value> {
 
-    typealias Validation = (Value) -> Bool
-
     public init() {
-        self.validations = []
+        self.predicate = Predicate { _ in true }
     }
 
-    init(validations: [Validation]) {
-        self.validations = validations
+    init(predicate: Predicate<Value>) {
+        self.predicate = predicate
     }
 
-    let validations: [Validation]
+    let predicate: Predicate<Value>
 
     public func validate(_ value: Value) -> Bool {
-        for validation in validations {
-            guard validation(value) else { return false }
-        }
-        return true
+        predicate(value)
     }
 
     public subscript<Property>(
         dynamicMember keyPath: KeyPath<Value, Property>
     ) -> (@escaping (Property) -> Bool) -> Validator {
 
-        { propertyValidator in
-
-            Validator(validations: self.validations + [{ value in
-                propertyValidator(value[keyPath: keyPath])
-            }])
+        { validation in
+            let propertyPredicate = Predicate(keyPath: keyPath, predicate: validation)
+            return Validator(predicate: predicate && propertyPredicate)
         }
+    }
+}
+
+extension Predicate {
+
+    init<Property>(
+        keyPath: KeyPath<Value, Property>,
+        predicate: @escaping (Property) -> Bool
+    ) {
+        self.init { value in predicate(value[keyPath: keyPath]) }
     }
 }
