@@ -6,11 +6,10 @@ public struct Validator<Value> {
         self.predicate = Predicate { _ in true }
     }
 
-    init(predicate: Predicate<Value>) {
+    fileprivate let predicate: Predicate<Value>
+    fileprivate init(predicate: Predicate<Value>) {
         self.predicate = predicate
     }
-
-    let predicate: Predicate<Value>
 
     public func validate(_ value: Value) -> Bool {
         predicate(value)

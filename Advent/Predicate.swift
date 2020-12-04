@@ -19,13 +19,19 @@ public func && <T>(lhs: Predicate<T>, rhs: Predicate<T>) -> Predicate<T> {
     Predicate { value in lhs(value) && rhs(value) }
 }
 
+public func || <T>(lhs: Predicate<T>, rhs: Predicate<T>) -> Predicate<T> {
+    Predicate { value in lhs(value) || rhs(value) }
+}
+
 extension Predicate where Value == String {
 
     public static func hasPrefix(_ prefix: String) -> Predicate {
         Predicate { $0.hasPrefix(prefix) }
     }
 
-    public static func matches(_ pattern: RegularExpression.Pattern) -> Self {
+    public static func matches(
+        _ pattern: RegularExpression.Pattern
+    ) -> Predicate {
         guard let regex = try? RegularExpression(pattern: pattern) else {
             return Predicate { _ in false }
         }
@@ -37,14 +43,18 @@ extension Predicate {
 
     public static func within<Range: RangeExpression>(
         _ range: Range
-    ) -> Self where Range.Bound == Value {
+    ) -> Predicate where Range.Bound == Value {
         Predicate(range.contains)
     }
 }
 
 extension Predicate where Value: Equatable {
 
-    public static func within(_ values: Value...) -> Self {
+    public static func `is`(_ value: Value) -> Predicate {
+        Predicate { $0 == value }
+    }
+
+    public static func within(_ values: Value...) -> Predicate {
         Predicate(values.contains)
     }
 }
