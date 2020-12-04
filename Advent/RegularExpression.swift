@@ -18,6 +18,13 @@ public struct RegularExpression {
         }
         return Match(string: string, result: result)
     }
+
+    public func matches(in string: String) -> [Match] {
+        let range = NSRange(location: 0, length: string.utf16.count)
+        return expression
+            .matches(in: string, options: [], range: range)
+            .map { Match(string: string, result: $0) }
+    }
 }
 
 // MARK: - Errors

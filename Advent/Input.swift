@@ -44,8 +44,8 @@ extension Input {
 
         testing = false
         lines = string
+            .trimmingCharacters(in: .newlines)
             .components(separatedBy: .newlines)
-            .filter { !$0.isEmpty }
     }
 }
 
