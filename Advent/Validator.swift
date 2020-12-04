@@ -25,6 +25,7 @@ public struct Validator<Value> {
 
 extension Validator {
 
+    @dynamicMemberLookup
     public struct Builder<Property> {
 
         fileprivate let base: Validator<Value>
@@ -35,6 +36,15 @@ extension Validator {
         ) -> Validator<Value> {
             let new = Predicate<Value> { predicate($0[keyPath: keyPath]) }
             return Validator(predicate: base.predicate && new)
+        }
+
+        public subscript<Property2>(
+            dynamicMember keyPath2: KeyPath<Property, Property2>
+        ) -> Builder<Property2> {
+
+            Builder<Property2>(
+                base: base,
+                keyPath: keyPath.appending(path: keyPath2))
         }
     }
 }
