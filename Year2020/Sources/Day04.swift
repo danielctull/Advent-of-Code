@@ -15,28 +15,9 @@ public enum Day04 {
     private static func passports(for input: Input) throws -> [Passport] {
 
         input.lines
-            .reduce(into: [String]()) { result, line in
-
-                guard line.count > 0 else {
-                    // Start new passport
-                    result.append("")
-                    return
-                }
-
-                var passport = result.last ?? ""
-                passport.append(" ")
-                passport.append(line)
-
-                if result.count > 0 {
-                    result[result.endIndex - 1] = passport
-                } else {
-                    result.append(passport)
-                }
-            }
-            .compactMap {
-                do { return try Passport(string: $0) }
-                catch { return nil }
-            }
+            .split(whereSeparator: { $0.isEmpty })
+            .map { $0.joined(separator: " ") }
+            .compactMap { try? Passport(string: $0) }
     }
 }
 
