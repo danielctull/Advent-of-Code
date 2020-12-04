@@ -19,6 +19,11 @@ public struct RegularExpression {
         return Match(string: string, result: result)
     }
 
+    public func matches(_ string: String) -> Bool {
+        let range = NSRange(location: 0, length: string.utf16.count)
+        return expression.firstMatch(in: string, options: [], range: range) != nil
+    }
+
     public func matches(in string: String) -> [Match] {
         let range = NSRange(location: 0, length: string.utf16.count)
         return expression

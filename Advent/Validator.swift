@@ -18,21 +18,11 @@ public struct Validator<Value> {
 
     public subscript<Property>(
         dynamicMember keyPath: KeyPath<Value, Property>
-    ) -> (@escaping (Property) -> Bool) -> Validator {
+    ) -> (Predicate<Property>) -> Validator {
 
-        { validation in
-            let propertyPredicate = Predicate(keyPath: keyPath, predicate: validation)
-            return Validator(predicate: predicate && propertyPredicate)
+        { propertyPredicate in
+            let new = Predicate<Value> { propertyPredicate($0[keyPath: keyPath]) }
+            return Validator(predicate: predicate && new)
         }
-    }
-}
-
-extension Predicate {
-
-    init<Property>(
-        keyPath: KeyPath<Value, Property>,
-        predicate: @escaping (Property) -> Bool
-    ) {
-        self.init { value in predicate(value[keyPath: keyPath]) }
     }
 }

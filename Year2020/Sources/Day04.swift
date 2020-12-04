@@ -13,7 +13,22 @@ public enum Day04 {
     }
 
     public static func part2(_ input: Input) -> Int {
-        0
+
+        let validator = Validator<Passport>()
+            .birthYear(.within(1920...2002))
+            .issueYear(.within(2010...2020))
+            .expirationYear(.within(2020...2030))
+            .height(.matches("^(1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in$"))
+            .hairColor(.matches("^#[0-9a-f]{6}$"))
+            .eyeColor(.within("amb", "blu", "brn", "gry", "grn", "hzl", "oth"))
+            .passportID(.matches("^[0-9]{9}$"))
+
+        return input.lines
+            .split(whereSeparator: { $0.isEmpty })
+            .map { $0.joined(separator: " ") }
+            .compactMap { try? Passport(string: $0) }
+            .filter(validator.validate)
+            .count
     }
 }
 
@@ -45,9 +60,9 @@ extension Day04 {
             let fields = try regex.matches(in: string)
                 .map { try Field(name: $0.string(at: 0), value: $0.string(at: 1)) }
 
-            birthYear = try fields.field(for: "byr").value
-            issueYear = try fields.field(for: "iyr").value
-            expirationYear = try fields.field(for: "eyr").value
+            birthYear = try Int(fields.field(for: "byr").value)
+            issueYear = try Int(fields.field(for: "iyr").value)
+            expirationYear = try Int(fields.field(for: "eyr").value)
             height = try fields.field(for: "hgt").value
             hairColor = try fields.field(for: "hcl").value
             eyeColor = try fields.field(for: "ecl").value
@@ -55,9 +70,9 @@ extension Day04 {
             countryID = try? fields.field(for: "cid").value
         }
 
-        let birthYear: String // byr (Birth Year)
-        let issueYear: String // iyr (Issue Year)
-        let expirationYear: String // eyr (Expiration Year)
+        let birthYear: Int // byr (Birth Year)
+        let issueYear: Int // iyr (Issue Year)
+        let expirationYear: Int // eyr (Expiration Year)
         let height: String // hgt (Height)
         let hairColor: String // hcl (Hair Color)
         let eyeColor: String // ecl (Eye Color)

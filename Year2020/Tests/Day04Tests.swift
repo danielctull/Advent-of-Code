@@ -29,11 +29,24 @@ final class Day04Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(Day04.part2("1721,979,366,299,675,1456"), 0)
+        let height = RegularExpression.Pattern("^(?:1[5-8][0-9]|19[0-3])cm|(?:59|6[0-9]|7[0-6])in$")
+        XCTAssertTrue(Predicate.matches(height)("60in"))
+        XCTAssertTrue(Predicate.matches(height)("190cm"))
+        XCTAssertFalse(Predicate.matches(height)("190in"))
+        XCTAssertFalse(Predicate.matches(height)("190"))
+
+        let hair = RegularExpression.Pattern("^#[0-9a-f]{6}$")
+        XCTAssertTrue(Predicate.matches(hair)("#123abc"))
+        XCTAssertFalse(Predicate.matches(hair)("#123abz"))
+        XCTAssertFalse(Predicate.matches(hair)("123abc"))
+
+        let passportID = RegularExpression.Pattern("^[0-9]{9}$")
+        XCTAssertTrue(Predicate.matches(passportID)("000000001"))
+        XCTAssertFalse(Predicate.matches(passportID)("0123456789"))
     }
 
     func testPart2Puzzle() throws {
-        let input = try Bundle.module.input(named: "Day01")
-        XCTAssertEqual(Day04.part2(input), 0)
+        let input = try Bundle.module.input(named: "Day04")
+        XCTAssertEqual(Day04.part2(input), 137)
     }
 }
