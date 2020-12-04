@@ -18,11 +18,23 @@ public struct Validator<Value> {
 
     public subscript<Property>(
         dynamicMember keyPath: KeyPath<Value, Property>
-    ) -> (Predicate<Property>) -> Validator {
+    ) -> Builder<Property> {
+        Builder(base: self, keyPath: keyPath)
+    }
+}
 
-        { propertyPredicate in
-            let new = Predicate<Value> { propertyPredicate($0[keyPath: keyPath]) }
-            return Validator(predicate: predicate && new)
+extension Validator {
+
+    public struct Builder<Property> {
+
+        fileprivate let base: Validator<Value>
+        fileprivate let keyPath: KeyPath<Value, Property>
+
+        public func callAsFunction(
+            _ predicate: Predicate<Property>
+        ) -> Validator<Value> {
+            let new = Predicate<Value> { predicate($0[keyPath: keyPath]) }
+            return Validator(predicate: base.predicate && new)
         }
     }
 }
