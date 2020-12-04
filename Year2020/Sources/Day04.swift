@@ -4,20 +4,16 @@ import Foundation
 
 public enum Day04 {
 
-    public static func part1(_ input: Input) throws -> Int {
-        try passports(for: input).count
-    }
-
-    public static func part2(_ input: Input) throws -> Int {
-        0
-    }
-
-    private static func passports(for input: Input) throws -> [Passport] {
-
+    public static func part1(_ input: Input) -> Int {
         input.lines
             .split(whereSeparator: { $0.isEmpty })
             .map { $0.joined(separator: " ") }
             .compactMap { try? Passport(string: $0) }
+            .count
+    }
+
+    public static func part2(_ input: Input) -> Int {
+        0
     }
 }
 

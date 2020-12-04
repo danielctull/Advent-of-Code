@@ -6,7 +6,7 @@ import XCTest
 final class Day04Tests: XCTestCase {
 
     func testPart1Examples() throws {
-        XCTAssertEqual(try Day04.part1([
+        XCTAssertEqual(Day04.part1([
             "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd",
             "byr:1937 iyr:2017 cid:147 hgt:183cm",
             "",
@@ -25,15 +25,15 @@ final class Day04Tests: XCTestCase {
 
     func testPart1Puzzle() throws {
         let input = try Bundle.module.input(named: "Day04")
-        XCTAssertEqual(try Day04.part1(input), 202)
+        XCTAssertEqual(Day04.part1(input), 202)
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day04.part2("1721,979,366,299,675,1456"), 0)
+        XCTAssertEqual(Day04.part2("1721,979,366,299,675,1456"), 0)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day01")
-        XCTAssertEqual(try Day04.part2(input), 0)
+        XCTAssertEqual(Day04.part2(input), 0)
     }
 }
