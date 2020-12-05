@@ -22,46 +22,50 @@ public enum Day05 {
             .map { $0.first! + 1 } ?? 0
     }
 
-    private enum Bit {
-        case zero
-        case one
-
-        var value: Int {
-            switch self {
-            case .one: return 1
-            case .zero: return 0
-            }
-        }
-    }
-
     private struct Seat {
-        let row: [Bit]
-        let column: [Bit]
+        let row: BinaryNumber
+        let column: BinaryNumber
         init(_ string: String) {
             let array = Array(string)
-            row = array[0...6].map {
+            row = BinaryNumber(bits: array[0...6].map {
                 switch $0 {
                 case "F": return .zero
                 case "B": return .one
                 default: fatalError()
                 }
-            }
-            column = array[7...9].map {
+            })
+            column = BinaryNumber(bits: array[7...9].map {
                 switch $0 {
                 case "L": return .zero
                 case "R": return .one
                 default: fatalError()
                 }
-            }
+            })
         }
 
-        var number: Int {
-            func calculate(previous: Int, bit: Bit) -> Int {
-                previous * 2 + bit.value
-            }
-            let r = row.reduce(0, calculate)
-            let c = column.reduce(0, calculate)
-            return r * 8 + c
+        var number: Int { Int(row) * 8 + Int(column) }
+    }
+}
+
+struct BinaryNumber {
+    let bits: [Bit]
+}
+
+enum Bit {
+    case zero
+    case one
+}
+
+extension Int {
+
+    init(_ bit: Bit) {
+        switch bit {
+        case .zero: self = 0
+        case .one: self = 1
         }
+    }
+
+    init(_ binaryNumber: BinaryNumber) {
+        self = binaryNumber.bits.reduce(0) { $0 * 2 + Int($1) }
     }
 }
