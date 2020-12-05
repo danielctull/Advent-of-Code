@@ -27,8 +27,7 @@ public enum Day04 {
             .split(whereSeparator: { $0.isEmpty })
             .map { $0.joined(separator: " ") }
             .compactMap { try? Passport(string: $0) }
-            .filter(validator.validate)
-            .count
+            .count(where: validator.validate)
     }
 }
 
