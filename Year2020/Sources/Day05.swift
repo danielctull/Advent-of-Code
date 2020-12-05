@@ -13,7 +13,13 @@ public enum Day05 {
     }
 
     public static func part2(_ input: Input) -> Int {
-        0
+
+        input.lines
+            .map { Seat($0).number }
+            .sorted()
+            .slidingWindows(ofCount: 2)
+            .first(where: { $0.last! - $0.first! == 2 }) //Find gap in seats.
+            .map { $0.first! + 1 } ?? 0
     }
 
     private enum Split {
