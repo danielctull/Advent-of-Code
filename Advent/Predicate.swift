@@ -41,7 +41,7 @@ extension Predicate where Value == String {
 
 extension Predicate {
 
-    public static func within<Range: RangeExpression>(
+    public static func isWithin<Range: RangeExpression>(
         _ range: Range
     ) -> Predicate where Range.Bound == Value {
         Predicate(range.contains)
@@ -54,7 +54,7 @@ extension Predicate where Value: Equatable {
         Predicate { $0 == value }
     }
 
-    public static func within(_ values: Value...) -> Predicate {
+    public static func isWithin(_ values: Value...) -> Predicate {
         Predicate(values.contains)
     }
 }

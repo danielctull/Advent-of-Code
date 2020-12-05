@@ -15,12 +15,12 @@ public enum Day04 {
     public static func part2(_ input: Input) -> Int {
 
         let validator = Validator<Passport>()
-            .birthYear(.within(1920...2002))
-            .issueYear(.within(2010...2020))
-            .expirationYear(.within(2020...2030))
+            .birthYear(.isWithin(1920...2002))
+            .issueYear(.isWithin(2010...2020))
+            .expirationYear(.isWithin(2020...2030))
             .height(.matches("^(1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in$"))
             .hairColor(.matches("^#[0-9a-f]{6}$"))
-            .eyeColor(.within("amb", "blu", "brn", "gry", "grn", "hzl", "oth"))
+            .eyeColor(.isWithin("amb", "blu", "brn", "gry", "grn", "hzl", "oth"))
             .passportID(.matches("^[0-9]{9}$"))
 
         return input.lines
