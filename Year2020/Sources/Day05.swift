@@ -5,7 +5,7 @@ import Foundation
 
 public enum Day05 {
 
-    public static func part1(_ input: Input) throws -> Int {
+    public static func part1(_ input: Input) -> Int {
 
         input.lines
             .map { Int(BinaryNumber(seat: $0)) }
