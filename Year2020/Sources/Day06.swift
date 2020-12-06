@@ -16,14 +16,10 @@ public enum Day06 {
 
         input.lines
             .split(separator: "")
-            .map { $0.map(Set.init) }
-            .map { ($0.first!, $0.dropFirst()) }
-            .map { head, tail in
-                head.reduce(0) { count, character in
-                    tail.allSatisfy { $0.contains(character) }
-                        ? count + 1
-                        : count
-                }
+            .map { group in
+                let head = Set(group.first!)
+                let tail = group.dropFirst().map(Set.init)
+                return tail.reduce(head) { $0.intersection($1) }.count
             }
             .sum()
     }
