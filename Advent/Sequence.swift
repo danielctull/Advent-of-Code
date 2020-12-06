@@ -91,6 +91,19 @@ extension Sequence {
 
 // MARK: - Maths
 
+extension Sequence {
+
+    /// Calculates the sum of a property of each element.
+    ///
+    /// - Parameter value: The value to be summed up.
+    /// - Returns: The total sum of the values.
+    public func sum<Value: Numeric>(
+        of value: (Element) throws -> Value
+    ) rethrows -> Value {
+        try reduce(0) { try $0 + value($1) }
+    }
+}
+
 extension Sequence where Element: Numeric {
 
     /// The sum of all the values in the sequence.
