@@ -16,8 +16,8 @@ public enum Day06 {
     public static func part2(_ input: Input) -> Int {
 
         input.lines
-            .split(separator: "")
-            .map { $0.map(Set.init) }
+            .map(Set.init)
+            .split(whereSeparator: \.isEmpty)
             .compactMap { $0.reduce { $0.intersection($1) } }
             .sum(of: \.count)
     }
