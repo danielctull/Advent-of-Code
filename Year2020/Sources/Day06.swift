@@ -5,6 +5,7 @@ import Foundation
 public enum Day06 {
 
     public static func part1(_ input: Input) -> Int {
+
         input.lines
             .split(separator: "")
             .map { $0.joined(separator: "") }
@@ -16,11 +17,9 @@ public enum Day06 {
 
         input.lines
             .split(separator: "")
-            .map { group in
-                let head = Set(group.first!)
-                let tail = group.dropFirst().map(Set.init)
-                return tail.reduce(head) { $0.intersection($1) }.count
-            }
+            .map { $0.map(Set.init) }
+            .compactMap { $0.reduce { $0.intersection($1) } }
+            .map(\.count)
             .sum()
     }
 }

@@ -1,4 +1,17 @@
 
+// MARK: - Inclusive Reduce
+
+extension Sequence {
+
+    public func reduce(
+        _ transform: (Element, Element) throws -> Element
+    ) rethrows -> Element? {
+        var iterator = makeIterator()
+        guard let initial = iterator.next() else { return nil }
+        return try IteratorSequence(iterator).reduce(initial, transform)
+    }
+}
+
 // MARK: - First Duplicate
 
 extension LazySequenceProtocol where Element: Hashable {
