@@ -29,7 +29,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Algorithms", package: "swift-algorithms"),
             ],
-            path: "Advent"),
+            path: "Advent/Sources"),
 
         // MARK: - Year2015
 
