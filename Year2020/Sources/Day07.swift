@@ -10,8 +10,11 @@ public enum Day07 {
             .count(where: { $0.containsBag(named: "shiny gold") })
     }
 
-    public static func part2(_ input: Input) -> Int {
-        0
+    public static func part2(_ input: Input) throws -> Int {
+
+        try Array(bags: input.lines)
+            .first(where: { $0.name == "shiny gold" })
+            .map { $0.countContainedBags() } ?? 0
     }
 }
 
@@ -19,7 +22,7 @@ extension Day07 {
 
     fileprivate class Bag {
         let name: String
-        var contents: [Bag] = []
+        var contents: [Bag: Int] = [:]
         init(name: String) { self.name = name }
     }
 }
@@ -28,9 +31,16 @@ extension Day07.Bag {
 
     func containsBag(named name: String) -> Bool {
         contents.contains(where: {
-            $0.name == name ||
-            $0.containsBag(named: name)
+            $0.key.name == name ||
+            $0.key.containsBag(named: name)
         })
+    }
+
+    func countContainedBags() -> Int {
+        contents.map { bag, count in
+            (1 + bag.countContainedBags()) * count
+        }
+        .sum()
     }
 }
 
@@ -54,12 +64,32 @@ extension Array where Element == Day07.Bag {
             let name = try name.match(line).string(at: 0)
             let bag = findBag(named: name)
 
-            bag.contents = try contents.matches(in: line)
-                .map { findBag(named: try $0.string(at: 1)) }
+            bag.contents = Dictionary(uniqueKeysWithValues:
+                try contents.matches(in: line)
+                    .map {
+                        let bag = findBag(named: try $0.string(at: 1))
+                        let count = try $0.integer(at: 0)
+                        return (bag, count)
+                    }
+            )
         }
     }
 }
 
 extension Day07.Bag: CustomStringConvertible {
     var description: String { name }
+}
+
+extension Day07.Bag: Equatable {
+
+    static func == (lhs: Day07.Bag, rhs: Day07.Bag) -> Bool {
+        lhs.name == rhs.name
+    }
+}
+
+extension Day07.Bag: Hashable {
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
 }
