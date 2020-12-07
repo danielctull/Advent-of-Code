@@ -33,12 +33,10 @@ extension Direction {
     }
 
     public var otherDirections: [Direction] {
-        var all = Direction.allCases
-        all.removeAll(where: { $0 == self })
-        return all
+        Direction.allCases.filter { $0 != self }
     }
 
-    public func perform(_ turn: Turn) -> Direction {
+    public func rotate(_ turn: Turn) -> Direction {
         switch (self, turn) {
         case (.up, .left): return .left
         case (.right, .left): return .up

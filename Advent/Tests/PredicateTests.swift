@@ -23,16 +23,14 @@ final class PredicateTests: XCTestCase {
     }
 
     func testAnd() {
-        let predicate = Predicate { $0 > 0 }
-                     && Predicate { $0 < 2 }
+        let predicate = Predicate { $0 > 0 } && Predicate { $0 < 2 }
         XCTAssertFalse(predicate(0))
         XCTAssertTrue(predicate(1))
         XCTAssertFalse(predicate(2))
     }
 
     func testOr() {
-        let predicate = Predicate { $0 == "A" }
-                     || Predicate { $0 == "B" }
+        let predicate = Predicate { $0 == "A" } || Predicate { $0 == "B" }
         XCTAssertTrue(predicate("A"))
         XCTAssertTrue(predicate("B"))
         XCTAssertFalse(predicate("C"))
