@@ -124,7 +124,8 @@
       buildConfiguration = "Release"
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO"
@@ -171,6 +172,18 @@
                BlueprintIdentifier = "Year2020Tests"
                BuildableName = "Year2020Tests"
                BlueprintName = "Year2020Tests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AdventTests"
+               BuildableName = "AdventTests"
+               BlueprintName = "AdventTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

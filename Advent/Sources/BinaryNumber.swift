@@ -4,6 +4,9 @@ public struct BinaryNumber {
     public init(bits: [Bit]) {
         self.bits = bits
     }
+    public init(_ bits: Bit...) {
+        self.init(bits: bits)
+    }
 }
 
 extension BinaryNumber: Sequence {

@@ -31,6 +31,11 @@ let package = Package(
             ],
             path: "Advent/Sources"),
 
+        .testTarget(
+            name: "AdventTests",
+            dependencies: ["Advent"],
+            path: "Advent/Tests"),
+
         // MARK: - Year2015
 
         .target(
