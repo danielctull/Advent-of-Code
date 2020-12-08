@@ -12,6 +12,27 @@ extension Sequence {
     }
 }
 
+extension LazySequenceProtocol {
+
+    /// Returns the non-throwing results of mapping the given transformation
+    /// over this sequence.
+    ///
+    /// Use this method to receive a sequence of successful values when your
+    /// transformation can throw an error.
+    ///
+    /// Complexity: O(1)
+    ///
+    /// - Parameter transform: A throwing closure that accepts an element of
+    ///                        this sequence as its argument and returns a
+    ///                        value.
+    public func compactThrowsMap<ElementOfResult>(
+        _ transform: @escaping (Element) throws -> ElementOfResult
+    ) -> LazyMapSequence<LazyFilterSequence<LazyMapSequence<Elements, ElementOfResult?>>, ElementOfResult> {
+
+        compactMap { try? transform($0) }
+    }
+}
+
 // MARK: - First Duplicate
 
 extension LazySequenceProtocol where Element: Hashable {

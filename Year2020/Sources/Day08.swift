@@ -27,14 +27,10 @@ public enum Day08 {
                 instructions[index] = instructions[index].flipped
                 return instructions
             }
-            .compactMap { instructions in
-                do {
-                    var accumulator = 0
-                    try instructions.execute(value: &accumulator)
-                    return accumulator
-                } catch {
-                    return nil
-                }
+            .compactThrowsMap { instructions in
+                var accumulator = 0
+                try instructions.execute(value: &accumulator)
+                return accumulator
             }
             .first(where: { _ in true }) ?? 0
     }
