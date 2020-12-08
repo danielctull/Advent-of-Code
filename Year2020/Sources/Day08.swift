@@ -10,7 +10,7 @@ public enum Day08 {
         let instructions = try input.lines
             .map(Instruction.init)
 
-        try? instructions.execute(value: &accumulator)
+        try? instructions.execute(accumulator: &accumulator)
         return accumulator
     }
 
@@ -29,7 +29,7 @@ public enum Day08 {
             }
             .compactThrowsMap { instructions in
                 var accumulator = 0
-                try instructions.execute(value: &accumulator)
+                try instructions.execute(accumulator: &accumulator)
                 return accumulator
             }
             .first(where: { _ in true }) ?? 0
@@ -40,7 +40,7 @@ struct InfiniteLoop: Error {}
 
 extension Array where Element == Day08.Instruction {
 
-    func execute(value: inout Int) throws {
+    func execute(accumulator: inout Int) throws {
         var visited = Set<Index>()
         var index = 0
 
@@ -50,7 +50,7 @@ extension Array where Element == Day08.Instruction {
             let instruction = self[index]
             switch instruction.kind {
             case .nop: index += 1
-            case .acc: index += 1; value += instruction.value
+            case .acc: index += 1; accumulator += instruction.value
             case .jmp: index += instruction.value
             }
         }
