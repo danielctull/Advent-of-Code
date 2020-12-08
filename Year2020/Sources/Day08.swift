@@ -19,10 +19,12 @@ public enum Day08 {
         let instructions = try input.lines
             .map(Instruction.init)
 
-        return Array(repeating: instructions, count: instructions.count)
-            .enumerated()
+        var visitedIndices = Set<Int>()
+        try? instructions.execute(visited: &visitedIndices)
+
+        return visitedIndices
             .lazy
-            .map { index, instructions -> [Instruction] in
+            .map { index -> [Instruction] in
                 var instructions = instructions
                 instructions[index] = instructions[index].flipped
                 return instructions
@@ -42,6 +44,15 @@ extension Array where Element == Day08.Instruction {
 
     func execute(accumulator: inout Int) throws {
         var visited = Set<Index>()
+        try execute(accumulator: &accumulator, visited: &visited)
+    }
+
+    func execute(visited: inout Set<Index>) throws {
+        var accumulator = 0
+        try execute(accumulator: &accumulator, visited: &visited)
+    }
+
+    func execute(accumulator: inout Int, visited: inout Set<Index>) throws {
         var index = 0
 
         while !visited.contains(index) {
