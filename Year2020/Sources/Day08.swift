@@ -24,6 +24,7 @@ public enum Day08 {
 
         return visitedIndices
             .lazy
+            .filter { instructions[$0].kind != .acc }
             .map { index -> [Instruction] in
                 var instructions = instructions
                 instructions[index] = instructions[index].flipped
