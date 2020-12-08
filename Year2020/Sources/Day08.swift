@@ -19,25 +19,24 @@ public enum Day08 {
         let instructions = try input.lines
             .map(Instruction.init)
 
-        for index in instructions.indices {
-
-            let new = instructions
-                .enumerated()
-                .map { offset, instruction -> Instruction in
-                    guard offset == index else { return instruction }
-                    return instruction.flipped
-                }
-
-            do {
-                var accumulator = 0
-                try new.execute(value: &accumulator)
-                return accumulator
-            } catch {
-                continue
+        return Array(repeating: instructions, count: instructions.count)
+            .enumerated()
+            .lazy
+            .map { index, instructions -> [Instruction] in
+                var instructions = instructions
+                instructions[index] = instructions[index].flipped
+                return instructions
             }
-        }
-
-        throw InfiniteLoop()
+            .compactMap { instructions in
+                do {
+                    var accumulator = 0
+                    try instructions.execute(value: &accumulator)
+                    return accumulator
+                } catch {
+                    return nil
+                }
+            }
+            .first(where: { _ in true }) ?? 0
     }
 }
 
