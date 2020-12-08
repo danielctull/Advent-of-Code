@@ -10,22 +10,47 @@ public enum Day08 {
         let instructions = try input.lines
             .map(Instruction.init)
 
-        instructions.execute(value: &accumulator)
+        try? instructions.execute(value: &accumulator)
         return accumulator
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let instructions = try input.lines
+            .map(Instruction.init)
+
+        for index in instructions.indices {
+
+            let new = instructions
+                .enumerated()
+                .map { offset, instruction -> Instruction in
+                    guard offset == index else { return instruction }
+                    return instruction.flipped
+                }
+
+            do {
+                var accumulator = 0
+                try new.execute(value: &accumulator)
+                return accumulator
+            } catch {
+                continue
+            }
+        }
+
+        throw InfiniteLoop()
     }
 }
 
+struct InfiniteLoop: Error {}
+
 extension Array where Element == Day08.Instruction {
 
-    func execute(value: inout Int) {
+    func execute(value: inout Int) throws {
         var visited = Set<Index>()
         var index = 0
 
         while !visited.contains(index) {
+            if index == endIndex { return }
             visited.insert(index)
             let instruction = self[index]
             switch instruction.kind {
@@ -34,6 +59,8 @@ extension Array where Element == Day08.Instruction {
             case .jmp: index += instruction.value
             }
         }
+
+        throw InfiniteLoop()
     }
 }
 
@@ -51,6 +78,17 @@ extension Day08.Instruction {
         case jmp
         case nop
         case acc
+    }
+}
+
+extension Day08.Instruction {
+
+    var flipped: Self {
+        switch kind {
+        case .acc: return Self(kind: .acc, value: value)
+        case .jmp: return Self(kind: .nop, value: value)
+        case .nop: return Self(kind: .jmp, value: value)
+        }
     }
 }
 

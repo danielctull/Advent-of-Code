@@ -25,12 +25,21 @@ final class Day08Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day08.part2([]), 0)
-        XCTAssertEqual(try Day08.part2([]), 0)
+        XCTAssertEqual(try Day08.part2([
+            "nop +0",
+            "acc +1",
+            "jmp +4",
+            "acc +3",
+            "jmp -3",
+            "acc -99",
+            "acc +1",
+            "jmp -4",
+            "acc +6"
+        ]), 8)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day08")
-        XCTAssertEqual(try Day08.part2(input), 0)
+        XCTAssertEqual(try Day08.part2(input), 509)
     }
 }
