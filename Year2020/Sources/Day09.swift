@@ -46,16 +46,13 @@ extension Array where Element == Int {
 fileprivate func hasSumCombination<C>(
     preamble: C,
     value: Int
-) -> Bool where C: RandomAccessCollection, C.Element == Int, C.Index == Int {
+) -> Bool where C: Collection, C.Element == Int {
 
-    var slice = preamble.sorted()[...]
-    while slice.count > 1 {
-        switch slice.first! + slice.last! {
-        case value: return true
-        case .isGreaterThan(value): slice.removeLast()
-        case .isLessThan(value): slice.removeFirst()
-        default: fatalError()
-        }
+    let set = Set(preamble)
+    for lhs in set {
+        let rhs = value - lhs
+        guard lhs != rhs else { continue }
+        if set.contains(rhs) { return true }
     }
     return false
 }
