@@ -28,12 +28,15 @@ extension Array where Element == Int {
             .map(\.1) ?? 0
     }
 
-    fileprivate func range(summingTo value: Int) throws -> [Int] {
-        var result: [Int] = []
-        for element in self {
-            result.append(element)
-            while result.sum() > value { result.removeFirst() }
-            if result.sum() == value { return result }
+    fileprivate func range(summingTo value: Int) throws -> SubSequence {
+        var range = (0..<1)
+        while range.upperBound < endIndex {
+            switch self[range].sum() {
+            case value: return self[range]
+            case .isLessThan(value): range.incrementUpperBound()
+            case .isGreaterThan(value): range.incrementLowerBound()
+            default: fatalError()
+            }
         }
         throw NotFound()
     }
