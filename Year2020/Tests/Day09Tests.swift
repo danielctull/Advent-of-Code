@@ -38,7 +38,7 @@ final class Day09Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(Day09.part2([
+        XCTAssertEqual(try Day09.part2([
             "35",
             "20",
             "15",
@@ -64,7 +64,7 @@ final class Day09Tests: XCTestCase {
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day09")
         measure {
-            XCTAssertEqual(Day09.part2(input), 4389369)
+            XCTAssertEqual(try! Day09.part2(input), 4389369)
         }
     }
 }

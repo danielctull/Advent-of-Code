@@ -8,13 +8,15 @@ public enum Day09 {
         input.integers.invalidNumber(preamble: input.testing ? 5 : 25)
     }
 
-    public static func part2(_ input: Input) -> Int {
+    public static func part2(_ input: Input) throws -> Int {
         let numbers = input.integers
         let invalid = numbers.invalidNumber(preamble: input.testing ? 5 : 25)
-        let range = numbers.range(summingTo: invalid)
+        let range = try numbers.range(summingTo: invalid)
         return range.min()! + range.max()!
     }
 }
+
+fileprivate struct NotFound: Error {}
 
 extension Array where Element == Int {
 
@@ -26,14 +28,14 @@ extension Array where Element == Int {
             .map(\.1) ?? 0
     }
 
-    fileprivate func range(summingTo value: Int) -> SubSequence {
-
-        (2...).lazy
-            .compactMap { count in
-                slidingWindows(ofCount: count)
-                    .first(where: { $0.sum() == value })
-            }
-            .first(where: { _ in true })!
+    fileprivate func range(summingTo value: Int) throws -> [Int] {
+        var result: [Int] = []
+        for element in self {
+            result.append(element)
+            while result.sum() > value { result.removeFirst() }
+            if result.sum() == value { return result }
+        }
+        throw NotFound()
     }
 }
 
