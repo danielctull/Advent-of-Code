@@ -27,15 +27,14 @@ extension Array where Element == Int {
 
     fileprivate func invalidNumber(preamble: Int) -> Int {
 
-        slidingWindows(ofCount: preamble + 1)
+        lazy.slidingWindows(ofCount: preamble + 1)
             .compactMap { values in
 
                 let value = values.last!
                 let exists = values.dropLast()
                     .lazy
                     .combinations(ofCount: 2)
-                    .map { $0[0] + $0[1] }
-                    .first(where: { $0 == value })
+                    .first(where: { $0.sum() == value })
                     != nil
 
                 if exists {
