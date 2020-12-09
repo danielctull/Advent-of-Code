@@ -40,6 +40,7 @@ fileprivate func hasSumCombination<C>(
 ) -> Bool where C: Collection, C.Element == Int {
 
     preamble
+        .filter { $0 < value }
         .combinations(ofCount: 2)
         .first(where: { $0.sum() == value })
         == nil
