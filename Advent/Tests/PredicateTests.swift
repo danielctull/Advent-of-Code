@@ -36,6 +36,13 @@ final class PredicateTests: XCTestCase {
         XCTAssertFalse(predicate("C"))
     }
 
+    func testNot() {
+        let predicate = !Predicate.is("A")
+        XCTAssertFalse(predicate("A"))
+        XCTAssertTrue(predicate("B"))
+        XCTAssertTrue(predicate("C"))
+    }
+
     func testHasPrefix() {
         let predicate = Predicate.hasPrefix("yes")
         XCTAssertTrue(predicate("yes string"))

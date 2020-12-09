@@ -23,6 +23,10 @@ public func || <T>(lhs: Predicate<T>, rhs: Predicate<T>) -> Predicate<T> {
     Predicate { value in lhs(value) || rhs(value) }
 }
 
+public prefix func ! <T>(predicate: Predicate<T>) -> Predicate<T> {
+    Predicate { value in !predicate(value) }
+}
+
 extension Predicate where Value == Int {
 
     public static func isGreaterThan(_ value: Int) -> Predicate {
