@@ -30,12 +30,18 @@ extension Array where Element == Int {
     }
 
     fileprivate func range(summingTo value: Int) throws -> SubSequence {
-        var range = (0..<1)
+        var range = (0..<2)
+        var sum = self[0] + self[1]
         while range.upperBound < endIndex {
-            switch self[range].sum() {
-            case value: return self[range]
-            case .isLessThan(value): range.incrementUpperBound()
-            case .isGreaterThan(value): range.incrementLowerBound()
+            switch sum {
+            case value:
+                return self[range]
+            case .isLessThan(value):
+                sum += self[range.upperBound]
+                range.incrementUpperBound()
+            case .isGreaterThan(value):
+                sum -= self[range.lowerBound]
+                range.incrementLowerBound()
             default: fatalError()
             }
         }
