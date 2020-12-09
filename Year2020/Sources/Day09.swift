@@ -29,13 +29,18 @@ extension Array where Element == Int {
 
         slidingWindows(ofCount: preamble + 1)
             .map { ($0.dropLast(), $0.last!) }
-            .first(where: { preamble, value in
-
-                preamble
-                    .combinations(ofCount: 2)
-                    .first(where: { $0.sum() == value })
-                    == nil
-            })
+            .first(where: hasSumCombination)
             .map(\.1) ?? 0
     }
+}
+
+fileprivate func hasSumCombination<C>(
+    preamble: C,
+    value: Int
+) -> Bool where C: Collection, C.Element == Int {
+
+    preamble
+        .combinations(ofCount: 2)
+        .first(where: { $0.sum() == value })
+        == nil
 }
