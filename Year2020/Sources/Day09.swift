@@ -4,11 +4,11 @@ import Foundation
 
 public enum Day09 {
 
-    public static func part1(_ input: Input) throws -> Int {
+    public static func part1(_ input: Input) -> Int {
         input.integers.invalidNumber(preamble: input.testing ? 5 : 25)
     }
 
-    public static func part2(_ input: Input) throws -> Int {
+    public static func part2(_ input: Input) -> Int {
 
         let numbers = input.integers
         let invalid = numbers.invalidNumber(preamble: input.testing ? 5 : 25)
