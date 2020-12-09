@@ -23,8 +23,9 @@ extension Array where Element == Int {
     fileprivate func invalidNumber(preamble: Int) -> Int {
 
         slidingWindows(ofCount: preamble + 1)
+            .lazy
             .map { ($0.dropLast(), $0.last!) }
-            .first(where: hasSumCombination)
+            .first(where: !hasSumCombination)
             .map(\.1) ?? 0
     }
 
@@ -45,11 +46,16 @@ extension Array where Element == Int {
 fileprivate func hasSumCombination<C>(
     preamble: C,
     value: Int
-) -> Bool where C: Collection, C.Element == Int {
+) -> Bool where C: RandomAccessCollection, C.Element == Int, C.Index == Int {
 
-    preamble
-        .filter { $0 < value }
-        .combinations(ofCount: 2)
-        .first(where: { $0.sum() == value })
-        == nil
+    var slice = preamble.sorted()[...]
+    while slice.count > 1 {
+        switch slice.first! + slice.last! {
+        case value: return true
+        case .isGreaterThan(value): slice.removeLast()
+        case .isLessThan(value): slice.removeFirst()
+        default: fatalError()
+        }
+    }
+    return false
 }
