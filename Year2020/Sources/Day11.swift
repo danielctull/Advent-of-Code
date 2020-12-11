@@ -5,12 +5,11 @@ import Foundation
 public enum Day11 {
 
     public static func part1(_ input: Input) throws -> Int {
-        var grid = try Grid<Position, Tile>(rawValues: input.lines)
-        var count = grid.positions(of: .occupied).count
-
+        var matrix = try Matrix<Tile>(input: input)
+        var count = matrix.count(of: .occupied)
         while true {
-            grid = grid.musicalChairs()
-            let newCount = grid.positions(of: .occupied).count
+            matrix = matrix.musicalChairs()
+            let newCount = matrix.count(of: .occupied)
             guard newCount != count else { return count }
             count = newCount
         }
@@ -46,16 +45,16 @@ extension Day11.Tile: CustomStringConvertible {
     var description: String { String(rawValue) }
 }
 
-extension Grid where Tile == Day11.Tile, Location == Position {
+extension Matrix where Element == Day11.Tile {
 
     fileprivate func musicalChairs() -> Self {
 
-        func adjacent(to position: Position) -> [Tile] {
+        func adjacent(to position: Position) -> [Day11.Tile] {
             (position.adjacent + position.diagonallyAdjacent)
                 .compactMap { self[$0] }
         }
 
-        return mapTiles { position, tile -> Tile in
+        return map { position, tile -> Day11.Tile in
             switch tile {
             case .empty where adjacent(to: position).count(where: { $0 == .occupied }) == 0: return .occupied
             case .occupied where adjacent(to: position).count(where: { $0 == .occupied }) >= 4: return .empty
@@ -63,6 +62,9 @@ extension Grid where Tile == Day11.Tile, Location == Position {
             }
         }
     }
+}
+
+extension Grid where Tile == Day11.Tile, Location == Position {
 
     fileprivate func musicalChairs2() -> Self {
 
