@@ -46,6 +46,10 @@ public struct Move {
 
 extension Position {
 
+    public func move(_ vector: Vector<Int>) -> Position {
+        Position(x: x + vector.x, y: y + vector.y)
+    }
+
     public func move(_ direction: Direction) -> Position {
         move(Move(direction: direction, amount: 1))
     }
