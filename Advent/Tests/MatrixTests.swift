@@ -27,7 +27,7 @@ final class MatrixTests: XCTestCase {
 
     func testMap() {
         let matrix = Matrix(elements: [[1, 2], [3, 4]])
-        let mapped = matrix.map { _, integer in String(integer) }
+        let mapped = matrix.map { (p: Position, integer: Int) in String(integer) }
         XCTAssertEqual(Array(mapped), ["1", "2", "3", "4"])
         XCTAssertEqual(Array(mapped.positions), [
             Position(x: 0, y: 0), Position(x: 1, y: 0),

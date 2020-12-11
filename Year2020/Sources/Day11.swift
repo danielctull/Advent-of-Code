@@ -18,12 +18,12 @@ public enum Day11 {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        var grid = try Grid<Position, Tile>(rawValues: input.lines)
-        var count = grid.positions(of: .occupied).count
+        var matrix = try Matrix<Tile>(input: input)
+        var count = matrix.count(of: .occupied)
 
         while true {
-            grid = grid.musicalChairs2()
-            let newCount = grid.positions(of: .occupied).count
+            matrix = matrix.musicalChairs2()
+            let newCount = matrix.count(of: .occupied)
             guard newCount != count else { return count }
             count = newCount
         }
@@ -38,6 +38,8 @@ extension Day11 {
         case floor = "."
         case empty = "L"
         case occupied = "#"
+
+        var isSeat: Bool { self == .empty || self == .occupied }
     }
 }
 
@@ -54,7 +56,7 @@ extension Matrix where Element == Day11.Tile {
                 .compactMap { self[$0] }
         }
 
-        return map { position, tile -> Day11.Tile in
+        return map { (position: Position, tile: Day11.Tile) -> Day11.Tile in
             switch tile {
             case .empty where adjacent(to: position).count(of: .occupied) == 0: return .occupied
             case .occupied where adjacent(to: position).count(of: .occupied) >= 4: return .empty
@@ -64,26 +66,20 @@ extension Matrix where Element == Day11.Tile {
     }
 }
 
-extension Grid where Tile == Day11.Tile, Location == Position {
+extension Matrix where Element == Day11.Tile {
 
     fileprivate func musicalChairs2() -> Self {
 
-        func firstSeat(from position: Position, in direction: Vector<Int>) -> Tile? {
-            let new = position.move(direction)
-            let tile = self[new]
-            switch tile {
-            case .none: return nil
-            case .floor: return firstSeat(from: new, in: direction)
-            case .occupied, .empty: return tile
-            }
+        func firstSeat(from position: Matrix<Day11.Tile>.Index, in direction: Vector<Int>) -> Element? {
+            indices(from: position, in: direction).first(where: \.isSeat)
         }
 
-        func adjacent(to position: Position) -> [Tile] {
+        func adjacent(to position: Matrix<Day11.Tile>.Index) -> [Element] {
             (Vector<Int>.diagonal + Vector<Int>.orthogonal)
                 .compactMap { firstSeat(from: position, in: $0) }
         }
 
-        return mapTiles { position, tile -> Tile in
+        return map { (position: Matrix<Day11.Tile>.Index, tile: Day11.Tile) -> Element in
             switch tile {
             case .empty where adjacent(to: position).count(where: { $0 == .occupied }) == 0: return .occupied
             case .occupied where adjacent(to: position).count(where: { $0 == .occupied }) >= 5: return .empty

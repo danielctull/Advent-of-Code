@@ -43,6 +43,13 @@ extension Matrix {
         Matrix<T>(size: size,
                   elements: try zip(positions, elements).map(transform))
     }
+
+    public func map<T>(
+        _ transform: (Index, Element) throws -> T
+    ) rethrows -> Matrix<T> {
+        Matrix<T>(size: size,
+                  elements: try zip(indices, elements).map(transform))
+    }
 }
 
 // MARK: - Accessing values
@@ -59,6 +66,45 @@ extension Matrix {
 
     public var positions: [Position] { indices.map(\.position) }
 }
+
+// MARK: - Neighbours
+
+extension Matrix {
+
+    public func indices(from index: Index, in direction: Vector<Int>) -> VectorSequence {
+        VectorSequence(base: self, start: index, direction: direction)
+    }
+
+    public struct VectorSequence {
+        let base: Matrix
+        let start: Index
+        let direction: Vector<Int>
+    }
+}
+
+extension Matrix.VectorSequence: Sequence {
+
+    public struct Iterator {
+        let base: Matrix
+        var previous: Matrix.Index
+        let direction: Vector<Int>
+    }
+
+    public func makeIterator() -> Iterator {
+        Iterator(base: base, previous: start, direction: direction)
+    }
+}
+
+extension Matrix.VectorSequence.Iterator: IteratorProtocol {
+
+    public mutating func next() -> Matrix.Element? {
+        let next = previous.position.move(direction)
+        guard let element = base[next] else { return nil }
+        previous = Matrix.Index(position: next)
+        return element
+    }
+}
+
 
 // MARK: - Sequence
 
