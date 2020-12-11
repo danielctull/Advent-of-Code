@@ -73,10 +73,19 @@ extension Matrix {
 // MARK: - Sequence
 
 extension Matrix: Sequence {
-
     public func makeIterator() -> IndexingIterator<[Element]> {
         elements.makeIterator()
     }
+}
+
+// MARK: - Collection
+
+extension Matrix: Collection {
+    public typealias Index = Int
+    public var startIndex: Index { elements.startIndex }
+    public var endIndex: Index { elements.endIndex }
+    public subscript(position: Int) -> Element { elements[position] }
+    public func index(after i: Index) -> Index { elements.index(after: i) }
 }
 
 // MARK: - CustomStringConvertible
