@@ -56,8 +56,8 @@ extension Matrix where Element == Day11.Tile {
 
         return map { position, tile -> Day11.Tile in
             switch tile {
-            case .empty where adjacent(to: position).count(where: { $0 == .occupied }) == 0: return .occupied
-            case .occupied where adjacent(to: position).count(where: { $0 == .occupied }) >= 4: return .empty
+            case .empty where adjacent(to: position).count(of: .occupied) == 0: return .occupied
+            case .occupied where adjacent(to: position).count(of: .occupied) >= 4: return .empty
             default: return tile
             }
         }
