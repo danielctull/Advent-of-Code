@@ -54,20 +54,10 @@ extension Matrix {
         guard position.y >= 0 else { return nil }
         guard position.x < size.width else { return nil }
         guard position.y < size.height else { return nil }
-        return elements[position.y * size.width + position.x]
+        return self[Index(position: position)]
     }
 
-    public var positions: UnfoldFirstSequence<Position> {
-        sequence(first: .origin) { previous -> Position? in
-            if previous.x + 1 < size.width {
-                return Position(x: previous.x + 1, y: previous.y)
-            }
-            if previous.y + 1 < size.height {
-                return Position(x: 0, y: previous.y + 1)
-            }
-            return nil
-        }
-    }
+    public var positions: [Position] { indices.map(\.position) }
 }
 
 // MARK: - Sequence
@@ -81,11 +71,37 @@ extension Matrix: Sequence {
 // MARK: - Collection
 
 extension Matrix: Collection {
-    public typealias Index = Int
-    public var startIndex: Index { elements.startIndex }
-    public var endIndex: Index { elements.endIndex }
-    public subscript(position: Int) -> Element { elements[position] }
-    public func index(after i: Index) -> Index { elements.index(after: i) }
+
+    public struct Index: Comparable {
+        let position: Position
+        public static func < (lhs: Index, rhs: Index) -> Bool {
+            (lhs.position.y, lhs.position.x) < (rhs.position.y, rhs.position.x)
+        }
+    }
+
+    public var startIndex: Index {
+        Index(position: Position(x: 0, y: 0))
+    }
+
+    public var endIndex: Index {
+        Index(position: Position(x: size.width, y: size.height))
+    }
+
+    public subscript(i: Index) -> Element {
+        elements[i.position.y * size.width + i.position.x]
+    }
+
+    public func index(after i: Index) -> Index {
+
+        if i.position.x + 1 < size.width {
+            return Index(position: Position(x: i.position.x + 1, y: i.position.y))
+        }
+        if i.position.y + 1 < size.height {
+            return Index(position: Position(x: 0, y: i.position.y + 1))
+        }
+
+        return endIndex
+    }
 }
 
 // MARK: - CustomStringConvertible
