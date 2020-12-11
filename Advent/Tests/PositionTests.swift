@@ -5,12 +5,21 @@ import XCTest
 final class PositionTests: XCTestCase {
 
     func testAdjacent() {
-        XCTAssertEqual(Position.origin.adjacent, [
-            Position(x: 0, y: 1),
-            Position(x: 0, y: -1),
-            Position(x: -1, y: 0),
-            Position(x: 1, y: 0)
-        ])
+        XCTAssert(Position(x: 3, y: 6).adjacent.elementsEqual([
+            Position(x: 3, y: 7),
+            Position(x: 3, y: 5),
+            Position(x: 2, y: 6),
+            Position(x: 4, y: 6)
+        ]))
+    }
+
+    func testDiagonallyAdjacent() {
+        XCTAssert(Position(x: 3, y: 6).diagonallyAdjacent.elementsEqual([
+            Position(x: 4, y: 7),
+            Position(x: 4, y: 5),
+            Position(x: 2, y: 5),
+            Position(x: 2, y: 7)
+        ]))
     }
 
     func testManhattenDistance() {

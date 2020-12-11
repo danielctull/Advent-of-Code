@@ -17,6 +17,15 @@ extension Position {
 
     /// An array of positions orthogonally adjacent to the receiver.
     public var adjacent: [Position] { Direction.allCases.map(move) }
+
+    public var diagonallyAdjacent: [Position] {
+        [
+            Position(x: x + 1, y: y + 1),
+            Position(x: x + 1, y: y - 1),
+            Position(x: x - 1, y: y - 1),
+            Position(x: x - 1, y: y + 1)
+        ]
+    }
 }
 
 extension Position {
