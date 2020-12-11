@@ -15,7 +15,8 @@ let package = Package(
         .library(name: "Year2018", targets: ["Year2018"]),
         .library(name: "Year2019", targets: ["Year2019"]),
         .library(name: "Year2020", targets: ["Year2020"]),
-        .executable(name: "intcode", targets: ["IntcodeComputer tool"])
+        .executable(name: "aoc", targets: ["AdventTool"]),
+        .executable(name: "intcode", targets: ["IntcodeComputer tool"]),
     ],
     dependencies: [
         .package(name: "swift-algorithms", url: "https://github.com/danielctull-forks/swift-algorithms.git", .branch("reductions")),
@@ -35,6 +36,17 @@ let package = Package(
             name: "AdventTests",
             dependencies: ["Advent"],
             path: "Advent/Tests"),
+
+        .target(
+            name: "AdventTool",
+            dependencies: [
+                "Advent",
+                "Year2015",
+                "Year2018",
+                "Year2019",
+                "Year2020",
+            ],
+            path: "Advent/Tool"),
 
         // MARK: - Year2015
 
