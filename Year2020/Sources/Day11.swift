@@ -35,30 +35,10 @@ public enum Day11 {
 
 extension Day11 {
 
-    enum Tile {
-        case floor
-        case empty
-        case occupied
-    }
-}
-
-extension Day11.Tile: RawRepresentable {
-
-    var rawValue: Character {
-        switch self {
-        case .floor: return "."
-        case .empty: return "L"
-        case .occupied: return "#"
-        }
-    }
-
-    init?(rawValue: Character) {
-        switch rawValue {
-        case ".": self = .floor
-        case "L": self = .empty
-        case "#": self = .occupied
-        default: return nil
-        }
+    enum Tile: Character, RawRepresentable {
+        case floor = "."
+        case empty = "L"
+        case occupied = "#"
     }
 }
 
