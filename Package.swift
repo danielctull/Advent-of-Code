@@ -21,6 +21,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "swift-algorithms", url: "https://github.com/danielctull-forks/swift-algorithms.git", .branch("reductions")),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.1"),
     ],
     targets: [
 
@@ -41,6 +42,7 @@ let package = Package(
         .target(
             name: "AdventTool",
             dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 "Advent",
                 "Year2015",
                 "Year2018",

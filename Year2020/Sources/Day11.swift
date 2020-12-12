@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day11 {
+public enum Day11: Day {
+
+    public static let title = "Seating System"
 
     public static func part1(_ input: Input) throws -> Int {
         var matrix = try Matrix<Tile>(input: input)
