@@ -107,6 +107,6 @@ extension Day12.Instruction {
 
     init(match: RegularExpression.Match) throws {
         amount = try match.integer(at: 1)
-        kind = try Kind(try match.string(at: 0))
+        kind = try Kind(match.string(at: 0))
     }
 }
