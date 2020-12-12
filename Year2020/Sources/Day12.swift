@@ -82,7 +82,7 @@ extension Day12.Ship {
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {
-        (1...amount).forEach { _ in facing = facing.rotating(turn) }
+        (1...amount).forEach { _ in facing.rotate(turn) }
     }
 }
 

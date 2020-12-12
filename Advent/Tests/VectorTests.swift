@@ -38,7 +38,18 @@ final class VectorTests: XCTestCase {
         XCTAssert(Vector<Int>.right.otherDirections.elementsEqual([.up, .down, .left]))
     }
 
-    func testRotation() {
+    func testRotate() {
+        XCTAssertEqual(mutating(Vector<Int>.up) { $0.rotate(.left) }, .left)
+        XCTAssertEqual(mutating(Vector<Int>.up) { $0.rotate(.right) }, .right)
+        XCTAssertEqual(mutating(Vector<Int>.down) { $0.rotate(.left) }, .right)
+        XCTAssertEqual(mutating(Vector<Int>.down) { $0.rotate(.right) }, .left)
+        XCTAssertEqual(mutating(Vector<Int>.left) { $0.rotate(.left) }, .down)
+        XCTAssertEqual(mutating(Vector<Int>.left) { $0.rotate(.right) }, .up)
+        XCTAssertEqual(mutating(Vector<Int>.right) { $0.rotate(.left) }, .up)
+        XCTAssertEqual(mutating(Vector<Int>.right) { $0.rotate(.right) }, .down)
+    }
+
+    func testRotating() {
         XCTAssertEqual(Vector<Int>.up.rotating(.left), .left)
         XCTAssertEqual(Vector<Int>.up.rotating(.right), .right)
         XCTAssertEqual(Vector<Int>.down.rotating(.left), .right)

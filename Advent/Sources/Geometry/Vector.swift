@@ -51,6 +51,10 @@ extension Vector {
 
 extension Vector {
 
+    public mutating func rotate(_ turn: Turn) {
+        self = rotating(turn)
+    }
+
     public func rotating(_ turn: Turn) -> Vector {
         switch turn {
         case .left: return Vector(x: -1 * y, y: x)
