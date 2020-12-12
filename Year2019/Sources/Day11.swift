@@ -46,7 +46,7 @@ extension Day11 {
 
     public struct RobotPainter {
         var panels: Grid<Position, Day11.Tile>
-        var direction = Direction.up
+        var direction = Vector<Int>.up
         var position = Position.origin
     }
 }
@@ -59,8 +59,8 @@ extension Day11.RobotPainter {
 
     public mutating func move(value: Int) {
         let turn = value == 0 ? Turn.left : .right
-        direction = direction.rotate(turn)
-        position = position.move(Move(direction: direction, amount: 1))
+        direction = direction.rotating(turn)
+        position = position.move(direction)
     }
 
     public mutating func paint(value: Int) {
@@ -95,7 +95,7 @@ extension Day11 {
     public enum Tile {
         case black
         case white
-        case robot(Direction)
+        case robot(Vector<Int>)
     }
 }
 
@@ -109,6 +109,7 @@ extension Day11.Tile: CustomStringConvertible {
         case .robot(.up): return "^"
         case .robot(.left): return "<"
         case .robot(.right): return ">"
+        default: fatalError()
         }
     }
 }

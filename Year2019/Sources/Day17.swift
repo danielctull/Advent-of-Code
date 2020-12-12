@@ -48,7 +48,7 @@ extension Day17 {
 
     fileprivate enum Tile {
         case scaffold
-        case robot(Direction?)
+        case robot(Vector<Int>?)
         case space
     }
 
@@ -71,13 +71,14 @@ extension Day17.Tile: RawRepresentable {
 
     var rawValue: Character {
         switch self {
-        case .robot(.down): return "v"
-        case .robot(.up): return "^"
-        case .robot(.left): return "<"
-        case .robot(.right): return ">"
+        case .robot(.some(.down)): return "v"
+        case .robot(.some(.up)): return "^"
+        case .robot(.some(.left)): return "<"
+        case .robot(.some(.right)): return ">"
         case .robot(nil): return "X"
         case .scaffold: return "#"
         case .space: return "."
+        default: fatalError()
         }
     }
 }

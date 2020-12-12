@@ -38,29 +38,10 @@ extension Position {
     }
 }
 
-public struct Move {
-    public let direction: Direction
-    public let amount: Int
-    public init(direction: Direction, amount: Int) {
-        self.direction = direction
-        self.amount = amount
-    }
-}
-
 extension Position {
 
     public func move(_ vector: Vector<Int>) -> Position {
         Position(x: x + vector.x, y: y + vector.y)
-    }
-
-    public func move(_ move: Move) -> Position {
-
-        switch move.direction {
-        case .up: return Position(x: x, y: y + move.amount)
-        case .down: return Position(x: x, y: y - move.amount)
-        case .left: return Position(x: x - move.amount, y: y)
-        case .right: return Position(x: x + move.amount, y: y)
-        }
     }
 
     public func offsetting(x xOffset: Int, y yOffset: Int) -> Position {

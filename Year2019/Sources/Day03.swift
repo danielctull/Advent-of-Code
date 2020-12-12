@@ -39,6 +39,11 @@ public struct Day03 {
      }
 }
 
+fileprivate struct Move {
+    let direction: Vector<Int>
+    let amount: Int
+}
+
 extension Array where Element == Position {
 
     func distances(for intersections: Set<Position>) -> [Position: Int] {
@@ -76,7 +81,7 @@ extension Move {
 
         guard let amount = Int(string) else { fatalError() }
 
-        let direction: Direction
+        let direction: Vector<Int>
         switch first {
         case "U": direction = .up
         case "D": direction = .down
@@ -91,7 +96,7 @@ extension Move {
     fileprivate func positions(from start: Position) -> [Position] {
         (1...amount).map { amount in
             let move = Move(direction: direction, amount: amount)
-            return start.move(move)
+            return start.move(move.direction * amount)
         }
     }
 }
