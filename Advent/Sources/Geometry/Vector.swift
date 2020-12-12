@@ -35,8 +35,8 @@ extension Vector where Value: SignedNumeric {
 
 extension Vector {
 
-    public static func * (lhs: Vector, rhs: Value) -> Vector {
-        Self(x: lhs.x * rhs, y: lhs.y * rhs)
+    public static func * (vector: Vector, value: Value) -> Vector {
+        Vector(x: vector.x * value, y: vector.y * value)
     }
 }
 
