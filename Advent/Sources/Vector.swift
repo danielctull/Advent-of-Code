@@ -1,5 +1,5 @@
 
-public struct Vector<Value: Numeric> {
+public struct Vector<Value: Numeric>: Equatable {
     public let x: Value
     public let y: Value
 
@@ -18,21 +18,33 @@ extension Vector where Value == Int {
 }
 
 extension Vector {
+    public static var up: Vector { Vector(x: 0, y: 1) }
+    public static var down: Vector { Vector(x: 0, y: -1) }
+    public static var left: Vector { Vector(x: -1, y: 0) }
+    public static var right: Vector { Vector(x: 1, y: 0) }
+}
 
-    public init(direction: Direction) {
-        switch direction {
-        case .up: self = Vector(x: 0, y: 1)
-        case .down: self = Vector(x: 0, y: -1)
-        case .left: self = Vector(x: -1, y: 0)
-        case .right: self = Vector(x: 1, y: 0)
-        }
-    }
+extension Vector {
+    public static var north: Vector { Vector(x: 0, y: 1) }
+    public static var east: Vector { Vector(x: 1, y: 0) }
+    public static var south: Vector { Vector(x: 0, y: -1) }
+    public static var west: Vector { Vector(x: -1, y: 0) }
 }
 
 extension Vector {
 
     public static func * (lhs: Vector, rhs: Value) -> Vector {
         Self(x: lhs.x * rhs, y: lhs.y * rhs)
+    }
+}
+
+extension Vector {
+
+    public func rotating(_ turn: Turn) -> Vector {
+        switch turn {
+        case .left: return Vector(x: -1 * y, y: x)
+        case .right: return Vector(x: y, y: -1 * x)
+        }
     }
 }
 

@@ -5,14 +5,34 @@ import XCTest
 final class VectorTests: XCTestCase {
 
     func testInitDirections() {
-        XCTAssertEqual(Vector(direction: .up).x, 0)
-        XCTAssertEqual(Vector(direction: .up).y, 1)
-        XCTAssertEqual(Vector(direction: .down).x, 0)
-        XCTAssertEqual(Vector(direction: .down).y, -1)
-        XCTAssertEqual(Vector(direction: .left).x, -1)
-        XCTAssertEqual(Vector(direction: .left).y, 0)
-        XCTAssertEqual(Vector(direction: .right).x, 1)
-        XCTAssertEqual(Vector(direction: .right).y, 0)
+        XCTAssertEqual(Vector.up.x, 0)
+        XCTAssertEqual(Vector.up.y, 1)
+        XCTAssertEqual(Vector.down.x, 0)
+        XCTAssertEqual(Vector.down.y, -1)
+        XCTAssertEqual(Vector.left.x, -1)
+        XCTAssertEqual(Vector.left.y, 0)
+        XCTAssertEqual(Vector.right.x, 1)
+        XCTAssertEqual(Vector.right.y, 0)
+
+        XCTAssertEqual(Vector.north.x, 0)
+        XCTAssertEqual(Vector.north.y, 1)
+        XCTAssertEqual(Vector.east.x, 1)
+        XCTAssertEqual(Vector.east.y, 0)
+        XCTAssertEqual(Vector.south.x, 0)
+        XCTAssertEqual(Vector.south.y, -1)
+        XCTAssertEqual(Vector.west.x, -1)
+        XCTAssertEqual(Vector.west.y, 0)
+    }
+
+    func testRotation() {
+        XCTAssertEqual(Vector<Int>.up.rotating(.left), .left)
+        XCTAssertEqual(Vector<Int>.up.rotating(.right), .right)
+        XCTAssertEqual(Vector<Int>.down.rotating(.left), .right)
+        XCTAssertEqual(Vector<Int>.down.rotating(.right), .left)
+        XCTAssertEqual(Vector<Int>.left.rotating(.left), .down)
+        XCTAssertEqual(Vector<Int>.left.rotating(.right), .up)
+        XCTAssertEqual(Vector<Int>.right.rotating(.left), .up)
+        XCTAssertEqual(Vector<Int>.right.rotating(.right), .down)
     }
 
     func testMultiply() {

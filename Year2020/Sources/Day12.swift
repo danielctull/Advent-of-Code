@@ -14,11 +14,11 @@ public enum Day12 {
         var ship = Ship()
         for instruction in instructions {
             switch instruction.kind {
-            case .N: ship.move(.up, instruction.amount)
-            case .E: ship.move(.right, instruction.amount)
-            case .S: ship.move(.down, instruction.amount)
-            case .W: ship.move(.left, instruction.amount)
-            case .F: ship.move(ship.facing, instruction.amount)
+            case .N: ship.move(.north * instruction.amount)
+            case .E: ship.move(.east * instruction.amount)
+            case .S: ship.move(.south * instruction.amount)
+            case .W: ship.move(.west * instruction.amount)
+            case .F: ship.move(ship.facing * instruction.amount)
             case .L: ship.rotate(.left, instruction.amount/90)
             case .R: ship.rotate(.right, instruction.amount/90)
             }
@@ -38,10 +38,10 @@ public enum Day12 {
         var waypoint = Waypoint()
         for instruction in instructions {
             switch instruction.kind {
-            case .N: waypoint.move(.up, instruction.amount)
-            case .E: waypoint.move(.right, instruction.amount)
-            case .S: waypoint.move(.down, instruction.amount)
-            case .W: waypoint.move(.left, instruction.amount)
+            case .N: waypoint.move(.north * instruction.amount)
+            case .E: waypoint.move(.east * instruction.amount)
+            case .S: waypoint.move(.south * instruction.amount)
+            case .W: waypoint.move(.west * instruction.amount)
             case .F: ship.move(Vector(to: waypoint.position) * instruction.amount)
             case .L: waypoint.rotate(.left, instruction.amount/90)
             case .R: waypoint.rotate(.right, instruction.amount/90)
@@ -55,7 +55,7 @@ public enum Day12 {
 extension Day12 {
 
     fileprivate struct Ship {
-        var facing = Direction.right
+        var facing = Vector<Int>.right
         var position = Position.origin
     }
 
@@ -81,19 +81,15 @@ extension Day12.Ship {
         position = position.move(vector)
     }
 
-    mutating func move(_ direction: Direction, _ amount: Int) {
-        position = position.move(Vector(direction: direction) * amount)
-    }
-
     mutating func rotate(_ turn: Turn, _ amount: Int) {
-        (1...amount).forEach { _ in facing = facing.rotate(turn) }
+        (1...amount).forEach { _ in facing = facing.rotating(turn) }
     }
 }
 
 extension Day12.Waypoint {
 
-    mutating func move(_ direction: Direction, _ amount: Int) {
-        position = position.move(Vector(direction: direction) * amount)
+    mutating func move(_ vector: Vector<Int>) {
+        position = position.move(vector)
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {
