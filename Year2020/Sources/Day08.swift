@@ -81,7 +81,7 @@ extension Day08 {
 
 extension Day08.Instruction {
 
-    enum Kind {
+    enum Kind: String, RawRepresentable {
         case jmp
         case nop
         case acc
@@ -106,12 +106,7 @@ extension Day08.Instruction {
         let regex = try RegularExpression(pattern: #"([a-z]{3}) ([+\-0-9]+)"#)
         let match = try regex.match(string)
         value = try match.integer(at: 1)
-        switch try match.string(at: 0) {
-        case "jmp": kind = .jmp
-        case "nop": kind = .nop
-        case "acc": kind = .acc
-        default: throw InstructionKindError()
-        }
+        kind = try Kind(match.string(at: 0))
     }
 }
 
