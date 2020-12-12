@@ -16,8 +16,8 @@ public enum Day12 {
             case .S: ship.move(.south * instruction.amount)
             case .W: ship.move(.west * instruction.amount)
             case .F: ship.move(heading * instruction.amount)
-            case .L: heading.rotate(.left, instruction.amount/90)
-            case .R: heading.rotate(.right, instruction.amount/90)
+            case .L: heading.rotate(.left) * (instruction.amount/90)
+            case .R: heading.rotate(.right) * (instruction.amount/90)
             }
         }
 
@@ -36,8 +36,8 @@ public enum Day12 {
             case .S: waypoint.move(.south * instruction.amount)
             case .W: waypoint.move(.west * instruction.amount)
             case .F: ship.move(Vector(to: waypoint) * instruction.amount)
-            case .L: waypoint.rotate(.left, instruction.amount/90)
-            case .R: waypoint.rotate(.right, instruction.amount/90)
+            case .L: waypoint.rotate(.left) * (instruction.amount/90)
+            case .R: waypoint.rotate(.right) * (instruction.amount/90)
             }
         }
 
@@ -66,19 +66,5 @@ extension Array where Element == Day12.Instruction {
                 kind: Day12.Instruction.Kind(match.string(at: 0)),
                 amount: match.integer(at: 1))
         }
-    }
-}
-
-extension Position {
-
-    fileprivate mutating func rotate(_ turn: Turn, _ amount: Int) {
-        (1...amount).forEach { _ in rotate(turn) }
-    }
-}
-
-extension Vector {
-
-    fileprivate mutating func rotate(_ turn: Turn, _ amount: Int) {
-        (1...amount).forEach { _ in rotate(turn) }
     }
 }
