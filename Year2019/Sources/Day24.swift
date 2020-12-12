@@ -13,7 +13,7 @@ public struct Day24 {
 
         while true {
             let new = current.nextState { position in
-                position.adjacent.filter { current[$0] == .bug }.count
+                position.orthogonallyAdjacent.filter { current[$0] == .bug }.count
             }
 
             guard !states.contains(new) else {
@@ -110,7 +110,7 @@ extension Day24.Location {
 
     public var adjacent: [Day24.Location] {
 
-        position.adjacent.flatMap { adjacent -> [Day24.Location] in
+        position.orthogonallyAdjacent.flatMap { adjacent -> [Day24.Location] in
 
             switch (position.x, position.y, adjacent.x, adjacent.y) {
 

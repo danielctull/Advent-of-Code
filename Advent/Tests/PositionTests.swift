@@ -5,7 +5,7 @@ import XCTest
 final class PositionTests: XCTestCase {
 
     func testAdjacent() {
-        XCTAssert(Position(x: 3, y: 6).adjacent.elementsEqual([
+        XCTAssert(Position(x: 3, y: 6).orthogonallyAdjacent.elementsEqual([
             Position(x: 3, y: 7),
             Position(x: 3, y: 5),
             Position(x: 2, y: 6),

@@ -52,7 +52,7 @@ extension Matrix where Element == Day11.Tile {
     fileprivate func musicalChairs() -> Self {
 
         func adjacent(to position: Position) -> [Day11.Tile] {
-            (position.adjacent + position.diagonallyAdjacent)
+            (position.orthogonallyAdjacent + position.diagonallyAdjacent)
                 .compactMap { self[$0] }
         }
 
