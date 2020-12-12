@@ -19,14 +19,14 @@ extension Vector where Value == Int {
     }
 }
 
-extension Vector {
+extension Vector where Value: SignedNumeric {
     public static var up: Vector { Vector(x: 0, y: 1) }
     public static var down: Vector { Vector(x: 0, y: -1) }
     public static var left: Vector { Vector(x: -1, y: 0) }
     public static var right: Vector { Vector(x: 1, y: 0) }
 }
 
-extension Vector {
+extension Vector where Value: SignedNumeric {
     public static var north: Vector { .up }
     public static var east: Vector { .right }
     public static var south: Vector { .down }
@@ -40,7 +40,7 @@ extension Vector {
     }
 }
 
-extension Vector {
+extension Vector where Value: SignedNumeric {
 
     public var opposite: Vector { self * -1 }
 
@@ -49,7 +49,7 @@ extension Vector {
     }
 }
 
-extension Vector {
+extension Vector where Value: SignedNumeric {
 
     public mutating func rotate(_ turn: Turn) {
         self = rotating(turn)
@@ -57,13 +57,13 @@ extension Vector {
 
     public func rotating(_ turn: Turn) -> Vector {
         switch turn {
-        case .left: return Vector(x: -1 * y, y: x)
-        case .right: return Vector(x: y, y: -1 * x)
+        case .left: return Vector(x: -y, y: x)
+        case .right: return Vector(x: y, y: -x)
         }
     }
 }
 
-extension Vector {
+extension Vector where Value: SignedNumeric {
 
     public static var orthogonal: [Vector] {
         [.up, .down, .left, .right]
