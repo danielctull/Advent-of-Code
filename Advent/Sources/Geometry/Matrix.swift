@@ -98,7 +98,7 @@ extension Matrix.VectorSequence: Sequence {
 extension Matrix.VectorSequence.Iterator: IteratorProtocol {
 
     public mutating func next() -> Matrix.Element? {
-        let next = previous.position.move(direction)
+        let next = previous.position.moving(direction)
         guard let element = base[next] else { return nil }
         previous = Matrix.Index(position: next)
         return element

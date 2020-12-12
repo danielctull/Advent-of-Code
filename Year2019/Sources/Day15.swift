@@ -57,7 +57,7 @@ public struct Day15 {
         position: Position,
         direction: Vector<Int>
     ) -> Int {
-        let new = position.move(direction)
+        let new = position.moving(direction)
         let tile = grid.tiles[new]!
         switch tile {
         case .oxygen, .wall: return 0
@@ -82,7 +82,7 @@ fileprivate struct RepairDroid {
 extension RepairDroid {
 
     mutating func move(direction: Vector<Int>) throws {
-        let new = position.move(direction)
+        let new = position.moving(direction)
         computer.input(direction.code)
         try computer.run()
         tile = try Day15.Tile(computer.output.last!)

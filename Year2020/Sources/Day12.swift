@@ -78,7 +78,7 @@ extension Day12 {
 extension Day12.Ship {
 
     mutating func move(_ vector: Vector<Int>) {
-        position = position.move(vector)
+        position.move(vector)
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {
@@ -89,7 +89,7 @@ extension Day12.Ship {
 extension Day12.Waypoint {
 
     mutating func move(_ vector: Vector<Int>) {
-        position = position.move(vector)
+        position.move(vector)
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {

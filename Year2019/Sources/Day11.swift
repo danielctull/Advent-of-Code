@@ -60,7 +60,7 @@ extension Day11.RobotPainter {
     public mutating func move(value: Int) {
         let turn = value == 0 ? Turn.left : .right
         direction = direction.rotating(turn)
-        position = position.move(direction)
+        position.move(direction)
     }
 
     public mutating func paint(value: Int) {

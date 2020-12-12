@@ -33,13 +33,24 @@ final class PositionTests: XCTestCase {
         )
     }
 
-    func testOffsetting() {
+    func testMove() {
         XCTAssertEqual(
-            Position.origin.offsetting(x: 2, y: 3),
+            mutating(Position(x: 5, y: 6)) { $0.move(Vector(x: 4, y: 2)) },
+            Position(x: 9, y: 8)
+        )
+        XCTAssertEqual(
+            mutating(Position(x: 1, y: 6)) { $0.move(Vector(x: -3, y: 3)) },
+            Position(x: -2, y: 9)
+        )
+    }
+
+    func testMoving() {
+        XCTAssertEqual(
+            Position.origin.moving(Vector(x: 2, y: 3)),
             Position(x: 2, y: 3)
         )
         XCTAssertEqual(
-            Position(x: 1, y: 6).offsetting(x: -3, y: 3),
+            Position(x: 1, y: 6).moving(Vector(x: -3, y: 3)),
             Position(x: -2, y: 9)
         )
     }
