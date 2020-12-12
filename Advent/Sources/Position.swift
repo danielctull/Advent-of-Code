@@ -35,6 +35,16 @@ extension Position {
     }
 }
 
+extension Position {
+
+    public func rotateAboutOrigin(_ turn: Turn) -> Position {
+        switch turn {
+        case .left: return Position(x: -y, y: x)
+        case .right: return Position(x: y, y: -x)
+        }
+    }
+}
+
 public struct Move {
     public let direction: Direction
     public let amount: Int
