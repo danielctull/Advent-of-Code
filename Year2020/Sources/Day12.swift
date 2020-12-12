@@ -42,7 +42,7 @@ public enum Day12 {
             case .E: waypoint.move(.right, instruction.amount)
             case .S: waypoint.move(.down, instruction.amount)
             case .W: waypoint.move(.left, instruction.amount)
-            case .F: ship.move(Vector(to: waypoint.position), instruction.amount)
+            case .F: ship.move(Vector(to: waypoint.position) * instruction.amount)
             case .L: waypoint.rotate(.left, instruction.amount/90)
             case .R: waypoint.rotate(.right, instruction.amount/90)
             }
@@ -77,12 +77,12 @@ extension Day12 {
 
 extension Day12.Ship {
 
-    mutating func move(_ vector: Vector<Int>, _ amount: Int) {
-        (1...amount).forEach { _ in position = position.move(vector) }
+    mutating func move(_ vector: Vector<Int>) {
+        position = position.move(vector)
     }
 
     mutating func move(_ direction: Direction, _ amount: Int) {
-        position = position.move(Move(direction: direction, amount: amount))
+        position = position.move(Vector(direction: direction) * amount)
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {
@@ -93,7 +93,7 @@ extension Day12.Ship {
 extension Day12.Waypoint {
 
     mutating func move(_ direction: Direction, _ amount: Int) {
-        position = position.move(Move(direction: direction, amount: amount))
+        position = position.move(Vector(direction: direction) * amount)
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {

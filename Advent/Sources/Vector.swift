@@ -19,6 +19,25 @@ extension Vector where Value == Int {
 
 extension Vector {
 
+    public init(direction: Direction) {
+        switch direction {
+        case .up: self = Vector(x: 0, y: 1)
+        case .down: self = Vector(x: 0, y: -1)
+        case .left: self = Vector(x: -1, y: 0)
+        case .right: self = Vector(x: 1, y: 0)
+        }
+    }
+}
+
+extension Vector {
+
+    public static func * (lhs: Vector, rhs: Value) -> Vector {
+        Self(x: lhs.x * rhs, y: lhs.y * rhs)
+    }
+}
+
+extension Vector {
+
     public static var orthogonal: [Vector] {
         [
             Vector(x: .zero + 1, y: .zero),
