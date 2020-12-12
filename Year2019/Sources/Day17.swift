@@ -30,10 +30,10 @@ extension Grid where Location == Position, Tile == Day17.Tile {
 
         guard
             case .scaffold = tiles[position],
-            case .scaffold = tiles[position.moving(.up)],
-            case .scaffold = tiles[position.moving(.down)],
-            case .scaffold = tiles[position.moving(.left)],
-            case .scaffold = tiles[position.moving(.right)]
+            case .scaffold = tiles[position + .up],
+            case .scaffold = tiles[position + .down],
+            case .scaffold = tiles[position + .left],
+            case .scaffold = tiles[position + .right]
         else {
             return false
         }

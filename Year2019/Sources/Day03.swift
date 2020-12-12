@@ -96,7 +96,7 @@ extension Move {
     fileprivate func positions(from start: Position) -> [Position] {
         (1...amount).map { amount in
             let move = Move(direction: direction, amount: amount)
-            return start.moving(move.direction * amount)
+            return start + move.direction * amount
         }
     }
 }

@@ -24,7 +24,7 @@ public struct Day18 {
         while var (steps, state) = queue.first {
             queue.removeFirst()
 
-            state.position = state.position.moving(state.direction)
+            state.position += state.direction
             steps += 1
 
             guard !evaluated.contains(state) else { continue }

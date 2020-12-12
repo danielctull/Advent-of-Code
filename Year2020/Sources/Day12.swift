@@ -11,13 +11,13 @@ public enum Day12 {
         var heading = Vector<Int>.east
         for instruction in instructions {
             switch instruction.kind {
-            case .N: ship.move(.north * instruction.amount)
-            case .E: ship.move(.east * instruction.amount)
-            case .S: ship.move(.south * instruction.amount)
-            case .W: ship.move(.west * instruction.amount)
-            case .F: ship.move(heading * instruction.amount)
-            case .L: heading.rotate(.left) * (instruction.amount/90)
-            case .R: heading.rotate(.right) * (instruction.amount/90)
+            case .N: ship += .north * instruction.amount
+            case .E: ship += .east * instruction.amount
+            case .S: ship += .south * instruction.amount
+            case .W: ship += .west * instruction.amount
+            case .F: ship += heading * instruction.amount
+            case .L: heading.rotate(.left) * (instruction.amount / 90)
+            case .R: heading.rotate(.right) * (instruction.amount / 90)
             }
         }
 
@@ -31,11 +31,11 @@ public enum Day12 {
         var waypoint = Position(x: 10, y: 1)
         for instruction in instructions {
             switch instruction.kind {
-            case .N: waypoint.move(.north * instruction.amount)
-            case .E: waypoint.move(.east * instruction.amount)
-            case .S: waypoint.move(.south * instruction.amount)
-            case .W: waypoint.move(.west * instruction.amount)
-            case .F: ship.move(Vector(to: waypoint) * instruction.amount)
+            case .N: waypoint += .north * instruction.amount
+            case .E: waypoint += .east * instruction.amount
+            case .S: waypoint += .south * instruction.amount
+            case .W: waypoint += .west * instruction.amount
+            case .F: ship += Vector(to: waypoint) * instruction.amount
             case .L: waypoint.rotate(.left) * (instruction.amount/90)
             case .R: waypoint.rotate(.right) * (instruction.amount/90)
             }

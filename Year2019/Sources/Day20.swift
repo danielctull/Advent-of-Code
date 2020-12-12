@@ -25,7 +25,7 @@ public struct Day20 {
             to: end,
             move: { position, direction in
 
-                let position = position.moving(direction)
+                let position = position + direction
 
                 guard
                     let entrance = grid.portal(at: position),
@@ -66,7 +66,7 @@ public struct Day20 {
             move: { node, direction in
 
                 var node = node
-                node.position = node.position.moving(direction)
+                node.position += direction
                 let isOuter = grid.isOuter(node.position)
 
                 guard
@@ -122,7 +122,7 @@ extension Grid where Location == Position, Tile == Day20.Tile {
             .orthogonal
             .compactMap { direction -> Portal? in
 
-                let position2 = position1.moving(direction)
+                let position2 = position1 + direction
                 guard case let .portal(character2) = self[position2] else { return nil }
 
                 switch direction {
@@ -163,8 +163,8 @@ extension Portal {
         let direction1 = Vector<Int>(from: position1, to: position2)
         let direction2 = Vector<Int>(from: position2, to: position1)
         return [
-            (position2.moving(direction1), direction1),
-            (position1.moving(direction2), direction2)
+            (position2 + direction1, direction1),
+            (position1 + direction2, direction2)
         ]
     }
 }

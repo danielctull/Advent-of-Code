@@ -16,9 +16,13 @@ extension Position {
 extension Position {
 
     /// An array of positions orthogonally adjacent to the receiver.
-    public var orthogonallyAdjacent: [Position] { Vector.orthogonal.map(moving) }
+    public var orthogonallyAdjacent: [Position] {
+        Vector.orthogonal.map { self + $0 }
+    }
 
-    public var diagonallyAdjacent: [Position] { Vector.diagonal.map(moving) }
+    public var diagonallyAdjacent: [Position] {
+        Vector.diagonal.map { self + $0 }
+    }
 }
 
 extension Position {
@@ -44,11 +48,11 @@ extension Position {
 
 extension Position {
 
-    public mutating func move(_ vector: Vector<Int>) {
-        self = moving(vector)
+    public static func + (position: Position, vector: Vector<Int>) -> Position {
+        Position(x: position.x + vector.x, y: position.y + vector.y)
     }
 
-    public func moving(_ vector: Vector<Int>) -> Position {
-        Position(x: x + vector.x, y: y + vector.y)
+    public static func += (position: inout Position, vector: Vector<Int>) {
+        position = position + vector
     }
 }

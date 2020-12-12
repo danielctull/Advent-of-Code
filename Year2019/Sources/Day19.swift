@@ -49,17 +49,17 @@ public struct Day19 {
             // We've not hit the top of the beam yet.
             case (.pulled, false):
                 entrances.insert(position.x)
-                positions.append(position.moving(Vector(x: 1, y: 0)))
-                guard try drone(at: position.moving(Vector(x: 0, y: 99))) == .pulled else { continue }
-                positions.insert(position.moving(Vector(x: 0, y: 1)), at: 0)
+                positions.append(position + Vector(x: 1, y: 0))
+                guard try drone(at: position + Vector(x: 0, y: 99)) == .pulled else { continue }
+                positions.insert(position + Vector(x: 0, y: 1), at: 0)
 
             // We're inspecting the beam.
             case (.pulled, true):
-                positions.append(position.moving(Vector(x: 0, y: 1)))
+                positions.append(position + Vector(x: 0, y: 1))
 
             // We've not hit the beam yet.
             case (.stationary, false):
-                positions.append(position.moving(Vector(x: 0, y: 1)))
+                positions.append(position + Vector(x: 0, y: 1))
                 continue
 
             // We've gone beyond the scope of the beam.
@@ -69,8 +69,8 @@ public struct Day19 {
 
             // If the drones at x+99 and y+99 are being pulled, then this is
             // the top left of the 100x100 square.
-            guard try drone(at: position.moving(Vector(x: 99, y:  0))) == .pulled else { continue }
-            guard try drone(at: position.moving(Vector(x:  0, y: 99))) == .pulled else { continue }
+            guard try drone(at: position + Vector(x: 99, y:  0)) == .pulled else { continue }
+            guard try drone(at: position + Vector(x:  0, y: 99)) == .pulled else { continue }
 
             return position.x * 10_000 + position.y
         }
