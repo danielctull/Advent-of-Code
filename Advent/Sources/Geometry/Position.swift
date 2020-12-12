@@ -30,7 +30,11 @@ extension Position {
 
 extension Position {
 
-    public func rotateAboutOrigin(_ turn: Turn) -> Position {
+    public mutating func rotate(_ turn: Turn) {
+        self = rotating(turn)
+    }
+
+    public func rotating(_ turn: Turn) -> Position {
         switch turn {
         case .left: return Position(x: -y, y: x)
         case .right: return Position(x: y, y: -x)

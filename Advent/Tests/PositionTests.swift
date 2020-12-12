@@ -54,4 +54,26 @@ final class PositionTests: XCTestCase {
             Position(x: -2, y: 9)
         )
     }
+
+    func testRotate() {
+        XCTAssertEqual(
+            mutating(Position(x: 1, y: 2)) { $0.rotate(.left) },
+            Position(x: -2, y: 1)
+        )
+        XCTAssertEqual(
+            mutating(Position(x: 2, y: 1)) { $0.rotate(.right) },
+            Position(x: 1, y: -2)
+        )
+    }
+
+    func testRotating() {
+        XCTAssertEqual(
+            Position(x: 1, y: -2).rotating(.left),
+            Position(x: 2, y: 1)
+        )
+        XCTAssertEqual(
+            Position(x: 1, y: -2).rotating(.right),
+            Position(x: -2, y: -1)
+        )
+    }
 }

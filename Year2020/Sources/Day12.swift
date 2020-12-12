@@ -93,7 +93,7 @@ extension Day12.Waypoint {
     }
 
     mutating func rotate(_ turn: Turn, _ amount: Int) {
-        (1...amount).forEach { _ in position = position.rotateAboutOrigin(turn) }
+        (1...amount).forEach { _ in position.rotate(turn) }
     }
 }
 
