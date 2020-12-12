@@ -1,8 +1,8 @@
 
 import Foundation
 
-public func greatestCommonDivisor(_ lhs: Int, _ rhs: Int) -> Int {
-    var a = 0
+public func greatestCommonDivisor<T: BinaryInteger>(_ lhs: T, _ rhs: T) -> T {
+    var a = T(0)
     var b = max(lhs, rhs)
     var r = min(lhs, rhs)
     while r != 0 {
@@ -13,7 +13,7 @@ public func greatestCommonDivisor(_ lhs: Int, _ rhs: Int) -> Int {
     return b
 }
 
-public func lowestCommonMultiple(_ lhs: Int, _ rhs: Int) -> Int {
+public func lowestCommonMultiple<T: SignedInteger>(_ lhs: T, _ rhs: T) -> T {
     abs(lhs * rhs) / greatestCommonDivisor(lhs, rhs)
 }
 
