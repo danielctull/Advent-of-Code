@@ -92,12 +92,12 @@ extension Grid {
     public func shortestDistance<Node>(
         from start: Node,
         to end: Node,
-        move: (Node, Direction) -> (Node, Direction),
+        move: (Node, Vector<Int>) -> (Node, Vector<Int>),
         tile: (Node) -> Tile?,
         isPath: (Tile) -> Bool
     ) -> Int? where Node: Hashable {
 
-        var queue = Direction.allCases.map {
+        var queue = Vector<Int>.orthogonal.map {
             (position: start, direction: $0, distance: 0)
         }
         var visited = Set<Node>()

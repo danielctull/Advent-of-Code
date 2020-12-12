@@ -24,6 +24,20 @@ final class VectorTests: XCTestCase {
         XCTAssertEqual(Vector.west.y, 0)
     }
 
+    func testOpposite() {
+        XCTAssertEqual(Vector<Int>.up.opposite, .down)
+        XCTAssertEqual(Vector<Int>.down.opposite, .up)
+        XCTAssertEqual(Vector<Int>.left.opposite, .right)
+        XCTAssertEqual(Vector<Int>.right.opposite, .left)
+    }
+
+    func testOtherDirections() {
+        XCTAssert(Vector<Int>.up.otherDirections.elementsEqual([.down, .left, .right]))
+        XCTAssert(Vector<Int>.down.otherDirections.elementsEqual([.up, .left, .right]))
+        XCTAssert(Vector<Int>.left.otherDirections.elementsEqual([.up, .down, .right]))
+        XCTAssert(Vector<Int>.right.otherDirections.elementsEqual([.up, .down, .left]))
+    }
+
     func testRotation() {
         XCTAssertEqual(Vector<Int>.up.rotating(.left), .left)
         XCTAssertEqual(Vector<Int>.up.rotating(.right), .right)

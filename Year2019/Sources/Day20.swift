@@ -101,7 +101,7 @@ extension Grid where Location == Position, Tile == Day20.Tile {
             .first(where: { $0.position1 != portal.position1 })
     }
 
-    fileprivate func vector(leaving portal: Portal) -> (Position, Direction)? {
+    fileprivate func vector(leaving portal: Portal) -> (Position, Vector<Int>)? {
         portal.exits.first(where: { self[$0.0] == .passage })
     }
 
@@ -118,8 +118,8 @@ extension Grid where Location == Position, Tile == Day20.Tile {
 
         guard case let .portal(character1) = self[position1] else { return nil }
 
-        return Direction
-            .allCases
+        return Vector<Int>
+            .orthogonal
             .compactMap { direction -> Portal? in
 
                 let position2 = position1.move(direction)
@@ -136,6 +136,8 @@ extension Grid where Location == Position, Tile == Day20.Tile {
                                   character1: character2,
                                   position2: position1,
                                   character2: character1)
+                default:
+                    fatalError()
                 }
             }
             .first
@@ -157,9 +159,9 @@ extension Portal: CustomStringConvertible {
 }
 
 extension Portal {
-    var exits: [(Position, Direction)] {
-        let direction1 = Direction(start: position1, end: position2)!
-        let direction2 = Direction(start: position2, end: position1)!
+    var exits: [(Position, Vector<Int>)] {
+        let direction1 = Vector<Int>(from: position1, to: position2)
+        let direction2 = Vector<Int>(from: position2, to: position1)
         return [
             (position2.move(direction1), direction1),
             (position1.move(direction2), direction2)

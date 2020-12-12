@@ -9,8 +9,8 @@ public struct Day15 {
     public func part1(input: Input) throws -> Int {
         var grid = Grid(tiles: [Position.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
-        return try Direction
-            .allCases
+        return try Vector
+            .orthogonal
             .compactMap { try findOxygen(grid: &grid, droid: droid, direction: $0) }
             .min()!
     }
@@ -19,7 +19,7 @@ public struct Day15 {
     fileprivate func findOxygen(
         grid: inout Grid<Position, Tile>,
         droid inDroid: RepairDroid,
-        direction: Direction
+        direction: Vector<Int>
     ) throws -> Int? {
         var droid = inDroid
         try droid.move(direction: direction)
@@ -41,13 +41,13 @@ public struct Day15 {
     public func part2(input: Input) throws -> Int {
         var grid = Grid(tiles: [Position.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
-        try Direction
-            .allCases
+        try Vector
+            .orthogonal
             .forEach { try findOxygen(grid: &grid, droid: droid, direction: $0) }
 
         let oxygen = grid.tiles.first(where: { $0.value == .oxygen })!
-        return Direction
-            .allCases
+        return Vector
+            .orthogonal
             .map { spreadOxygen(grid: &grid, position: oxygen.key, direction: $0) }
             .max()!
     }
@@ -55,7 +55,7 @@ public struct Day15 {
     fileprivate func spreadOxygen(
         grid: inout Grid<Position, Tile>,
         position: Position,
-        direction: Direction
+        direction: Vector<Int>
     ) -> Int {
         let new = position.move(direction)
         let tile = grid.tiles[new]!
@@ -81,8 +81,8 @@ fileprivate struct RepairDroid {
 
 extension RepairDroid {
 
-    mutating func move(direction: Direction) throws {
-        let new = position.move(Move(direction: direction, amount: 1))
+    mutating func move(direction: Vector<Int>) throws {
+        let new = position.move(direction)
         computer.input(direction.code)
         try computer.run()
         tile = try Day15.Tile(computer.output.last!)
@@ -91,7 +91,7 @@ extension RepairDroid {
     }
 }
 
-extension Direction {
+extension Vector where Value == Int {
 
     fileprivate var code: Int {
         switch self {
@@ -99,6 +99,7 @@ extension Direction {
         case .down: return 2
         case .left: return 3
         case .right: return 4
+        default: fatalError()
         }
     }
 }

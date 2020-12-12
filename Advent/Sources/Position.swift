@@ -16,16 +16,9 @@ extension Position {
 extension Position {
 
     /// An array of positions orthogonally adjacent to the receiver.
-    public var adjacent: [Position] { Direction.allCases.map(move) }
+    public var adjacent: [Position] { Vector.orthogonal.map(move) }
 
-    public var diagonallyAdjacent: [Position] {
-        [
-            Position(x: x + 1, y: y + 1),
-            Position(x: x + 1, y: y - 1),
-            Position(x: x - 1, y: y - 1),
-            Position(x: x - 1, y: y + 1)
-        ]
-    }
+    public var diagonallyAdjacent: [Position] { Vector.diagonal.map(move) }
 }
 
 extension Position {
@@ -58,10 +51,6 @@ extension Position {
 
     public func move(_ vector: Vector<Int>) -> Position {
         Position(x: x + vector.x, y: y + vector.y)
-    }
-
-    public func move(_ direction: Direction) -> Position {
-        move(Move(direction: direction, amount: 1))
     }
 
     public func move(_ move: Move) -> Position {

@@ -14,11 +14,11 @@ public struct Day18 {
         struct State: Hashable {
             var keys = Set<Character>()
             var position: Position
-            var direction: Direction
+            var direction: Vector<Int>
         }
 
         let start = grid.firstPosition(of: .start)!
-        var queue = Direction.allCases.map { (0, State(position: start, direction: $0)) }
+        var queue = Vector.orthogonal.map { (0, State(position: start, direction: $0)) }
         var evaluated = Set<State>()
 
         while var (steps, state) = queue.first {
@@ -32,7 +32,7 @@ public struct Day18 {
 
             guard let tile = grid[state.position] else { continue }
 
-            var nextDirections: [Direction]
+            var nextDirections: [Vector<Int>]
 
             switch tile {
 
@@ -45,7 +45,7 @@ public struct Day18 {
             // Explore in all directions to locate newly accessible door.
             case .key(let key) where !state.keys.contains(key):
                 state.keys.insert(key)
-                nextDirections = Direction.allCases
+                nextDirections = Vector.orthogonal
 
             // Keep exploring forward, left and right.
             case .start, .passage, .key, .door:

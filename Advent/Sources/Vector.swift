@@ -9,6 +9,8 @@ public struct Vector<Value: Numeric>: Equatable {
     }
 }
 
+extension Vector: Hashable where Value: Hashable {}
+
 extension Vector where Value == Int {
 
     public init(from start: Position = .origin, to end: Position) {
@@ -25,16 +27,25 @@ extension Vector {
 }
 
 extension Vector {
-    public static var north: Vector { Vector(x: 0, y: 1) }
-    public static var east: Vector { Vector(x: 1, y: 0) }
-    public static var south: Vector { Vector(x: 0, y: -1) }
-    public static var west: Vector { Vector(x: -1, y: 0) }
+    public static var north: Vector { .up }
+    public static var east: Vector { .right }
+    public static var south: Vector { .down }
+    public static var west: Vector { .left }
 }
 
 extension Vector {
 
     public static func * (lhs: Vector, rhs: Value) -> Vector {
         Self(x: lhs.x * rhs, y: lhs.y * rhs)
+    }
+}
+
+extension Vector {
+
+    public var opposite: Vector { self * -1 }
+
+    public var otherDirections: [Vector] {
+        Vector.orthogonal.filter { $0 != self }
     }
 }
 
@@ -51,20 +62,15 @@ extension Vector {
 extension Vector {
 
     public static var orthogonal: [Vector] {
-        [
-            Vector(x: .zero + 1, y: .zero),
-            Vector(x: .zero - 1, y: .zero),
-            Vector(x: .zero, y: .zero + 1),
-            Vector(x: .zero, y: .zero - 1)
-        ]
+        [.up, .down, .left, .right]
     }
 
     public static var diagonal: [Vector] {
         [
-            Vector(x: .zero + 1, y: .zero + 1),
-            Vector(x: .zero + 1, y: .zero - 1),
-            Vector(x: .zero - 1, y: .zero - 1),
-            Vector(x: .zero - 1, y: .zero + 1)
+            Vector(x:  1, y:  1),
+            Vector(x:  1, y: -1),
+            Vector(x: -1, y: -1),
+            Vector(x: -1, y:  1)
         ]
     }
 }
