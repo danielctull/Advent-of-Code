@@ -14,21 +14,29 @@ struct SolveCommand: ParsableCommand {
     @Argument(help: "The part.")
     var part: Int
 
-    @Argument(help: "The part.")
-    var input: Input
+//    @Argument(help: "The input.")
+//    var input: Input
 
     static var configuration: CommandConfiguration {
         CommandConfiguration(commandName: "solve")
     }
 
     func run() throws {
-        try Year2020.Day11().part1(<#T##input: Input##Input#>)
+        let y = try getYear(at: year)
+        let d = try y.day(at: day)
+
+        print(d.title)
+//        switch year, day {
+//            case
+//        }
+
+//        try Year2020.Day11().part1(input)
     }
 }
 
-extension Input: ExpressibleByArgument {
-
-    public init?(argument: String) {
-        
-    }
-}
+//extension Input: ExpressibleByArgument {
+//
+//    public init?(argument: String) {
+//
+//    }
+//}
