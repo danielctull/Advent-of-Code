@@ -11,6 +11,7 @@ let package = Package(
         .watchOS(.v2),
     ],
     products: [
+        .library(name: "Advent", targets: ["Advent"]),
         .library(name: "Year2015", targets: ["Year2015"]),
         .library(name: "Year2018", targets: ["Year2018"]),
         .library(name: "Year2019", targets: ["Year2019"]),
