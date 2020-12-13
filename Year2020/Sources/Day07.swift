@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day07 {
+public enum Day07: Day {
+
+    public static let title = "Handy Haversacks"
 
     public static func part1(_ input: Input) throws -> Int {
 

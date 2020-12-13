@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day04 {
+public enum Day04: Day {
+
+    public static let title = "Passport Processing"
 
     public static func part1(_ input: Input) -> Int {
         input.lines

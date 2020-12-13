@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day12 {
+public enum Day12: Day {
+
+    public static let title = "Rain Risk"
 
     public static func part1(_ input: Input) throws -> Int {
 

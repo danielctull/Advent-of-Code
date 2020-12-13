@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day02 {
+public enum Day02: Day {
+
+    public static let title = "Password Philosophy"
 
     public static func part1(_ input: Input) throws -> Int {
 

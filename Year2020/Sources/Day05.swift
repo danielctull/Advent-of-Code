@@ -3,7 +3,9 @@ import Advent
 import Algorithms
 import Foundation
 
-public enum Day05 {
+public enum Day05: Day {
+
+    public static let title = "Binary Boarding"
 
     public static func part1(_ input: Input) -> Int {
 

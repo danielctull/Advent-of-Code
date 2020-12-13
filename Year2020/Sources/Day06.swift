@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day06 {
+public enum Day06: Day {
+
+    public static let title = "Custom Customs"
 
     public static func part1(_ input: Input) -> Int {
 

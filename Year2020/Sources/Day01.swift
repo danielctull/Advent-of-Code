@@ -3,7 +3,9 @@ import Advent
 import Algorithms
 import Foundation
 
-public enum Day01 {
+public enum Day01: Day {
+
+    public static let title = "Report Repair"
 
     public static func part1(_ input: Input) -> Int {
         let values = Set(input.integers)

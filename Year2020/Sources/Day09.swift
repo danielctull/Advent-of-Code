@@ -2,7 +2,9 @@
 import Advent
 import Foundation
 
-public enum Day09 {
+public enum Day09: Day {
+
+    public static let title = "Encoding Error"
 
     public static func part1(_ input: Input) -> Int {
         input.integers.invalidNumber(preamble: input.testing ? 5 : 25)

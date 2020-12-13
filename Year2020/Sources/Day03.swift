@@ -3,7 +3,9 @@ import Advent
 import Algorithms
 import Foundation
 
-public enum Day03 {
+public enum Day03: Day {
+
+    public static let title = "Toboggan Trajectory"
 
     public static func part1(_ input: Input) throws -> Int {
         count(input: input, right: 3, down: 1)
