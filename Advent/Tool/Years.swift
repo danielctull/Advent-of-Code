@@ -20,7 +20,7 @@ extension Year {
         switch index {
         case ...0: throw UnknownDay()
         case 26...: throw UnknownDay()
-        default: return days[index]
+        default: return days[index - 1]
         }
     }
 }

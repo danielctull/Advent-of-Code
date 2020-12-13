@@ -6,7 +6,7 @@ let package = Package(
     name: "Advent of Code",
     platforms: [
         .iOS(.v9),
-        .macOS(.v10_12),
+        .macOS(.v10_13),
         .tvOS(.v9),
         .watchOS(.v2),
     ],
