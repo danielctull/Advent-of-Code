@@ -42,6 +42,14 @@ public enum Day13 {
         // For the following sequence:
         // 7, 13, x, x, 59, x, 31, 19
         //
+        // 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98, 105
+
+        // 13, 26, 39, 52, 65, 78, 91, 104
+        // 14, 27, 40, 53, 66, 79, 92, 105
+
+        // 59, 118, 177, 236, 295, 354, 413, 472
+        // 63, 122,
+        //
         //                     77     168     259   > +91  => +7*13
         // bus:7  offset:0     11      24      37   > +13
         // bus:13 offset:1   5r12   12r12   19r12   > +7 r(13-1)
@@ -53,6 +61,8 @@ public enum Day13 {
         //                     56    273     490    > +217 => +7*31
         // bus:7  offset:0      8     39      70    > +31
         // bus:31 offset:6   1r25   8r25   15r25    > +7 r(31-6)
+
+
 
         // Get the bus with the time expectation of zero – should always exist.
 //        let first = try buses.first(where: { $0.0 == 0 }).unwrapped()
@@ -69,19 +79,14 @@ public enum Day13 {
 //                return (bus, lowestCommon)
 //            }
 
-
         let output = try buses
             .reduce { t1, t2 -> (Offset, Bus) in
                 let (offset1, bus1) = t1
                 let (offset2, bus2) = t2
 
-                print("first:", offset1.rawValue)
-                print("increment:", bus1.id)
-
-                let lowestCommon = try sequence(first: offset1.rawValue, next: { $0 + bus1.id })
-                    .lazy
+                let lowestCommon = try stride(from: offset1.rawValue, to: .max, by: bus1.id)
                     .first(where: { goal in
-                        bus2.next(after: goal) == offset2.rawValue
+                        (goal + offset2.rawValue).isMultiple(of: bus2.id)
                     })
                     .unwrapped()
 
@@ -189,3 +194,4 @@ extension Day13.Bus {
 extension Day13.Bus: CustomStringConvertible {
     var description: String { "Bus(id: \(id))" }
 }
+
