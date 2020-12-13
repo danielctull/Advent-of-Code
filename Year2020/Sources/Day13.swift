@@ -18,7 +18,7 @@ public enum Day13 {
             .compactMap(Int.init)
 
         return try buses.map { id -> (Int, Int) in
-            let next = Bus(id: id).next(after: time)
+            let next = Bus(id).next(after: time)
             return (id, next)
         }
         .min(by: { $0.1 < $1.1 })
@@ -33,54 +33,85 @@ public enum Day13 {
             .unwrapped()
             .components(separatedBy: ",")
             .map(Int.init)
-
-        let timeBuses = zip(0..., buses)
-            .compactMap { time, bus -> (Int, Bus)? in
-                guard let bus = bus else { return nil }
-                return (time, Bus(id: bus))
+            .enumerated()
+            .compactMap { offset, id -> (Offset, Bus)? in
+                guard let id = id else { return nil }
+                return (Offset(offset), Bus(id))
             }
 
         // For the following sequence:
         // 7, 13, x, x, 59, x, 31, 19
         //
-        //              77     168     259
-        // id:7  p:0    11      24      37   > +13
-        // id:13 p:1  5r12   12r12   19r12   > +7 r(13-1)
+        //                     77     168     259   > +91  => +7*13
+        // bus:7  offset:0     11      24      37   > +13
+        // bus:13 offset:1   5r12   12r12   19r12   > +7 r(13-1)
         //
-        //             350     763    1176
-        // id:7  p:0    50     109     168   > +59
-        // id:59 p:4  5r55   12r55   19r55   > +7 r(59-4)
+        //                    350     763    1176   > +413 => +7*59
+        // bus:7  offset:0     50     109     168   > +59
+        // bus:59 offset:4   5r55   12r55   19r55   > +7 r(59-4)
         //
-        //              56    273     490
-        // id:7  p:0     8     39      70   > +31
-        // id:31 p:6  1r25   8r25   15r25   > +7 r(31-6)
+        //                     56    273     490    > +217 => +7*31
+        // bus:7  offset:0      8     39      70    > +31
+        // bus:31 offset:6   1r25   8r25   15r25    > +7 r(31-6)
 
         // Get the bus with the time expectation of zero – should always exist.
-        let first = try timeBuses.first(where: { $0.0 == 0 }).unwrapped()
+//        let first = try buses.first(where: { $0.0 == 0 }).unwrapped()
 
-        print(first)
-        print(timeBuses)
+//        let lowests = try buses
+//            .dropFirst()
+//            .map { offset, bus -> (Bus, Int) in
+//                let lowestCommon = try (1...)
+//                    .lazy
+//                    .first(where: { goal in
+//                        bus.next(after: goal * first.1.id) == offset.rawValue
+//                    })
+//                    .unwrapped()
+//                return (bus, lowestCommon)
+//            }
 
-        let lowests = try timeBuses
-            .dropFirst()
-            .map { time, bus -> LazyMapSequence<(PartialRangeFrom<Int>), Int> in
 
-                let lowestCommon = try (1...)
+        let output = try buses
+            .reduce { t1, t2 -> (Offset, Bus) in
+                let (offset1, bus1) = t1
+                let (offset2, bus2) = t2
+
+                print("first:", offset1.rawValue)
+                print("increment:", bus1.id)
+
+                let lowestCommon = try sequence(first: offset1.rawValue, next: { $0 + bus1.id })
                     .lazy
                     .first(where: { goal in
-                        let next = bus.next(after: goal * first.1.id)
-                        return next == time
+                        bus2.next(after: goal) == offset2.rawValue
                     })
                     .unwrapped()
 
-                return (0...).lazy.map { $0 * bus.id + lowestCommon }
+                return (Offset(lowestCommon), Bus(bus1.id * bus2.id))
             }
+            .unwrapped()
 
-        for lowest in lowests {
-            print("-------")
-            var i = lowest.makeIterator()
-            print(i.next()!) * 30
-        }
+
+        return output.0.rawValue
+
+//            .map { offset, bus -> (Bus, Int) in
+//                let lowestCommon = try (1...)
+//                    .lazy
+//                    .first(where: { goal in
+//                        bus.next(after: goal * first.1.id) == offset.rawValue
+//                    })
+//                    .unwrapped()
+//                return (bus, lowestCommon)
+//            }
+
+//        print(lowests)
+
+
+
+
+
+
+
+
+        
 
 //        let bus = try timeBuses
 //            .reduce { previous, next in
@@ -127,12 +158,21 @@ public enum Day13 {
 
 extension Day13 {
 
-    fileprivate struct Bus {
+    fileprivate struct Bus: Equatable {
         let id: Int
+        init(_ id: Int) { self.id = id }
     }
 
-    fileprivate struct Position: RawRepresentable {
+    fileprivate struct Offset: Equatable, ExpressibleByIntegerLiteral {
         let rawValue: Int
+        init(_ value: Int) { rawValue = value }
+        init(integerLiteral value: Int) { rawValue = value }
+    }
+
+    fileprivate struct Timestamp: Equatable, ExpressibleByIntegerLiteral {
+        let rawValue: Int
+        init(_ value: Int) { rawValue = value }
+        init(integerLiteral value: Int) { rawValue = value }
     }
 }
 
