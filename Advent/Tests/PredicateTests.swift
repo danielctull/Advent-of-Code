@@ -89,4 +89,30 @@ final class PredicateTests: XCTestCase {
         XCTAssertFalse(failure("A0"))
         XCTAssertFalse(failure("B1"))
     }
+
+    // MARK: - Sequence Extensions
+
+    func testAllSatisfy() {
+        XCTAssertTrue((0...10).allSatisfy(.isLessThan(11)))
+        XCTAssertFalse((0...10).allSatisfy(.isLessThan(10)))
+        XCTAssertFalse((0...10).allSatisfy(.is(2)))
+    }
+
+    func testCountWhere() {
+        XCTAssertEqual((0...10).count(where: .is(2)), 1)
+        XCTAssertEqual((0...10).count(where: .isLessThan(3)), 3)
+        XCTAssertEqual((0...10).count(where: .isGreaterThan(3)), 7)
+    }
+
+    func testDropWhile() {
+        XCTAssertTrue((0...10).drop(while: .is(0)).elementsEqual(1...10))
+        XCTAssertTrue((0...10).drop(while: .isLessThan(3)).elementsEqual(3...10))
+    }
+
+    func testFirstWhere() {
+        XCTAssertEqual((0...10).first(where: .is(2)), 2)
+        XCTAssertEqual((0...10).first(where: .isLessThan(3)), 0)
+        XCTAssertEqual((0...10).first(where: .isGreaterThan(3)), 4)
+        XCTAssertNil((0...10).first(where: .is(11)))
+    }
 }

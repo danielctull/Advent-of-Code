@@ -76,9 +76,28 @@ extension Predicate where Value: Equatable {
 
 extension Sequence {
 
+    public func allSatisfy(_ predicate: Predicate<Element>) -> Bool {
+        allSatisfy { predicate($0) }
+    }
+
+    public func count(where predicate: Predicate<Element>) -> Int {
+        count(where: { predicate($0) })
+    }
+
+    public func drop(while predicate: Predicate<Element>) -> DropWhileSequence<Self> {
+        drop(while: { predicate($0) })
+    }
+
     public func filter(_ isIncluded: Predicate<Element>) -> [Element] {
         filter { isIncluded($0) }
     }
+
+    public func first(where predicate: Predicate<Element>) -> Element? {
+        first(where: { predicate($0) })
+    }
+}
+
+extension Sequence {
 
     public func joined<T>(
         operator: (Predicate<T>, Predicate<T>) -> Predicate<T>
