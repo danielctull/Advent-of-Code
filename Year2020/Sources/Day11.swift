@@ -52,8 +52,8 @@ extension Matrix where Element == Day11.Tile {
     fileprivate func musicalChairs() -> Self {
 
         func adjacent(to position: Position) -> [Day11.Tile] {
-            (position.orthogonallyAdjacent + position.diagonallyAdjacent)
-                .compactMap { self[$0] }
+            neighbours(of: position, in: Vector.orthogonal + Vector.diagonal)
+                .map { self[$0] }
         }
 
         return map { (position: Position, tile: Day11.Tile) -> Day11.Tile in
@@ -71,7 +71,7 @@ extension Matrix where Element == Day11.Tile {
     fileprivate func musicalChairs2() -> Self {
 
         func firstSeat(from position: Matrix<Day11.Tile>.Index, in direction: Vector<Int>) -> Element? {
-            indices(from: position, in: direction).first(where: \.isSeat)
+            positions(from: position, in: direction).first(where: \.isSeat)
         }
 
         func adjacent(to position: Matrix<Day11.Tile>.Index) -> [Element] {

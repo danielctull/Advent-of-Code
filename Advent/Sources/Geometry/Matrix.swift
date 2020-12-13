@@ -41,43 +41,43 @@ extension Matrix {
         _ transform: (Position, Element) throws -> T
     ) rethrows -> Matrix<T> {
         Matrix<T>(size: size,
-                  elements: try zip(positions, elements).map(transform))
-    }
-
-    public func map<T>(
-        _ transform: (Index, Element) throws -> T
-    ) rethrows -> Matrix<T> {
-        Matrix<T>(size: size,
                   elements: try zip(indices, elements).map(transform))
     }
 }
 
-// MARK: - Accessing values
-
 extension Matrix {
 
-    public subscript(position: Position) -> Element? {
-        guard position.x >= 0 else { return nil }
-        guard position.y >= 0 else { return nil }
-        guard position.x < size.width else { return nil }
-        guard position.y < size.height else { return nil }
-        return self[Index(position: position)]
+    fileprivate func validate(_ position: Position) -> Bool {
+        guard position.x > 0 else { return false }
+        guard position.y > 0 else { return false }
+        guard position.x < endIndex.x else { return false }
+        guard position.y < endIndex.y else { return false }
+        return true
     }
-
-    public var positions: [Position] { indices.map(\.position) }
 }
 
 // MARK: - Neighbours
 
 extension Matrix {
 
-    public func indices(from index: Index, in direction: Vector<Int>) -> VectorSequence {
-        VectorSequence(base: self, start: index, direction: direction)
+    public func neighbours<S>(
+        of position: Position,
+        in directions: S
+    ) -> [Position]
+        where
+        S: Sequence,
+        S.Element == Vector<Int>
+    {
+        directions.map { position + $0 }.filter(validate)
+    }
+
+    public func positions(from position: Position, in direction: Vector<Int>) -> VectorSequence {
+        VectorSequence(base: self, start: position, direction: direction)
     }
 
     public struct VectorSequence {
         let base: Matrix
-        let start: Index
+        let start: Position
         let direction: Vector<Int>
     }
 }
@@ -86,25 +86,23 @@ extension Matrix.VectorSequence: Sequence {
 
     public struct Iterator {
         let base: Matrix
-        var previous: Matrix.Index
+        var position: Position
         let direction: Vector<Int>
     }
 
     public func makeIterator() -> Iterator {
-        Iterator(base: base, previous: start, direction: direction)
+        Iterator(base: base, position: start, direction: direction)
     }
 }
 
 extension Matrix.VectorSequence.Iterator: IteratorProtocol {
 
     public mutating func next() -> Matrix.Element? {
-        let next = previous.position + direction
-        guard let element = base[next] else { return nil }
-        previous = Matrix.Index(position: next)
-        return element
+        position += direction
+        guard base.validate(position) else { return nil }
+        return base[position]
     }
 }
-
 
 // MARK: - Sequence
 
@@ -114,36 +112,31 @@ extension Matrix: Sequence {
     }
 }
 
+extension Position: Comparable {
+    public static func < (lhs: Position, rhs: Position) -> Bool {
+        (lhs.y, lhs.x) < (rhs.y, rhs.x)
+    }
+}
+
 // MARK: - Collection
 
 extension Matrix: Collection {
+    public typealias Index = Position
+    public var startIndex: Position { Position(x: 0, y: 0) }
+    public var endIndex: Position { Position(x: size.width, y: size.height) }
 
-    public struct Index: Comparable {
-        let position: Position
-        public static func < (lhs: Index, rhs: Index) -> Bool {
-            (lhs.position.y, lhs.position.x) < (rhs.position.y, rhs.position.x)
+    public subscript(position: Position) -> Element {
+        elements[position.y * size.width + position.x]
+    }
+
+    public func index(after position: Position) -> Position {
+
+        if position.x + 1 < size.width {
+            return Position(x: position.x + 1, y: position.y)
         }
-    }
 
-    public var startIndex: Index {
-        Index(position: Position(x: 0, y: 0))
-    }
-
-    public var endIndex: Index {
-        Index(position: Position(x: size.width, y: size.height))
-    }
-
-    public subscript(i: Index) -> Element {
-        elements[i.position.y * size.width + i.position.x]
-    }
-
-    public func index(after i: Index) -> Index {
-
-        if i.position.x + 1 < size.width {
-            return Index(position: Position(x: i.position.x + 1, y: i.position.y))
-        }
-        if i.position.y + 1 < size.height {
-            return Index(position: Position(x: 0, y: i.position.y + 1))
+        if position.y + 1 < size.height {
+            return Position(x: 0, y: position.y + 1)
         }
 
         return endIndex
