@@ -23,7 +23,7 @@ public enum Day12: Day {
             }
         }
 
-        return Position.origin.manhattenDistance(to: ship)
+        return ship.manhattenDistance(to: .origin)
     }
 
     public static func part2(_ input: Input) throws -> Int {
@@ -43,7 +43,7 @@ public enum Day12: Day {
             }
         }
 
-        return Position.origin.manhattenDistance(to: ship)
+        return ship.manhattenDistance(to: .origin)
     }
 }
 
