@@ -1,11 +1,6 @@
 
 import Foundation
 
-fileprivate struct Size<Dimension> {
-    let width: Dimension
-    let height: Dimension
-}
-
 public struct Matrix<Element> {
     private let size: Size<Int>
     private let elements: [Element]
