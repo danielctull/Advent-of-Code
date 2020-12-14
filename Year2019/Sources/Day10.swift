@@ -5,21 +5,21 @@ import Foundation
 public struct Day10 {
 
     public struct Line {
-        let start: Position
-        let end: Position
+        let start: Position<Int>
+        let end: Position<Int>
         
-        public init(start: Position, end: Position) {
+        public init(start: Position<Int>, end: Position<Int>) {
             self.start = start
             self.end = end
         }
 
-        private func gradient(from start: Position, to end: Position) -> Double {
+        private func gradient(from start: Position<Int>, to end: Position<Int>) -> Double {
             let denominator = end.y - start.y
             guard denominator != 0 else { return .greatestFiniteMagnitude }
             return Double(end.x - start.x) / Double(denominator)
         }
 
-        public func contains(_ position: Position) -> Bool {
+        public func contains(_ position: Position<Int>) -> Bool {
             guard
                 position != start,
                 position != end,
@@ -37,18 +37,18 @@ public struct Day10 {
 
     public init() {}
 
-    public func part1(input: Input) throws -> (Position, Int) {
+    public func part1(input: Input) throws -> (Position<Int>, Int) {
         let max = maximumVisibleAsteroids(for: input)
         return (max.0, max.1.count)
     }
 
-    private func maximumVisibleAsteroids(for input: Input) -> (Position, [Position]) {
+    private func maximumVisibleAsteroids(for input: Input) -> (Position<Int>, [Position<Int>]) {
 
         let asteroids = input
             .lines
             .enumerated()
             .flatMap { y, string in
-                string.enumerated().compactMap { x, character -> Position? in
+                string.enumerated().compactMap { x, character -> Position<Int>? in
                     character == "#" ? Position(x: x, y: y) : nil
                 }
             }
@@ -75,7 +75,7 @@ public struct Day10 {
         let asteroids = max.1
 
         let sortedAsteroids = asteroids
-            .map { asteroid -> (Position, Angle) in
+            .map { asteroid -> (Position<Int>, Angle) in
                 let angle = Angle(start: position, end: asteroid)
                 // Angles start from the 3 o'clock position so add 90° such that
                 // 12 o'clock values become "zero".

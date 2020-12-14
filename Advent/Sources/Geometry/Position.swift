@@ -1,19 +1,22 @@
 
-public struct Position: Equatable, Hashable {
-    public let x: Int
-    public let y: Int
+public struct Position<Scalar: Numeric> {
+    public let x: Scalar
+    public let y: Scalar
 
-    public init(x: Int, y: Int) {
+    public init(x: Scalar, y: Scalar) {
         self.x = x
         self.y = y
     }
 }
 
-extension Position {
-    public static let origin = Position(x: 0, y: 0)
-}
+extension Position: Equatable where Scalar: Equatable {}
+extension Position: Hashable where Scalar: Hashable {}
 
 extension Position {
+    public static var origin: Position { Position(x: 0, y: 0) }
+}
+
+extension Position where Scalar: SignedNumeric {
 
     /// An array of positions orthogonally adjacent to the receiver.
     public var orthogonallyAdjacent: [Position] {
@@ -25,14 +28,14 @@ extension Position {
     }
 }
 
-extension Position {
+extension Position where Scalar == Int {
 
     public func manhattenDistance(to other: Position) -> Int {
         return abs(other.x - x) + abs(other.y - y)
     }
 }
 
-extension Position {
+extension Position where Scalar: SignedNumeric {
 
     public mutating func rotate(_ turn: Turn) {
         self = rotating(turn)
@@ -48,11 +51,11 @@ extension Position {
 
 extension Position {
 
-    public static func + (position: Position, vector: Vector<Int>) -> Position {
+    public static func + (position: Position, vector: Vector<Scalar>) -> Position {
         Position(x: position.x + vector.dx, y: position.y + vector.dy)
     }
 
-    public static func += (position: inout Position, vector: Vector<Int>) {
+    public static func += (position: inout Position, vector: Vector<Scalar>) {
         position = position + vector
     }
 }

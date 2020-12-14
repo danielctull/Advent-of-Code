@@ -57,7 +57,7 @@ public struct Day20 {
 
         struct Node: Hashable {
             var level = 0
-            var position = Position.origin
+            var position = Position<Int>.origin
         }
 
         return grid.shortestDistance(
@@ -87,9 +87,9 @@ public struct Day20 {
     }
 }
 
-extension Grid where Location == Position, Tile == Day20.Tile {
+extension Grid where Location == Position<Int>, Tile == Day20.Tile {
     
-    fileprivate func isOuter(_ position: Position) -> Bool {
+    fileprivate func isOuter(_ position: Position<Int>) -> Bool {
         return position.x < 2
             || position.y < 2
             || position.x > maximum.x - 2
@@ -101,7 +101,7 @@ extension Grid where Location == Position, Tile == Day20.Tile {
             .first(where: { $0.position1 != portal.position1 })
     }
 
-    fileprivate func vector(leaving portal: Portal) -> (Position, Vector<Int>)? {
+    fileprivate func vector(leaving portal: Portal) -> (Position<Int>, Vector<Int>)? {
         portal.exits.first(where: { self[$0.0] == .passage })
     }
 
@@ -114,7 +114,7 @@ extension Grid where Location == Position, Tile == Day20.Tile {
         return Set(portals)
     }
 
-    fileprivate func portal(at position1: Position) -> Portal? {
+    fileprivate func portal(at position1: Position<Int>) -> Portal? {
 
         guard case let .portal(character1) = self[position1] else { return nil }
 
@@ -145,9 +145,9 @@ extension Grid where Location == Position, Tile == Day20.Tile {
 }
 
 fileprivate struct Portal: Hashable, Equatable {
-    let position1: Position
+    let position1: Position<Int>
     let character1: Character
-    let position2: Position
+    let position2: Position<Int>
     let character2: Character
 }
 
@@ -159,9 +159,9 @@ extension Portal: CustomStringConvertible {
 }
 
 extension Portal {
-    var exits: [(Position, Vector<Int>)] {
-        let direction1 = Vector<Int>(from: position1, to: position2)
-        let direction2 = Vector<Int>(from: position2, to: position1)
+    var exits: [(Position<Int>, Vector<Int>)] {
+        let direction1 = Vector(from: position1, to: position2)
+        let direction2 = Vector(from: position2, to: position1)
         return [
             (position2 + direction1, direction1),
             (position1 + direction2, direction2)

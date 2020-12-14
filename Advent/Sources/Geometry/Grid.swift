@@ -32,7 +32,7 @@ extension Grid: Hashable where Tile: Hashable {}
 
 extension Grid: CustomStringConvertible
     where
-    Location == Position,
+    Location == Position<Int>,
     Tile: CustomStringConvertible
 {
 
@@ -67,20 +67,20 @@ extension Grid {
     }
 }
 
-extension Grid where Location == Position {
+extension Grid where Location == Position<Int> {
 
-    public var maximum: Position {
+    public var maximum: Position<Int> {
         tiles.keys.max(by: { lhs, rhs in (lhs.y, lhs.x) < (rhs.y, rhs.x) })!
     }
 }
 
-extension Grid where Location == Position, Tile: Equatable {
+extension Grid where Location == Position<Int>, Tile: Equatable {
 
-    public func positions(of tile: Tile) -> [Position] {
+    public func positions(of tile: Tile) -> [Position<Int>] {
         tiles.filter { $0.value == tile }.map { $0.key }
     }
 
-    public func firstPosition(of tile: Tile) -> Position? {
+    public func firstPosition(of tile: Tile) -> Position<Int>? {
         tiles.first(where: { $0.value == tile })?.key
     }
 }
@@ -149,7 +149,7 @@ extension Grid {
 
 // MARK: - Creating a Grid from a Sequence of Sequences of RawValues
 
-extension Grid where Location == Position, Tile: RawRepresentable {
+extension Grid where Location == Position<Int>, Tile: RawRepresentable {
 
     /// Takes a Sequence of Sequences of RawValues and makes a map of them.
     ///
@@ -183,7 +183,7 @@ extension Grid where Location == Position, Tile: RawRepresentable {
 
 extension Grid
     where
-    Location == Position,
+    Location == Position<Int>,
     Tile: RawRepresentable,
     Tile.RawValue == Character
 {
@@ -196,16 +196,16 @@ extension Grid
 
 // MARK: - Creating a Grid using a closure
 
-extension Grid where Location == Position {
+extension Grid where Location == Position<Int> {
 
     public init(
         origin: Origin = .bottomLeft,
         width: Int,
         height: Int,
-        tile: (Position) throws -> Tile
+        tile: (Position<Int>) throws -> Tile
     ) rethrows {
 
-        var tiles: [Position: Tile] = [:]
+        var tiles: [Position<Int>: Tile] = [:]
         for x in (0..<width) {
             for y in (0..<height) {
                 let position = Position(x: x, y: y)

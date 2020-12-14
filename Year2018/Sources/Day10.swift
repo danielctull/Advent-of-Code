@@ -45,7 +45,7 @@ public struct Day10 {
 
 extension Sequence where Element == Light {
 
-    var size: Position {
+    var size: Position<Int> {
         let xs = map { $0.position.x }
         let ys = map { $0.position.y }
 

@@ -13,7 +13,7 @@ public struct Day18 {
 
         struct State: Hashable {
             var keys = Set<Character>()
-            var position: Position
+            var position: Position<Int>
             var direction: Vector<Int>
         }
 

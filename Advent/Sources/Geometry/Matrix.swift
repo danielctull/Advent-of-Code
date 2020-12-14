@@ -38,7 +38,7 @@ extension Matrix
 extension Matrix {
 
     public func map<T>(
-        _ transform: (Position, Element) throws -> T
+        _ transform: (Position<Int>, Element) throws -> T
     ) rethrows -> Matrix<T> {
         Matrix<T>(size: size,
                   elements: try zip(positions, elements).map(transform))
@@ -56,7 +56,7 @@ extension Matrix {
 
 extension Matrix {
 
-    public subscript(position: Position) -> Element? {
+    public subscript(position: Position<Int>) -> Element? {
         guard position.x >= 0 else { return nil }
         guard position.y >= 0 else { return nil }
         guard position.x < size.width else { return nil }
@@ -64,7 +64,7 @@ extension Matrix {
         return self[Index(position: position)]
     }
 
-    public var positions: [Position] { indices.map(\.position) }
+    public var positions: [Position<Int>] { indices.map(\.position) }
 }
 
 // MARK: - Neighbours
@@ -119,7 +119,7 @@ extension Matrix: Sequence {
 extension Matrix: Collection {
 
     public struct Index: Comparable {
-        let position: Position
+        let position: Position<Int>
         public static func < (lhs: Index, rhs: Index) -> Bool {
             (lhs.position.y, lhs.position.x) < (rhs.position.y, rhs.position.x)
         }

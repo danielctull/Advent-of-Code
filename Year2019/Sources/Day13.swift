@@ -36,11 +36,11 @@ fileprivate struct BlockGame {
         try run()
     }
 
-    var grid = Grid<Position, Day13.Tile>(origin: .topLeft)
+    var grid = Grid<Position<Int>, Day13.Tile>(origin: .topLeft)
     var score: Int = -1
-    var blocks: [Position] { grid.positions(of: .block) }
-    var ball: Position { grid.firstPosition(of: .ball)! }
-    var paddle: Position { grid.firstPosition(of: .paddle)! }
+    var blocks: [Position<Int>] { grid.positions(of: .block) }
+    var ball: Position<Int> { grid.firstPosition(of: .ball)! }
+    var paddle: Position<Int> { grid.firstPosition(of: .paddle)! }
 }
 
 extension BlockGame {

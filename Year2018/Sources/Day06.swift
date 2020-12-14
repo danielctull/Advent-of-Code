@@ -11,7 +11,7 @@ public struct Day06 {
 
         let coordinates = input
             .lines
-            .map(Position.init)
+            .map(Position<Int>.init)
 
         let xs = coordinates.map { $0.x }
         let ys = coordinates.map { $0.y }
@@ -25,9 +25,9 @@ public struct Day06 {
         let x = ((minX-1)...(maxX+1)).cycled()
         let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
 
-        var ignored: Set<Position> = []
+        var ignored: Set<Position<Int>> = []
 
-        let winningCoordinates: [Position] = zip(x, y)
+        let winningCoordinates: [Position<Int>] = zip(x, y)
             .map(Position.init)
             .reduce(into: []) { result, location in
 
@@ -93,7 +93,7 @@ public struct Day06 {
     }
 }
 
-extension Position {
+extension Position where Scalar == Int {
 
     fileprivate init(_ string: String) {
 

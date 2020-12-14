@@ -6,7 +6,7 @@ public struct Day19 {
 
     public init() {}
 
-    private func drone(input: Input, position: Position) throws -> Drone {
+    private func drone(input: Input, position: Position<Int>) throws -> Drone {
         var computer = IntcodeComputer(input: input)
         computer.input(position.x)
         computer.input(position.y)
@@ -25,8 +25,8 @@ public struct Day19 {
 
     public func part2(input: Input) throws -> Int {
 
-        var drones: [Position: Drone] = [:]
-        func drone(at position: Position) throws -> Drone {
+        var drones: [Position<Int>: Drone] = [:]
+        func drone(at position: Position<Int>) throws -> Drone {
             if let drone = drones[position] { return drone }
             let drone = try self.drone(input: input, position: position)
             drones[position] = drone
