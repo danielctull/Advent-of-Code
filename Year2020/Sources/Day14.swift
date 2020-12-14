@@ -4,7 +4,7 @@ import Foundation
 
 public enum Day14: Day {
 
-    public static let title = ""
+    public static let title = "Docking Data"
 
     public static func part1(_ input: Input) throws -> Int {
 
@@ -29,7 +29,39 @@ public enum Day14: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let instructions = try Array(instructions: input.lines)
+        var ones = Int(BinaryNumber(bits: Array(repeating: .one, count: 36)))
+        var xPositions: [BinaryNumber.Index] = []
+        var memory: [Int:Int] = [:]
+
+        for instruction in instructions {
+            switch instruction {
+            case let .updateMask(mask):
+                ones = Int(BinaryNumber(ones: mask))
+                xPositions = BinaryNumber(exes: mask)
+                    .indexed()
+                    .filter { $0.element == .one }
+                    .map(\.index)
+            case .write(var address, let value):
+                address |= ones
+                
+                var addresses = [BinaryNumber(address)]
+                for xPosition in xPositions {
+                    addresses = addresses.flatMap { number -> [BinaryNumber] in
+                        let one = mutating(number) { $0[xPosition] = .one }
+                        let zero = mutating(number) { $0[xPosition] = .zero }
+                        return [one, zero]
+                    }
+                }
+
+                for address in addresses {
+                    memory[Int(address)] = value
+                }
+            }
+        }
+
+        return memory.values.sum()
     }
 }
 
@@ -76,6 +108,15 @@ extension BinaryNumber {
             switch $0 {
             case "0": return .zero
             default: return .one
+            }
+        })
+    }
+
+    fileprivate init(exes: String) {
+        self.init(bits: exes.map {
+            switch $0 {
+            case "X": return .one
+            default: return .zero
             }
         })
     }

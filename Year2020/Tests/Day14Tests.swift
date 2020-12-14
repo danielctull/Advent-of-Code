@@ -20,11 +20,16 @@ final class Day14Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day14.part2([]), 0)
+        XCTAssertEqual(try Day14.part2([
+            "mask = 000000000000000000000000000000X1001X",
+            "mem[42] = 100",
+            "mask = 00000000000000000000000000000000X0XX",
+            "mem[26] = 1"
+        ]), 208)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day14")
-        XCTAssertEqual(try Day14.part2(input), 0)
+        XCTAssertEqual(try Day14.part2(input), 2737766154126)
     }
 }
