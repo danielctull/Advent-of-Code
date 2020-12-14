@@ -1,11 +1,11 @@
 
 public struct Vector<Value: Numeric>: Equatable {
-    public let x: Value
-    public let y: Value
+    public let dx: Value
+    public let dy: Value
 
-    public init(x: Value, y: Value) {
-        self.x = x
-        self.y = y
+    public init(dx: Value, dy: Value) {
+        self.dx = dx
+        self.dy = dy
     }
 }
 
@@ -14,16 +14,16 @@ extension Vector: Hashable where Value: Hashable {}
 extension Vector where Value == Int {
 
     public init(from start: Position = .origin, to end: Position) {
-        x = end.x - start.x
-        y = end.y - start.y
+        dx = end.x - start.x
+        dy = end.y - start.y
     }
 }
 
 extension Vector where Value: SignedNumeric {
-    public static var up: Vector { Vector(x: 0, y: 1) }
-    public static var down: Vector { Vector(x: 0, y: -1) }
-    public static var left: Vector { Vector(x: -1, y: 0) }
-    public static var right: Vector { Vector(x: 1, y: 0) }
+    public static var up: Vector { Vector(dx: 0, dy: 1) }
+    public static var down: Vector { Vector(dx: 0, dy: -1) }
+    public static var left: Vector { Vector(dx: -1, dy: 0) }
+    public static var right: Vector { Vector(dx: 1, dy: 0) }
 }
 
 extension Vector where Value: SignedNumeric {
@@ -36,7 +36,7 @@ extension Vector where Value: SignedNumeric {
 extension Vector {
 
     public static func * (vector: Vector, value: Value) -> Vector {
-        Vector(x: vector.x * value, y: vector.y * value)
+        Vector(dx: vector.dx * value, dy: vector.dy * value)
     }
 }
 
@@ -57,8 +57,8 @@ extension Vector where Value: SignedNumeric {
 
     public func rotating(_ turn: Turn) -> Vector {
         switch turn {
-        case .left: return Vector(x: -y, y: x)
-        case .right: return Vector(x: y, y: -x)
+        case .left: return Vector(dx: -dy, dy: dx)
+        case .right: return Vector(dx: dy, dy: -dx)
         }
     }
 }
@@ -71,10 +71,10 @@ extension Vector where Value: SignedNumeric {
 
     public static var diagonal: [Vector] {
         [
-            Vector(x:  1, y:  1),
-            Vector(x:  1, y: -1),
-            Vector(x: -1, y: -1),
-            Vector(x: -1, y:  1)
+            Vector(dx:  1, dy:  1),
+            Vector(dx:  1, dy: -1),
+            Vector(dx: -1, dy: -1),
+            Vector(dx: -1, dy:  1)
         ]
     }
 }

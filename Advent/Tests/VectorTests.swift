@@ -5,23 +5,23 @@ import XCTest
 final class VectorTests: XCTestCase {
 
     func testInitDirections() {
-        XCTAssertEqual(Vector.up.x, 0)
-        XCTAssertEqual(Vector.up.y, 1)
-        XCTAssertEqual(Vector.down.x, 0)
-        XCTAssertEqual(Vector.down.y, -1)
-        XCTAssertEqual(Vector.left.x, -1)
-        XCTAssertEqual(Vector.left.y, 0)
-        XCTAssertEqual(Vector.right.x, 1)
-        XCTAssertEqual(Vector.right.y, 0)
+        XCTAssertEqual(Vector.up.dx, 0)
+        XCTAssertEqual(Vector.up.dy, 1)
+        XCTAssertEqual(Vector.down.dx, 0)
+        XCTAssertEqual(Vector.down.dy, -1)
+        XCTAssertEqual(Vector.left.dx, -1)
+        XCTAssertEqual(Vector.left.dy, 0)
+        XCTAssertEqual(Vector.right.dx, 1)
+        XCTAssertEqual(Vector.right.dy, 0)
 
-        XCTAssertEqual(Vector.north.x, 0)
-        XCTAssertEqual(Vector.north.y, 1)
-        XCTAssertEqual(Vector.east.x, 1)
-        XCTAssertEqual(Vector.east.y, 0)
-        XCTAssertEqual(Vector.south.x, 0)
-        XCTAssertEqual(Vector.south.y, -1)
-        XCTAssertEqual(Vector.west.x, -1)
-        XCTAssertEqual(Vector.west.y, 0)
+        XCTAssertEqual(Vector.north.dx, 0)
+        XCTAssertEqual(Vector.north.dy, 1)
+        XCTAssertEqual(Vector.east.dx, 1)
+        XCTAssertEqual(Vector.east.dy, 0)
+        XCTAssertEqual(Vector.south.dx, 0)
+        XCTAssertEqual(Vector.south.dy, -1)
+        XCTAssertEqual(Vector.west.dx, -1)
+        XCTAssertEqual(Vector.west.dy, 0)
     }
 
     func testOpposite() {
@@ -61,8 +61,8 @@ final class VectorTests: XCTestCase {
     }
 
     func testMultiply() {
-        let vector = Vector(x: 3, y: 5) * 4
-        XCTAssertEqual(vector.x, 12)
-        XCTAssertEqual(vector.y, 20)
+        let vector = Vector(dx: 3, dy: 5) * 4
+        XCTAssertEqual(vector.dx, 12)
+        XCTAssertEqual(vector.dy, 20)
     }
 }

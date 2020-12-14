@@ -49,7 +49,7 @@ extension Position {
 extension Position {
 
     public static func + (position: Position, vector: Vector<Int>) -> Position {
-        Position(x: position.x + vector.x, y: position.y + vector.y)
+        Position(x: position.x + vector.dx, y: position.y + vector.dy)
     }
 
     public static func += (position: inout Position, vector: Vector<Int>) {

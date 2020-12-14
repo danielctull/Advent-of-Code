@@ -35,22 +35,22 @@ final class PositionTests: XCTestCase {
 
     func testMove() {
         XCTAssertEqual(
-            mutating(Position(x: 5, y: 6)) { $0 += Vector(x: 4, y: 2) },
+            mutating(Position(x: 5, y: 6)) { $0 += Vector(dx: 4, dy: 2) },
             Position(x: 9, y: 8)
         )
         XCTAssertEqual(
-            mutating(Position(x: 1, y: 6)) { $0 += Vector(x: -3, y: 3) },
+            mutating(Position(x: 1, y: 6)) { $0 += Vector(dx: -3, dy: 3) },
             Position(x: -2, y: 9)
         )
     }
 
     func testMoving() {
         XCTAssertEqual(
-            Position.origin + Vector(x: 2, y: 3),
+            Position.origin + Vector(dx: 2, dy: 3),
             Position(x: 2, y: 3)
         )
         XCTAssertEqual(
-            Position(x: 1, y: 6) + Vector(x: -3, y: 3),
+            Position(x: 1, y: 6) + Vector(dx: -3, dy: 3),
             Position(x: -2, y: 9)
         )
     }
