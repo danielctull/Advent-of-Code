@@ -21,11 +21,17 @@ final class Day15Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day15.part2([]), 0)
+        XCTAssertEqual(try Day15.part2("0,3,6"), 175594)
+        XCTAssertEqual(try Day15.part2("1,3,2"), 2578)
+        XCTAssertEqual(try Day15.part2("2,1,3"), 3544142)
+        XCTAssertEqual(try Day15.part2("1,2,3"), 261214)
+        XCTAssertEqual(try Day15.part2("2,3,1"), 6895259)
+        XCTAssertEqual(try Day15.part2("3,2,1"), 18)
+        XCTAssertEqual(try Day15.part2("3,1,2"), 362)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day15")
-        XCTAssertEqual(try Day15.part2(input), 0)
+        XCTAssertEqual(try Day15.part2(input), 62714)
     }
 }
