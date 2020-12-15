@@ -18,7 +18,7 @@ public enum Day15: Day {
 
         var positions = try zip(1..., input.integers)
             .dropLast()
-            .group { $0.1 }
+            .group(by: \.1)
             .mapValues { try $0.last.unwrapped().0 }
 
         let last = try input
