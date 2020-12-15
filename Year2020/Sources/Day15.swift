@@ -16,27 +16,23 @@ public enum Day15: Day {
 
     private static func findNumber(_ goal: Int, in input: Input) throws -> Int {
 
-        var positions = try zip(1..., input.integers)
+        let integers = input.integers
+
+        // Make a dictionary of visited numbers for all but the last value in
+        // the input sequence.
+        var sightings = try zip(1..., integers)
             .dropLast()
             .group(by: \.1)
             .mapValues { try $0.last.unwrapped().0 }
 
-        let last = try input
-            .integers
-            .last
-            .unwrapped()
+        // Seed last value of the input sequence.
+        let last = try integers.last.unwrapped()
 
-        return (input.integers.count..<goal).reduce(last) { previous, turn in
-
-            let next: Int
-            if let previousTurn = positions[previous] {
-                next = turn - previousTurn
-            } else {
-                next = 0
-            }
-
-            positions[previous] = turn
-            return next
+        // Reduce until we hit our goal amount.
+        return (integers.count..<goal).reduce(last) { value, turn in
+            defer { sightings[value] = turn }
+            guard let lastSeen = sightings[value] else { return 0 }
+            return turn - lastSeen
         }
     }
 }
