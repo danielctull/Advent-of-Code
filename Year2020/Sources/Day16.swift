@@ -8,14 +8,13 @@ public enum Day16: Day {
 
     public static func part1(_ input: Input) throws -> Int {
 
-        let split = input.lines
-            .split(whereSeparator: \.isEmpty)
+        let sections = input.lines.split(whereSeparator: \.isEmpty)
 
-        let rules = try Array(rules: split[0])
+        let rules = try Array(rules: sections[0])
             .map(\.valid)
             .joined(operator: ||)
 
-        let values = try split[2]
+        let values = try sections[2]
             .dropFirst()
             .joined(separator: ",")
             .split(separator: ",")
@@ -28,28 +27,28 @@ public enum Day16: Day {
 
     public static func part2(_ input: Input) throws -> Int {
 
-        let split = input.lines
-            .split(whereSeparator: \.isEmpty)
-
-        let rules = try Array(rules: split[0])
-        let yourTicket = try Array(tickets: split[1]).first.unwrapped()
-        let nearbyTickets = try Array(tickets: split[2])
+        let sections = input.lines.split(whereSeparator: \.isEmpty)
+        let rules = try Array(rules: sections[0])
+        let yourTicket = try Array(tickets: sections[1]).first.unwrapped()
+        let nearbyTickets = try Array(tickets: sections[2])
+        let fieldCount = yourTicket.fields.count
 
         let anyRule = rules
             .map(\.valid)
             .joined(operator: ||)
-        let validTickets = nearbyTickets
+
+        return try nearbyTickets
+
+            // Remove invalid tickets.
             .filter { $0.fields.allSatisfy(anyRule) }
 
-        let potentialRules = Array(repeating: rules, count: yourTicket.fields.count)
-
-        return try validTickets
-
-            // Remove any which aren't valid for the fields in the tickets.
-            .reduce(potentialRules) { potentialRules, ticket in
+            // Take the rules and repeat them for the amount of fields, then
+            // reduce them by removing any which aren't valid for the field of
+            // each ticket.
+            .reduce(rules.repeating(fieldCount)) { potentialRules, ticket in
                 zip(potentialRules, ticket.fields)
-                    .map { potential, field in
-                        potential.filter { $0.valid(field) }
+                    .map { rules, field in
+                        rules.filter { $0.valid(field) }
                     }
             }
 
