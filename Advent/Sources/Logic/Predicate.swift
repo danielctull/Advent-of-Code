@@ -73,3 +73,16 @@ extension Predicate where Value: Equatable {
         Predicate(values.contains)
     }
 }
+
+extension Sequence {
+
+    public func filter(_ isIncluded: Predicate<Element>) -> [Element] {
+        filter { isIncluded($0) }
+    }
+
+    public func joined<T>(
+        operator: (Predicate<T>, Predicate<T>) -> Predicate<T>
+    ) -> Predicate<T> where Element == Predicate<T> {
+        reduce(`operator`) ?? Predicate { _ in true }
+    }
+}
