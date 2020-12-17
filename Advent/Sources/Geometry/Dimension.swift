@@ -1,21 +1,9 @@
 
 public protocol Dimension {
-    associatedtype Index: CaseIterable
+    associatedtype Parameter: CaseIterable
     associatedtype Scalar
-    subscript(index: Index) -> Scalar { get }
-}
-
-// MARK: - 1D
-
-public struct Dimension1<Scalar> {
-    public let x: Scalar
-}
-
-extension Dimension1: Dimension {
-    public struct Index: CaseIterable {
-        public static var allCases: [Index] { [Index()] }
-    }
-    public subscript(index: Index) -> Scalar { x }
+    init(value: (Parameter) -> Scalar)
+    subscript(parameter: Parameter) -> Scalar { get }
 }
 
 // MARK: - 2D
@@ -25,16 +13,23 @@ public struct Dimension2<Scalar> {
 }
 
 extension Dimension2: Dimension {
-    public enum Index: CaseIterable {
+    public enum Parameter: CaseIterable {
         case x, y
     }
-    public subscript(index: Index) -> Scalar {
-        switch index {
+    public init(value: (Parameter) -> Scalar) {
+        x = value(.x)
+        y = value(.y)
+    }
+    public subscript(parameter: Parameter) -> Scalar {
+        switch parameter {
         case .x: return x
         case .y: return y
         }
     }
 }
+
+extension Dimension2: Equatable where Scalar: Equatable {}
+extension Dimension2: Hashable where Scalar: Hashable {}
 
 // MARK: - 3D
 
@@ -43,17 +38,25 @@ public struct Dimension3<Scalar> {
 }
 
 extension Dimension3: Dimension {
-    public enum Index: CaseIterable {
+    public enum Parameter: CaseIterable {
         case x, y, z
     }
-    public subscript(index: Index) -> Scalar {
-        switch index {
+    public init(value: (Parameter) -> Scalar) {
+        x = value(.x)
+        y = value(.y)
+        z = value(.z)
+    }
+    public subscript(parameter: Parameter) -> Scalar {
+        switch parameter {
         case .x: return x
         case .y: return y
         case .z: return z
         }
     }
 }
+
+extension Dimension3: Equatable where Scalar: Equatable {}
+extension Dimension3: Hashable where Scalar: Hashable {}
 
 // MARK: - 4D
 
@@ -62,11 +65,17 @@ public struct Dimension4<Scalar> {
 }
 
 extension Dimension4: Dimension {
-    public enum Index: CaseIterable {
+    public enum Parameter: CaseIterable {
         case w, x, y, z
     }
-    public subscript(index: Index) -> Scalar {
-        switch index {
+    public init(value: (Parameter) -> Scalar) {
+        w = value(.w)
+        x = value(.x)
+        y = value(.y)
+        z = value(.z)
+    }
+    public subscript(parameter: Parameter) -> Scalar {
+        switch parameter {
         case .w: return w
         case .x: return x
         case .y: return y
@@ -74,3 +83,6 @@ extension Dimension4: Dimension {
         }
     }
 }
+
+extension Dimension4: Equatable where Scalar: Equatable {}
+extension Dimension4: Hashable where Scalar: Hashable {}

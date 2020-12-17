@@ -1,80 +1,147 @@
 
-public struct Vector2D<Value: Numeric>: Equatable {
-    public let x: Value
-    public let y: Value
+@dynamicMemberLookup
+public struct Vector<Space, Scalar>
+    where
+    Space: Dimension,
+    Space.Scalar == Scalar,
+    Scalar: Numeric
+{
+    public typealias Parameter = Space.Parameter
+    private let space: Space
 
-    public init(x: Value, y: Value) {
-        self.x = x
-        self.y = y
+    public subscript(
+        dynamicMember keyPath: KeyPath<Space, Scalar>
+    ) -> Scalar {
+        space[keyPath: keyPath]
     }
 }
 
-extension Vector2D: Hashable where Value: Hashable {}
+extension Vector: Equatable where Space: Equatable {}
+extension Vector: Hashable where Space: Hashable {}
 
-extension Vector2D where Value == Int {
+extension Vector {
 
-    public init(from start: Position2D<Value> = .origin, to end: Position2D<Value>) {
-        x = end.x - start.x
-        y = end.y - start.y
+    private init(value: (Parameter) -> Scalar) {
+        self.init(space: Space(value: value))
+    }
+
+    subscript(parameter: Parameter) -> Scalar { space[parameter] }
+}
+
+extension Vector {
+
+    public init(
+        from start: Position<Space, Scalar> = .origin,
+        to end: Position<Space, Scalar>
+    ) {
+        self.init { parameter in end[parameter] - start[parameter] }
     }
 }
 
-extension Vector2D where Value: SignedNumeric {
-    public static var up: Vector2D { Vector2D(x: 0, y: 1) }
-    public static var down: Vector2D { Vector2D(x: 0, y: -1) }
-    public static var left: Vector2D { Vector2D(x: -1, y: 0) }
-    public static var right: Vector2D { Vector2D(x: 1, y: 0) }
-}
+extension Vector {
 
-extension Vector2D where Value: SignedNumeric {
-    public static var north: Vector2D { .up }
-    public static var east: Vector2D { .right }
-    public static var south: Vector2D { .down }
-    public static var west: Vector2D { .left }
-}
-
-extension Vector2D {
-
-    public static func * (vector: Vector2D, value: Value) -> Vector2D {
-        Vector2D(x: vector.x * value, y: vector.y * value)
+    public static func * (vector: Vector, value: Scalar) -> Vector {
+        Vector { parameter in vector.space[parameter] * value }
     }
 }
 
-extension Vector2D where Value: SignedNumeric {
+extension Vector where Scalar: SignedNumeric {
+    public var opposite: Vector { self * -1 }
+}
 
-    public var opposite: Vector2D { self * -1 }
+// MARK: - 2D
 
-    public var otherDirections: [Vector2D] {
-        Vector2D.orthogonal.filter { $0 != self }
+public typealias Vector2D<Scalar: Numeric> = Vector<Dimension2<Scalar>, Scalar>
+
+extension Vector where Space == Dimension2<Scalar> {
+
+    public init(x: Scalar, y: Scalar) {
+        self.init { parameter in
+            switch parameter {
+            case .x: return x
+            case .y: return y
+            }
+        }
     }
 }
 
-extension Vector2D where Value: SignedNumeric {
+extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
+    public static var up: Vector { Vector(x: 0, y: 1) }
+    public static var down: Vector { Vector(x: 0, y: -1) }
+    public static var left: Vector { Vector(x: -1, y: 0) }
+    public static var right: Vector { Vector(x: 1, y: 0) }
+}
+
+extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
+    public static var north: Vector { .up }
+    public static var east: Vector { .right }
+    public static var south: Vector { .down }
+    public static var west: Vector { .left }
+}
+
+extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
+    public var otherDirections: [Vector] {
+        Vector.orthogonal.filter { $0 != self }
+    }
+}
+
+extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
     public mutating func rotate(_ turn: Turn) {
         self = rotating(turn)
     }
 
-    public func rotating(_ turn: Turn) -> Vector2D {
+    public func rotating(_ turn: Turn) -> Vector {
         switch turn {
-        case .left: return Vector2D(x: -y, y: x)
-        case .right: return Vector2D(x: y, y: -x)
+        case .left: return Vector(x: -self.y, y: self.x)
+        case .right: return Vector(x: self.y, y: -self.x)
         }
     }
 }
 
-extension Vector2D where Value: SignedNumeric {
+extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
-    public static var orthogonal: [Vector2D] {
+    public static var orthogonal: [Vector] {
         [.up, .down, .left, .right]
     }
 
-    public static var diagonal: [Vector2D] {
+    public static var diagonal: [Vector] {
         [
-            Vector2D(x:  1, y:  1),
-            Vector2D(x:  1, y: -1),
-            Vector2D(x: -1, y: -1),
-            Vector2D(x: -1, y:  1)
+            Vector(x:  1, y:  1),
+            Vector(x:  1, y: -1),
+            Vector(x: -1, y: -1),
+            Vector(x: -1, y:  1)
         ]
+    }
+}
+
+// MARK: - 3D
+
+extension Vector where Space == Dimension3<Scalar> {
+
+    public init(x: Scalar, y: Scalar, z: Scalar) {
+        self.init { parameter in
+            switch parameter {
+            case .x: return x
+            case .y: return y
+            case .z: return z
+            }
+        }
+    }
+}
+
+// MARK: - 4D
+
+extension Vector where Space == Dimension4<Scalar> {
+
+    public init(w: Scalar, x: Scalar, y: Scalar, z: Scalar) {
+        self.init { parameter in
+            switch parameter {
+            case .w: return w
+            case .x: return x
+            case .y: return y
+            case .z: return z
+            }
+        }
     }
 }

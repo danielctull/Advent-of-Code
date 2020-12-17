@@ -91,7 +91,7 @@ extension RepairDroid {
     }
 }
 
-extension Vector2D where Value == Int {
+extension Vector where Space == Dimension2<Int> {
 
     fileprivate var code: Int {
         switch self {

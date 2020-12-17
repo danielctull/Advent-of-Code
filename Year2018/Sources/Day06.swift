@@ -93,7 +93,7 @@ public struct Day06 {
     }
 }
 
-extension Position2D where Scalar == Int {
+extension Position where Space == Dimension2<Int> {
 
     fileprivate init(_ string: String) {
 

@@ -12,14 +12,14 @@ public struct Day03 {
             .lines
             .flatMap { $0 }
             .map { Direction(rawValue: String($0))! }
-            .reductions(Position2D(x: 0, y: 0)) { $0.move($1) }
+            .reductions(Position(x: 0, y: 0)) { $0.move($1) }
             .countByElement
             .count
     }
 
     public func part2(input: Input) -> Int {
 
-        let start = Position2D(x: 0, y: 0)
+        let start = Position(x: 0, y: 0)
 
         return input
             .lines
@@ -39,15 +39,15 @@ private enum Direction: String {
     case west = "<"
 }
 
-extension Position2D {
+extension Position where Space == Dimension2<Scalar> {
 
-    fileprivate func move(_ direction: Direction) -> Position2D {
+    fileprivate func move(_ direction: Direction) -> Position {
 
         switch direction {
-        case .north: return Position2D(x: x, y: y + 1)
-        case .south: return Position2D(x: x, y: y - 1)
-        case .east: return Position2D(x: x + 1, y: y)
-        case .west: return Position2D(x: x - 1, y: y)
+        case .north: return Position(x: self.x, y: self.y + 1)
+        case .south: return Position(x: self.x, y: self.y - 1)
+        case .east: return Position(x: self.x + 1, y: self.y)
+        case .west: return Position(x: self.x - 1, y: self.y)
         }
     }
 }
