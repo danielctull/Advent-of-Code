@@ -73,6 +73,37 @@ final class PositionTests: XCTestCase {
         )
     }
 
+    func testNeighbours() {
+        let neighbours = Position3D.origin.neighbours
+        XCTAssertEqual(neighbours.count, 26)
+        XCTAssert(neighbours.contains(Position(x: -1, y: -1, z: -1)))
+        XCTAssert(neighbours.contains(Position(x: -1, y: -1, z:  0)))
+        XCTAssert(neighbours.contains(Position(x: -1, y: -1, z:  1)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  0, z: -1)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  0, z:  0)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  0, z:  1)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  1, z: -1)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  1, z:  0)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  1, z:  1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y: -1, z: -1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y: -1, z:  0)))
+        XCTAssert(neighbours.contains(Position(x:  0, y: -1, z:  1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y:  0, z: -1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y:  0, z:  1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y:  1, z: -1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y:  1, z:  0)))
+        XCTAssert(neighbours.contains(Position(x:  0, y:  1, z:  1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y: -1, z: -1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y: -1, z:  0)))
+        XCTAssert(neighbours.contains(Position(x:  1, y: -1, z:  1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  0, z: -1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  0, z:  0)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  0, z:  1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  1, z: -1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  1, z:  0)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  1, z:  1)))
+    }
+
     func testRotate() {
         XCTAssertEqual(
             mutating(Position(x: 1, y: 2)) { $0.rotate(.left) },
