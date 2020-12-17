@@ -20,11 +20,15 @@ final class Day17Tests: XCTestCase {
 
 
     func testPart2Example() throws {
-        XCTAssertEqual(try Day17.part2([]), 0)
+        XCTAssertEqual(try Day17.part2([
+            ".#.",
+            "..#",
+            "###"
+        ]), 848)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day17")
-        XCTAssertEqual(try Day17.part2(input), 0)
+        XCTAssertEqual(try Day17.part2(input), 1180)
     }
 }
