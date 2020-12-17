@@ -39,6 +39,18 @@ extension Vector {
 }
 
 extension Vector {
+    public static var zero: Vector { Vector { _ in 0 } }
+}
+
+extension Vector {
+
+    public static func + (lhs: Vector, rhs: Vector) -> Vector {
+        Vector { parameter in lhs[parameter] + rhs[parameter] }
+    }
+
+    public static func += (lhs: inout Vector, rhs: Vector) {
+        lhs = lhs + rhs
+    }
 
     public static func * (vector: Vector, value: Scalar) -> Vector {
         Vector { parameter in vector.space[parameter] * value }
@@ -116,6 +128,8 @@ extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 }
 
 // MARK: - 3D
+
+public typealias Vector3D<Scalar: Numeric> = Vector<Dimension3<Scalar>, Scalar>
 
 extension Vector where Space == Dimension3<Scalar> {
 

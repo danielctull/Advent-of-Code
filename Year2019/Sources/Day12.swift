@@ -24,8 +24,8 @@ public struct Day12 {
 }
 
 struct Moon: Hashable, Equatable {
-    var position: Position3D
-    var velocity: Position3D
+    var position: Position3D<Int>
+    var velocity: Vector3D<Int>
 
     fileprivate init(_ string: String) {
         let numerics = CharacterSet(charactersIn: "-0123456789")
@@ -36,7 +36,7 @@ struct Moon: Hashable, Equatable {
         let y = Int(numbers[1])!
         let z = Int(numbers[2])!
         position = Position3D(x: x, y: y, z: z)
-        velocity = Position3D.origin
+        velocity = .zero
     }
 }
 
@@ -44,12 +44,12 @@ extension Moon: CustomStringConvertible {
     var description: String { "pos=\(position), vel=\(velocity)" }
 }
 
-extension Position3D: CustomStringConvertible {
-    public var description: String { "<x=\(x), y=\(y), z=\(z)>" }
+extension Position where Space == Dimension3<Int> {
+    fileprivate var sum: Int { abs(self.x) + abs(self.y) + abs(self.z) }
 }
 
-extension Position3D {
-    fileprivate var sum: Int { abs(x) + abs(y) + abs(z) }
+extension Vector where Space == Dimension3<Int> {
+    fileprivate var sum: Int { abs(self.x) + abs(self.y) + abs(self.z) }
 }
 
 extension Moon {
@@ -66,7 +66,7 @@ extension Moon {
             let xOffset = offset(this: this.position.x, other: other.position.x)
             let yOffset = offset(this: this.position.y, other: other.position.y)
             let zOffset = offset(this: this.position.z, other: other.position.z)
-            this.velocity += Position3D(x: xOffset, y: yOffset, z: zOffset)
+            this.velocity += Vector(x: xOffset, y: yOffset, z: zOffset)
         }
     }
 

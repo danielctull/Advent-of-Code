@@ -94,6 +94,8 @@ extension Position where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
 // MARK: - 3D
 
+public typealias Position3D<Scalar: Numeric> = Position<Dimension3<Scalar>, Scalar>
+
 extension Position where Space == Dimension3<Scalar> {
 
     public init(x: Scalar, y: Scalar, z: Scalar) {
@@ -102,6 +104,21 @@ extension Position where Space == Dimension3<Scalar> {
             case .x: return x
             case .y: return y
             case .z: return z
+            }
+        }
+    }
+}
+
+extension Position where Space == Dimension3<Scalar>, Scalar == Int {
+
+    public var neighbours: [Position] {
+        let range: ClosedRange<Scalar> = -1...1
+        return range.flatMap { dx in
+            range.flatMap { dy in
+                range.compactMap { dz in
+                    guard dx != 0 || dy != 0 || dz != 0 else { return nil }
+                    return Position(x: self.x + dx, y: self.y + dy, z: self.z + dz)
+                }
             }
         }
     }

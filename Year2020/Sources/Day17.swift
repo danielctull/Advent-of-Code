@@ -50,7 +50,7 @@ extension Day17 {
     }
 }
 
-extension Dictionary where Key == Position3D, Value == Day17.Cube {
+extension Dictionary where Key == Position3D<Int>, Value == Day17.Cube {
 
     mutating func step() {
 
@@ -77,7 +77,7 @@ extension Dictionary where Key == Position3D, Value == Day17.Cube {
         }
 
         self = self
-            .map { position, cube -> (Position3D, Day17.Cube) in
+            .map { position, cube -> (Position3D<Int>, Day17.Cube) in
 
                 let neighbours = position.neighbours
                 let count = neighbours.count(where: { self[$0] == .active })
