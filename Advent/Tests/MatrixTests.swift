@@ -30,29 +30,29 @@ final class MatrixTests: XCTestCase {
         let mapped = matrix.map { (p: Position2D, integer: Int) in String(integer) }
         XCTAssertEqual(Array(mapped), ["1", "2", "3", "4"])
         XCTAssertEqual(Array(mapped.positions), [
-            Position2D(x: 0, y: 0), Position2D(x: 1, y: 0),
-            Position2D(x: 0, y: 1), Position2D(x: 1, y: 1)
+            Position(x: 0, y: 0), Position(x: 1, y: 0),
+            Position(x: 0, y: 1), Position(x: 1, y: 1)
         ])
     }
 
     func testPositions() {
         let m = Matrix(elements: [["A", "B", "C"], ["D", "E", "F"], ["G", "H", "I"]])
         XCTAssertEqual(Array(m.positions), [
-            Position2D(x: 0, y: 0), Position2D(x: 1, y: 0), Position2D(x: 2, y: 0),
-            Position2D(x: 0, y: 1), Position2D(x: 1, y: 1), Position2D(x: 2, y: 1),
-            Position2D(x: 0, y: 2), Position2D(x: 1, y: 2), Position2D(x: 2, y: 2),
+            Position(x: 0, y: 0), Position(x: 1, y: 0), Position(x: 2, y: 0),
+            Position(x: 0, y: 1), Position(x: 1, y: 1), Position(x: 2, y: 1),
+            Position(x: 0, y: 2), Position(x: 1, y: 2), Position(x: 2, y: 2),
         ])
     }
 
     func testSubscript() {
         let matrix = Matrix(elements: [[1, 2], [3, 4]])
-        XCTAssertEqual(matrix[Position2D(x: 0, y: -1)], nil)
-        XCTAssertEqual(matrix[Position2D(x: -1, y: 0)], nil)
-        XCTAssertEqual(matrix[Position2D(x: 0, y: 0)], 1)
-        XCTAssertEqual(matrix[Position2D(x: 1, y: 0)], 2)
-        XCTAssertEqual(matrix[Position2D(x: 0, y: 1)], 3)
-        XCTAssertEqual(matrix[Position2D(x: 1, y: 1)], 4)
-        XCTAssertEqual(matrix[Position2D(x: 2, y: 0)], nil)
-        XCTAssertEqual(matrix[Position2D(x: 1, y: 2)], nil)
+        XCTAssertEqual(matrix[Position(x: 0, y: -1)], nil)
+        XCTAssertEqual(matrix[Position(x: -1, y: 0)], nil)
+        XCTAssertEqual(matrix[Position(x: 0, y: 0)], 1)
+        XCTAssertEqual(matrix[Position(x: 1, y: 0)], 2)
+        XCTAssertEqual(matrix[Position(x: 0, y: 1)], 3)
+        XCTAssertEqual(matrix[Position(x: 1, y: 1)], 4)
+        XCTAssertEqual(matrix[Position(x: 2, y: 0)], nil)
+        XCTAssertEqual(matrix[Position(x: 1, y: 2)], nil)
     }
 }

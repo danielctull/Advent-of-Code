@@ -171,7 +171,7 @@ extension Grid where Location == Position2D<Int>, Tile: RawRepresentable {
     {
         let tiles = try rawValues.enumerated().flatMap { y, line in
             try line.enumerated().map { x, rawValue in
-                try (Position2D(x: x, y: y), Tile(rawValue))
+                try (Position(x: x, y: y), Tile(rawValue))
             }
         }
         .group(by: { $0.0 })
@@ -202,13 +202,13 @@ extension Grid where Location == Position2D<Int> {
         origin: Origin = .bottomLeft,
         width: Int,
         height: Int,
-        tile: (Position2D<Int>) throws -> Tile
+        tile: (Location) throws -> Tile
     ) rethrows {
 
-        var tiles: [Position2D<Int>: Tile] = [:]
+        var tiles: [Location: Tile] = [:]
         for x in (0..<width) {
             for y in (0..<height) {
-                let position = Position2D(x: x, y: y)
+                let position = Position(x: x, y: y)
                 tiles[position] = try tile(position)
             }
         }

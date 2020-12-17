@@ -121,11 +121,11 @@ extension Matrix: Collection {
     }
 
     public var startIndex: Index {
-        Index(position: Position2D(x: 0, y: 0))
+        Index(position: Position(x: 0, y: 0))
     }
 
     public var endIndex: Index {
-        Index(position: Position2D(x: size.width, y: size.height))
+        Index(position: Position(x: size.width, y: size.height))
     }
 
     public subscript(i: Index) -> Element {
@@ -135,10 +135,10 @@ extension Matrix: Collection {
     public func index(after i: Index) -> Index {
 
         if i.position.x + 1 < size.width {
-            return Index(position: Position2D(x: i.position.x + 1, y: i.position.y))
+            return Index(position: Position(x: i.position.x + 1, y: i.position.y))
         }
         if i.position.y + 1 < size.height {
-            return Index(position: Position2D(x: 0, y: i.position.y + 1))
+            return Index(position: Position(x: 0, y: i.position.y + 1))
         }
 
         return endIndex

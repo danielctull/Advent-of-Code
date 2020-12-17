@@ -28,7 +28,7 @@ public struct Day06 {
         var ignored: Set<Position2D<Int>> = []
 
         let winningCoordinates: [Position2D<Int>] = zip(x, y)
-            .map(Position2D.init)
+            .map(Position.init)
             .reduce(into: []) { result, location in
 
             let distances = coordinates.map {
@@ -66,7 +66,7 @@ public struct Day06 {
 
         let coordinates = input
             .lines
-            .map(Position2D.init)
+            .map(Position.init)
 
         let xs = coordinates.map { $0.x }
         let ys = coordinates.map { $0.y }
@@ -81,7 +81,7 @@ public struct Day06 {
         let y = ((minY-1)...(maxY+1)).repeatingElements(maxX - minX + 3)
 
         return zip(x, y)
-            .map(Position2D.init)
+            .map(Position.init)
             .map { location in
 
                 return coordinates.reduce(into: 0) { result, coordinate in

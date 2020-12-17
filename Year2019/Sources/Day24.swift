@@ -28,10 +28,10 @@ public struct Day24 {
     public func part2(input: Input, count: Int = 200) throws -> Int {
 
         var level0 = try Grid<Position2D, Day24.Tile>(input: input)
-        level0.tiles.removeValue(forKey: Position2D(x: 2, y: 2))
+        level0.tiles.removeValue(forKey: Position(x: 2, y: 2))
 
         var empty = Grid(width: 5, height: 5) { _ in Day24.Tile.empty }
-        empty.tiles.removeValue(forKey: Position2D(x: 2, y: 2))
+        empty.tiles.removeValue(forKey: Position(x: 2, y: 2))
 
         let tiles = (-count...count)
             .flatMap { level -> [(Location, Tile)] in
@@ -116,29 +116,29 @@ extension Day24.Location {
 
             // Adjacent is middle
             case (2,1, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position2D(x: $0, y: 0)) }
+                return (0...4).map { Self(level: level + 1, position: Position(x: $0, y: 0)) }
 
             case (2,3, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position2D(x: $0, y: 4)) }
+                return (0...4).map { Self(level: level + 1, position: Position(x: $0, y: 4)) }
 
             case (1,2, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position2D(x: 0, y: $0)) }
+                return (0...4).map { Self(level: level + 1, position: Position(x: 0, y: $0)) }
 
             case (3,2, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position2D(x: 4, y: $0)) }
+                return (0...4).map { Self(level: level + 1, position: Position(x: 4, y: $0)) }
 
             // Adjacent is outside
             case (_,_, -1,_):
-                return [ Self(level: level - 1, position: Position2D(x: 1, y: 2)) ]
+                return [ Self(level: level - 1, position: Position(x: 1, y: 2)) ]
 
             case (_,_, 5,_):
-                return [ Self(level: level - 1, position: Position2D(x: 3, y: 2)) ]
+                return [ Self(level: level - 1, position: Position(x: 3, y: 2)) ]
 
             case (_,_, _,-1):
-                return [ Self(level: level - 1, position: Position2D(x: 2, y: 1)) ]
+                return [ Self(level: level - 1, position: Position(x: 2, y: 1)) ]
 
             case (_,_, _,5):
-                return [ Self(level: level - 1, position: Position2D(x: 2, y: 3)) ]
+                return [ Self(level: level - 1, position: Position(x: 2, y: 3)) ]
 
             // Adjacent is in this level
 

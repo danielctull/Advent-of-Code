@@ -49,7 +49,7 @@ public struct Day10 {
             .enumerated()
             .flatMap { y, string in
                 string.enumerated().compactMap { x, character -> Position2D<Int>? in
-                    character == "#" ? Position2D(x: x, y: y) : nil
+                    character == "#" ? Position(x: x, y: y) : nil
                 }
             }
 

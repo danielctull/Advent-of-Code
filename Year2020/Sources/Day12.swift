@@ -30,7 +30,7 @@ public enum Day12: Day {
 
         let instructions = try Array(instructions: input)
         var ship = Position2D<Int>.origin
-        var waypoint = Position2D(x: 10, y: 1)
+        var waypoint = Position(x: 10, y: 1)
         for instruction in instructions {
             switch instruction.kind {
             case .N: waypoint += .north * instruction.amount

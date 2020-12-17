@@ -76,7 +76,7 @@ extension BlockGame {
             let y = values[1]
             switch (x, y) {
             case (-1, 0): self.score = values[2]
-            default: grid[Position2D(x: x, y: y)] = try Day13.Tile(values[2])
+            default: grid[Position(x: x, y: y)] = try Day13.Tile(values[2])
             }
         }
     }
