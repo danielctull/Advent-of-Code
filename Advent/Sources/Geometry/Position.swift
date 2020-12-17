@@ -109,7 +109,7 @@ extension Position where Space == Dimension3<Scalar> {
     }
 }
 
-extension Position where Space == Dimension3<Scalar>, Scalar == Int {
+extension Position where Space == Dimension3<Int> {
 
     public var neighbours: [Position] {
         let range: ClosedRange<Scalar> = -1...1
@@ -126,6 +126,8 @@ extension Position where Space == Dimension3<Scalar>, Scalar == Int {
 
 // MARK: - 4D
 
+public typealias Position4D<Scalar: Numeric> = Position<Dimension4<Scalar>, Scalar>
+
 extension Position where Space == Dimension4<Scalar> {
 
     public init(w: Scalar, x: Scalar, y: Scalar, z: Scalar) {
@@ -135,6 +137,26 @@ extension Position where Space == Dimension4<Scalar> {
             case .x: return x
             case .y: return y
             case .z: return z
+            }
+        }
+    }
+}
+
+extension Position where Space == Dimension4<Int> {
+
+    public var neighbours: [Position] {
+        let range = -1...1
+        return range.flatMap { dw in
+            range.flatMap { dx in
+                range.flatMap { dy in
+                    range.compactMap { dz in
+                        guard dw != 0 || dx != 0 || dy != 0 || dz != 0 else { return nil }
+                        return Position4D(w: self.w + dw,
+                                          x: self.x + dx,
+                                          y: self.y + dy,
+                                          z: self.z + dz)
+                    }
+                }
             }
         }
     }
