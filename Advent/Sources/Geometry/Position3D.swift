@@ -24,3 +24,18 @@ public func + (_ lhs: Position3D, rhs: Position3D) -> Position3D {
 public func += (_ lhs: inout Position3D, rhs: Position3D) {
     lhs = lhs + rhs
 }
+
+extension Position3D {
+
+    public var neighbours: [Position3D] {
+        let range = -1...1
+        return range.flatMap { dx in
+            range.flatMap { dy in
+                range.compactMap { dz in
+                    guard dx != 0 || dy != 0 || dz != 0 else { return nil }
+                    return Position3D(x: x + dx, y: y + dy, z: z + dz)
+                }
+            }
+        }
+    }
+}
