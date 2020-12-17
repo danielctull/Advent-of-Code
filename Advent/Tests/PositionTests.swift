@@ -4,6 +4,24 @@ import XCTest
 
 final class PositionTests: XCTestCase {
 
+    func testInit2D() {
+        XCTAssertEqual(Position(x: 8, y: 4).x, 8)
+        XCTAssertEqual(Position(x: 8, y: 4).y, 4)
+    }
+
+    func testInit3D() {
+        XCTAssertEqual(Position(x: 7, y: 4, z: 3).x, 7)
+        XCTAssertEqual(Position(x: 7, y: 4, z: 3).y, 4)
+        XCTAssertEqual(Position(x: 7, y: 4, z: 3).z, 3)
+    }
+
+    func testInit4D() {
+        XCTAssertEqual(Position(w: 6, x: 8, y: 4, z: 3).w, 6)
+        XCTAssertEqual(Position(w: 6, x: 8, y: 4, z: 3).x, 8)
+        XCTAssertEqual(Position(w: 6, x: 8, y: 4, z: 3).y, 4)
+        XCTAssertEqual(Position(w: 6, x: 8, y: 4, z: 3).z, 3)
+    }
+
     func testAdjacent() {
         XCTAssert(Position(x: 3, y: 6).orthogonallyAdjacent.elementsEqual([
             Position(x: 3, y: 7),
