@@ -73,7 +73,20 @@ final class PositionTests: XCTestCase {
         )
     }
 
-    func testNeighbours() {
+    func testNeighbours2D() {
+        let neighbours = Position2D.origin.neighbours
+        XCTAssertEqual(neighbours.count, 8)
+        XCTAssert(neighbours.contains(Position(x: -1, y: -1)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  0)))
+        XCTAssert(neighbours.contains(Position(x: -1, y:  1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y: -1)))
+        XCTAssert(neighbours.contains(Position(x:  0, y:  1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y: -1)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  0)))
+        XCTAssert(neighbours.contains(Position(x:  1, y:  1)))
+    }
+
+    func testNeighbours3D() {
         let neighbours = Position3D.origin.neighbours
         XCTAssertEqual(neighbours.count, 26)
         XCTAssert(neighbours.contains(Position(x: -1, y: -1, z: -1)))
