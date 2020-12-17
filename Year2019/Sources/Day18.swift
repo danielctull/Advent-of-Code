@@ -8,12 +8,12 @@ public struct Day18 {
 
     public func part1(input: Input) throws -> Int {
 
-        let grid = try Grid<Position, Day18.Tile>(input: input)
+        let grid = try Grid<Position2D, Day18.Tile>(input: input)
         let allKeys = grid.tiles.filter { $0.value.isKey }
 
         struct State: Hashable {
             var keys = Set<Character>()
-            var position: Position<Int>
+            var position: Position2D<Int>
             var direction: Vector<Int>
         }
 

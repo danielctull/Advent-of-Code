@@ -8,7 +8,7 @@ public struct Day20 {
 
     public func part1(input: Input) throws -> Int {
 
-        let grid = try Grid<Position, Day20.Tile>(input: input)
+        let grid = try Grid<Position2D, Day20.Tile>(input: input)
 
         let start = grid
             .portals("A", "A")
@@ -43,7 +43,7 @@ public struct Day20 {
 
     public func part2(input: Input) throws -> Int {
 
-        let grid = try Grid<Position, Day20.Tile>(input: input)
+        let grid = try Grid<Position2D, Day20.Tile>(input: input)
 
         let start = grid
             .portals("A", "A")
@@ -57,7 +57,7 @@ public struct Day20 {
 
         struct Node: Hashable {
             var level = 0
-            var position = Position<Int>.origin
+            var position = Position2D<Int>.origin
         }
 
         return grid.shortestDistance(
@@ -87,9 +87,9 @@ public struct Day20 {
     }
 }
 
-extension Grid where Location == Position<Int>, Tile == Day20.Tile {
+extension Grid where Location == Position2D<Int>, Tile == Day20.Tile {
     
-    fileprivate func isOuter(_ position: Position<Int>) -> Bool {
+    fileprivate func isOuter(_ position: Position2D<Int>) -> Bool {
         return position.x < 2
             || position.y < 2
             || position.x > maximum.x - 2
@@ -101,7 +101,7 @@ extension Grid where Location == Position<Int>, Tile == Day20.Tile {
             .first(where: { $0.position1 != portal.position1 })
     }
 
-    fileprivate func vector(leaving portal: Portal) -> (Position<Int>, Vector<Int>)? {
+    fileprivate func vector(leaving portal: Portal) -> (Position2D<Int>, Vector<Int>)? {
         portal.exits.first(where: { self[$0.0] == .passage })
     }
 
@@ -114,7 +114,7 @@ extension Grid where Location == Position<Int>, Tile == Day20.Tile {
         return Set(portals)
     }
 
-    fileprivate func portal(at position1: Position<Int>) -> Portal? {
+    fileprivate func portal(at position1: Position2D<Int>) -> Portal? {
 
         guard case let .portal(character1) = self[position1] else { return nil }
 
@@ -145,9 +145,9 @@ extension Grid where Location == Position<Int>, Tile == Day20.Tile {
 }
 
 fileprivate struct Portal: Hashable, Equatable {
-    let position1: Position<Int>
+    let position1: Position2D<Int>
     let character1: Character
-    let position2: Position<Int>
+    let position2: Position2D<Int>
     let character2: Character
 }
 
@@ -159,7 +159,7 @@ extension Portal: CustomStringConvertible {
 }
 
 extension Portal {
-    var exits: [(Position<Int>, Vector<Int>)] {
+    var exits: [(Position2D<Int>, Vector<Int>)] {
         let direction1 = Vector(from: position1, to: position2)
         let direction2 = Vector(from: position2, to: position1)
         return [

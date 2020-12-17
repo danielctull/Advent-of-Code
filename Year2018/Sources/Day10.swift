@@ -45,17 +45,17 @@ public struct Day10 {
 
 extension Sequence where Element == Light {
 
-    var size: Position<Int> {
+    var size: Position2D<Int> {
         let xs = map { $0.position.x }
         let ys = map { $0.position.y }
 
         guard xs.count > 0, ys.count > 0 else {
-            return Position(x: Int.max, y: Int.max)
+            return Position2D(x: Int.max, y: Int.max)
         }
 
         let x = xs.max()! - xs.min()! + 1
         let y = ys.max()! - ys.min()! + 1
-        return Position(x: x, y: y)
+        return Position2D(x: x, y: y)
     }
 
     var output: String {

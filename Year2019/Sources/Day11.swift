@@ -45,9 +45,9 @@ extension IntcodeComputer {
 extension Day11 {
 
     public struct RobotPainter {
-        var panels: Grid<Position<Int>, Day11.Tile>
+        var panels: Grid<Position2D<Int>, Day11.Tile>
         var direction = Vector<Int>.up
-        var position = Position<Int>.origin
+        var position = Position2D<Int>.origin
     }
 }
 

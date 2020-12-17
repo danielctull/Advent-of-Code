@@ -8,8 +8,8 @@ public struct Day24 {
 
     public func part1(input: Input) throws -> Int {
 
-        var states = Set<Grid<Position<Int>, Tile>>()
-        var current = try Grid<Position<Int>, Tile>(input: input)
+        var states = Set<Grid<Position2D<Int>, Tile>>()
+        var current = try Grid<Position2D<Int>, Tile>(input: input)
 
         while true {
             let new = current.nextState { position in
@@ -27,22 +27,22 @@ public struct Day24 {
 
     public func part2(input: Input, count: Int = 200) throws -> Int {
 
-        var level0 = try Grid<Position, Day24.Tile>(input: input)
-        level0.tiles.removeValue(forKey: Position(x: 2, y: 2))
+        var level0 = try Grid<Position2D, Day24.Tile>(input: input)
+        level0.tiles.removeValue(forKey: Position2D(x: 2, y: 2))
 
         var empty = Grid(width: 5, height: 5) { _ in Day24.Tile.empty }
-        empty.tiles.removeValue(forKey: Position(x: 2, y: 2))
+        empty.tiles.removeValue(forKey: Position2D(x: 2, y: 2))
 
         let tiles = (-count...count)
             .flatMap { level -> [(Location, Tile)] in
 
                 switch level {
                 case 0:
-                    return level0.tiles.map { (position: Position, tile: Day24.Tile) in
+                    return level0.tiles.map { (position: Position2D, tile: Day24.Tile) in
                         (Location(level: level, position: position), tile)
                     }
                 default:
-                    return empty.tiles.map { (position: Position, tile: Day24.Tile) in
+                    return empty.tiles.map { (position: Position2D, tile: Day24.Tile) in
                         (Location(level: level, position: position), .empty)
                     }
                 }
@@ -63,7 +63,7 @@ public struct Day24 {
     }
 }
 
-extension Grid where Location == Position<Int>, Tile == Day24.Tile {
+extension Grid where Location == Position2D<Int>, Tile == Day24.Tile {
 
     var biodiversityRating: Int {
         tiles
@@ -94,9 +94,9 @@ extension Day24 {
 
     public struct Location {
         public let level: Int
-        public let position: Position<Int>
+        public let position: Position2D<Int>
 
-        public init(level: Int, position: Position<Int>) {
+        public init(level: Int, position: Position2D<Int>) {
             self.level = level
             self.position = position
         }
@@ -116,29 +116,29 @@ extension Day24.Location {
 
             // Adjacent is middle
             case (2,1, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position(x: $0, y: 0)) }
+                return (0...4).map { Self(level: level + 1, position: Position2D(x: $0, y: 0)) }
 
             case (2,3, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position(x: $0, y: 4)) }
+                return (0...4).map { Self(level: level + 1, position: Position2D(x: $0, y: 4)) }
 
             case (1,2, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position(x: 0, y: $0)) }
+                return (0...4).map { Self(level: level + 1, position: Position2D(x: 0, y: $0)) }
 
             case (3,2, 2,2):
-                return (0...4).map { Self(level: level + 1, position: Position(x: 4, y: $0)) }
+                return (0...4).map { Self(level: level + 1, position: Position2D(x: 4, y: $0)) }
 
             // Adjacent is outside
             case (_,_, -1,_):
-                return [ Self(level: level - 1, position: Position(x: 1, y: 2)) ]
+                return [ Self(level: level - 1, position: Position2D(x: 1, y: 2)) ]
 
             case (_,_, 5,_):
-                return [ Self(level: level - 1, position: Position(x: 3, y: 2)) ]
+                return [ Self(level: level - 1, position: Position2D(x: 3, y: 2)) ]
 
             case (_,_, _,-1):
-                return [ Self(level: level - 1, position: Position(x: 2, y: 1)) ]
+                return [ Self(level: level - 1, position: Position2D(x: 2, y: 1)) ]
 
             case (_,_, _,5):
-                return [ Self(level: level - 1, position: Position(x: 2, y: 3)) ]
+                return [ Self(level: level - 1, position: Position2D(x: 2, y: 3)) ]
 
             // Adjacent is in this level
 

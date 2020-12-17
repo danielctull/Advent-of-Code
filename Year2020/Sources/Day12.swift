@@ -9,7 +9,7 @@ public enum Day12: Day {
     public static func part1(_ input: Input) throws -> Int {
 
         let instructions = try Array(instructions: input)
-        var ship = Position<Int>.origin
+        var ship = Position2D<Int>.origin
         var heading = Vector<Int>.east
         for instruction in instructions {
             switch instruction.kind {
@@ -29,8 +29,8 @@ public enum Day12: Day {
     public static func part2(_ input: Input) throws -> Int {
 
         let instructions = try Array(instructions: input)
-        var ship = Position<Int>.origin
-        var waypoint = Position(x: 10, y: 1)
+        var ship = Position2D<Int>.origin
+        var waypoint = Position2D(x: 10, y: 1)
         for instruction in instructions {
             switch instruction.kind {
             case .N: waypoint += .north * instruction.amount

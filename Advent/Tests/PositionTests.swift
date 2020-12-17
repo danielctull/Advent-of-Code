@@ -5,75 +5,75 @@ import XCTest
 final class PositionTests: XCTestCase {
 
     func testAdjacent() {
-        XCTAssert(Position(x: 3, y: 6).orthogonallyAdjacent.elementsEqual([
-            Position(x: 3, y: 7),
-            Position(x: 3, y: 5),
-            Position(x: 2, y: 6),
-            Position(x: 4, y: 6)
+        XCTAssert(Position2D(x: 3, y: 6).orthogonallyAdjacent.elementsEqual([
+            Position2D(x: 3, y: 7),
+            Position2D(x: 3, y: 5),
+            Position2D(x: 2, y: 6),
+            Position2D(x: 4, y: 6)
         ]))
     }
 
     func testDiagonallyAdjacent() {
-        XCTAssert(Position(x: 3, y: 6).diagonallyAdjacent.elementsEqual([
-            Position(x: 4, y: 7),
-            Position(x: 4, y: 5),
-            Position(x: 2, y: 5),
-            Position(x: 2, y: 7)
+        XCTAssert(Position2D(x: 3, y: 6).diagonallyAdjacent.elementsEqual([
+            Position2D(x: 4, y: 7),
+            Position2D(x: 4, y: 5),
+            Position2D(x: 2, y: 5),
+            Position2D(x: 2, y: 7)
         ]))
     }
 
     func testManhattenDistance() {
         XCTAssertEqual(
-            Position.origin.manhattenDistance(to: Position(x: 3, y: 2)),
+            Position2D.origin.manhattenDistance(to: Position2D(x: 3, y: 2)),
             5
         )
         XCTAssertEqual(
-            Position(x: 5, y: 1).manhattenDistance(to: Position(x: 3, y: 2)),
+            Position2D(x: 5, y: 1).manhattenDistance(to: Position2D(x: 3, y: 2)),
             3
         )
     }
 
     func testMove() {
         XCTAssertEqual(
-            mutating(Position(x: 5, y: 6)) { $0 += Vector(dx: 4, dy: 2) },
-            Position(x: 9, y: 8)
+            mutating(Position2D(x: 5, y: 6)) { $0 += Vector(dx: 4, dy: 2) },
+            Position2D(x: 9, y: 8)
         )
         XCTAssertEqual(
-            mutating(Position(x: 1, y: 6)) { $0 += Vector(dx: -3, dy: 3) },
-            Position(x: -2, y: 9)
+            mutating(Position2D(x: 1, y: 6)) { $0 += Vector(dx: -3, dy: 3) },
+            Position2D(x: -2, y: 9)
         )
     }
 
     func testMoving() {
         XCTAssertEqual(
-            Position.origin + Vector(dx: 2, dy: 3),
-            Position(x: 2, y: 3)
+            Position2D.origin + Vector(dx: 2, dy: 3),
+            Position2D(x: 2, y: 3)
         )
         XCTAssertEqual(
-            Position(x: 1, y: 6) + Vector(dx: -3, dy: 3),
-            Position(x: -2, y: 9)
+            Position2D(x: 1, y: 6) + Vector(dx: -3, dy: 3),
+            Position2D(x: -2, y: 9)
         )
     }
 
     func testRotate() {
         XCTAssertEqual(
-            mutating(Position(x: 1, y: 2)) { $0.rotate(.left) },
-            Position(x: -2, y: 1)
+            mutating(Position2D(x: 1, y: 2)) { $0.rotate(.left) },
+            Position2D(x: -2, y: 1)
         )
         XCTAssertEqual(
-            mutating(Position(x: 2, y: 1)) { $0.rotate(.right) },
-            Position(x: 1, y: -2)
+            mutating(Position2D(x: 2, y: 1)) { $0.rotate(.right) },
+            Position2D(x: 1, y: -2)
         )
     }
 
     func testRotating() {
         XCTAssertEqual(
-            Position(x: 1, y: -2).rotating(.left),
-            Position(x: 2, y: 1)
+            Position2D(x: 1, y: -2).rotating(.left),
+            Position2D(x: 2, y: 1)
         )
         XCTAssertEqual(
-            Position(x: 1, y: -2).rotating(.right),
-            Position(x: -2, y: -1)
+            Position2D(x: 1, y: -2).rotating(.right),
+            Position2D(x: -2, y: -1)
         )
     }
 }

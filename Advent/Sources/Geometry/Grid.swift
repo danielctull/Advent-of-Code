@@ -32,7 +32,7 @@ extension Grid: Hashable where Tile: Hashable {}
 
 extension Grid: CustomStringConvertible
     where
-    Location == Position<Int>,
+    Location == Position2D<Int>,
     Tile: CustomStringConvertible
 {
 
@@ -67,20 +67,20 @@ extension Grid {
     }
 }
 
-extension Grid where Location == Position<Int> {
+extension Grid where Location == Position2D<Int> {
 
-    public var maximum: Position<Int> {
+    public var maximum: Position2D<Int> {
         tiles.keys.max(by: { lhs, rhs in (lhs.y, lhs.x) < (rhs.y, rhs.x) })!
     }
 }
 
-extension Grid where Location == Position<Int>, Tile: Equatable {
+extension Grid where Location == Position2D<Int>, Tile: Equatable {
 
-    public func positions(of tile: Tile) -> [Position<Int>] {
+    public func positions(of tile: Tile) -> [Position2D<Int>] {
         tiles.filter { $0.value == tile }.map { $0.key }
     }
 
-    public func firstPosition(of tile: Tile) -> Position<Int>? {
+    public func firstPosition(of tile: Tile) -> Position2D<Int>? {
         tiles.first(where: { $0.value == tile })?.key
     }
 }
@@ -149,7 +149,7 @@ extension Grid {
 
 // MARK: - Creating a Grid from a Sequence of Sequences of RawValues
 
-extension Grid where Location == Position<Int>, Tile: RawRepresentable {
+extension Grid where Location == Position2D<Int>, Tile: RawRepresentable {
 
     /// Takes a Sequence of Sequences of RawValues and makes a map of them.
     ///
@@ -171,7 +171,7 @@ extension Grid where Location == Position<Int>, Tile: RawRepresentable {
     {
         let tiles = try rawValues.enumerated().flatMap { y, line in
             try line.enumerated().map { x, rawValue in
-                try (Position(x: x, y: y), Tile(rawValue))
+                try (Position2D(x: x, y: y), Tile(rawValue))
             }
         }
         .group(by: { $0.0 })
@@ -183,7 +183,7 @@ extension Grid where Location == Position<Int>, Tile: RawRepresentable {
 
 extension Grid
     where
-    Location == Position<Int>,
+    Location == Position2D<Int>,
     Tile: RawRepresentable,
     Tile.RawValue == Character
 {
@@ -196,19 +196,19 @@ extension Grid
 
 // MARK: - Creating a Grid using a closure
 
-extension Grid where Location == Position<Int> {
+extension Grid where Location == Position2D<Int> {
 
     public init(
         origin: Origin = .bottomLeft,
         width: Int,
         height: Int,
-        tile: (Position<Int>) throws -> Tile
+        tile: (Position2D<Int>) throws -> Tile
     ) rethrows {
 
-        var tiles: [Position<Int>: Tile] = [:]
+        var tiles: [Position2D<Int>: Tile] = [:]
         for x in (0..<width) {
             for y in (0..<height) {
-                let position = Position(x: x, y: y)
+                let position = Position2D(x: x, y: y)
                 tiles[position] = try tile(position)
             }
         }

@@ -7,7 +7,7 @@ public struct Day15 {
     public init() {}
 
     public func part1(input: Input) throws -> Int {
-        var grid = Grid(tiles: [Position<Int>.origin: Tile.start])
+        var grid = Grid(tiles: [Position2D<Int>.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         return try Vector
             .orthogonal
@@ -17,7 +17,7 @@ public struct Day15 {
 
     @discardableResult
     fileprivate func findOxygen(
-        grid: inout Grid<Position<Int>, Tile>,
+        grid: inout Grid<Position2D<Int>, Tile>,
         droid inDroid: RepairDroid,
         direction: Vector<Int>
     ) throws -> Int? {
@@ -39,7 +39,7 @@ public struct Day15 {
     }
 
     public func part2(input: Input) throws -> Int {
-        var grid = Grid(tiles: [Position<Int>.origin: Tile.start])
+        var grid = Grid(tiles: [Position2D<Int>.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
         try Vector
             .orthogonal
@@ -53,8 +53,8 @@ public struct Day15 {
     }
 
     fileprivate func spreadOxygen(
-        grid: inout Grid<Position<Int>, Tile>,
-        position: Position<Int>,
+        grid: inout Grid<Position2D<Int>, Tile>,
+        position: Position2D<Int>,
         direction: Vector<Int>
     ) -> Int {
         let new = position + direction
@@ -74,9 +74,9 @@ public struct Day15 {
 
 fileprivate struct RepairDroid {
     var computer: IntcodeComputer
-    var position = Position<Int>.origin
+    var position = Position2D<Int>.origin
     var tile = Day15.Tile.start
-    var grid = Grid<Position<Int>, Day15.Tile>()
+    var grid = Grid<Position2D<Int>, Day15.Tile>()
 }
 
 extension RepairDroid {

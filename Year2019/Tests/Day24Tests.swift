@@ -24,65 +24,65 @@ final class Day24Tests: XCTestCase {
     }
 
     func testLocationAdjacency1() {
-        let adjacent = Day24.Location(level: 0, position: Position(x: 3, y: 3)).adjacent
+        let adjacent = Day24.Location(level: 0, position: Position2D(x: 3, y: 3)).adjacent
         XCTAssertEqual(adjacent.count, 4)
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 2, y: 3))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 4, y: 3))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 3, y: 2))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 3, y: 4))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 2, y: 3))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 4, y: 3))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 3, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 3, y: 4))))
     }
 
     func testLocationAdjacency2() {
-        let adjacent = Day24.Location(level: 1, position: Position(x: 1, y: 1)).adjacent
+        let adjacent = Day24.Location(level: 1, position: Position2D(x: 1, y: 1)).adjacent
         XCTAssertEqual(adjacent.count, 4)
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 1, y: 0))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 0, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 2, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 1, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 1, y: 0))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 0, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 2, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 1, y: 2))))
     }
 
     func testLocationAdjacency3() {
-        let adjacent = Day24.Location(level: 1, position: Position(x: 3, y: 0)).adjacent
+        let adjacent = Day24.Location(level: 1, position: Position2D(x: 3, y: 0)).adjacent
         XCTAssertEqual(adjacent.count, 4)
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 2, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 2, y: 0))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 0))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 3, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 2, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 2, y: 0))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 0))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 3, y: 1))))
     }
 
     func testLocationAdjacency4() {
-        let adjacent = Day24.Location(level: 1, position: Position(x: 4, y: 0)).adjacent
+        let adjacent = Day24.Location(level: 1, position: Position2D(x: 4, y: 0)).adjacent
         XCTAssertEqual(adjacent.count, 4)
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 2, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 3, y: 0))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 3, y: 2))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 2, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 3, y: 0))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 3, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 1))))
     }
 
     func testLocationAdjacency5() {
-        let adjacent = Day24.Location(level: 0, position: Position(x: 3, y: 2)).adjacent
+        let adjacent = Day24.Location(level: 0, position: Position2D(x: 3, y: 2)).adjacent
         XCTAssertEqual(adjacent.count, 8)
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 3, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 0))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 2))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 3))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 4))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 4, y: 2))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position(x: 3, y: 3))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 3, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 0))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 3))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 4))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 4, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 0, position: Position2D(x: 3, y: 3))))
     }
 
     func testLocationAdjacency6() {
-        let adjacent = Day24.Location(level: 1, position: Position(x: 3, y: 2)).adjacent
+        let adjacent = Day24.Location(level: 1, position: Position2D(x: 3, y: 2)).adjacent
         XCTAssertEqual(adjacent.count, 8)
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 3, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 4, y: 2))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position(x: 3, y: 3))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position(x: 4, y: 0))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position(x: 4, y: 1))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position(x: 4, y: 2))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position(x: 4, y: 3))))
-        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position(x: 4, y: 4))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 3, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 4, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 1, position: Position2D(x: 3, y: 3))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position2D(x: 4, y: 0))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position2D(x: 4, y: 1))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position2D(x: 4, y: 2))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position2D(x: 4, y: 3))))
+        XCTAssert(adjacent.contains(Day24.Location(level: 2, position: Position2D(x: 4, y: 4))))
     }
 
     func testPart2Example1() throws {

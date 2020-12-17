@@ -13,7 +13,7 @@ extension Vector: Hashable where Value: Hashable {}
 
 extension Vector where Value == Int {
 
-    public init(from start: Position<Value> = .origin, to end: Position<Value>) {
+    public init(from start: Position2D<Value> = .origin, to end: Position2D<Value>) {
         dx = end.x - start.x
         dy = end.y - start.y
     }

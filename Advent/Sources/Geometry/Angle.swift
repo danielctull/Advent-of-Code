@@ -21,7 +21,7 @@ extension Angle {
         self.init(radians: degrees/360 * .tau)
     }
 
-    public init(start: Position<Int>, end: Position<Int>) {
+    public init(start: Position2D<Int>, end: Position2D<Int>) {
         let radians = atan2(Double(end.y - start.y), Double(end.x - start.x))
         self.init(radians: radians)
     }

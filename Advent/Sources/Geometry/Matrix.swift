@@ -33,7 +33,7 @@ extension Matrix
 extension Matrix {
 
     public func map<T>(
-        _ transform: (Position<Int>, Element) throws -> T
+        _ transform: (Position2D<Int>, Element) throws -> T
     ) rethrows -> Matrix<T> {
         Matrix<T>(size: size,
                   elements: try zip(positions, elements).map(transform))
@@ -51,7 +51,7 @@ extension Matrix {
 
 extension Matrix {
 
-    public subscript(position: Position<Int>) -> Element? {
+    public subscript(position: Position2D<Int>) -> Element? {
         guard position.x >= 0 else { return nil }
         guard position.y >= 0 else { return nil }
         guard position.x < size.width else { return nil }
@@ -59,7 +59,7 @@ extension Matrix {
         return self[Index(position: position)]
     }
 
-    public var positions: [Position<Int>] { indices.map(\.position) }
+    public var positions: [Position2D<Int>] { indices.map(\.position) }
 }
 
 // MARK: - Neighbours
@@ -114,18 +114,18 @@ extension Matrix: Sequence {
 extension Matrix: Collection {
 
     public struct Index: Comparable {
-        let position: Position<Int>
+        let position: Position2D<Int>
         public static func < (lhs: Index, rhs: Index) -> Bool {
             (lhs.position.y, lhs.position.x) < (rhs.position.y, rhs.position.x)
         }
     }
 
     public var startIndex: Index {
-        Index(position: Position(x: 0, y: 0))
+        Index(position: Position2D(x: 0, y: 0))
     }
 
     public var endIndex: Index {
-        Index(position: Position(x: size.width, y: size.height))
+        Index(position: Position2D(x: size.width, y: size.height))
     }
 
     public subscript(i: Index) -> Element {
@@ -135,10 +135,10 @@ extension Matrix: Collection {
     public func index(after i: Index) -> Index {
 
         if i.position.x + 1 < size.width {
-            return Index(position: Position(x: i.position.x + 1, y: i.position.y))
+            return Index(position: Position2D(x: i.position.x + 1, y: i.position.y))
         }
         if i.position.y + 1 < size.height {
-            return Index(position: Position(x: 0, y: i.position.y + 1))
+            return Index(position: Position2D(x: 0, y: i.position.y + 1))
         }
 
         return endIndex

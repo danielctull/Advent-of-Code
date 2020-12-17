@@ -6,17 +6,17 @@ import XCTest
 final class Day10Tests: XCTestCase {
 
     func testLineContains() {
-        let p1 = Position(x: 0, y: 0)
-        let p2 = Position(x: 1, y: 1)
-        let p3 = Position(x: 4, y: 4)
+        let p1 = Position2D(x: 0, y: 0)
+        let p2 = Position2D(x: 1, y: 1)
+        let p3 = Position2D(x: 4, y: 4)
         let line = Day10.Line(start: p1, end: p3)
         XCTAssertTrue(line.contains(p2))
     }
 
     func testLineDoesntContain() {
-        let p1 = Position(x: 0, y: 0)
-        let p2 = Position(x: 1, y: 1)
-        let p3 = Position(x: 5, y: 4)
+        let p1 = Position2D(x: 0, y: 0)
+        let p2 = Position2D(x: 1, y: 1)
+        let p3 = Position2D(x: 5, y: 4)
         let line = Day10.Line(start: p1, end: p3)
         XCTAssertFalse(line.contains(p2))
     }

@@ -44,9 +44,9 @@ fileprivate struct Move {
     let amount: Int
 }
 
-extension Array where Element == Position<Int> {
+extension Array where Element == Position2D<Int> {
 
-    func distances(for intersections: Set<Position<Int>>) -> [Position<Int>: Int] {
+    func distances(for intersections: Set<Position2D<Int>>) -> [Position2D<Int>: Int] {
 
         enumerated()
             .filter { intersections.contains($0.element) }
@@ -64,9 +64,9 @@ extension Array where Element == Move {
     }
 
 
-    fileprivate var positions: [Position<Int>] {
+    fileprivate var positions: [Position2D<Int>] {
 
-        scan([Position.origin]) { positions, move -> [Position<Int>] in
+        scan([Position2D.origin]) { positions, move -> [Position2D<Int>] in
             move.positions(from: positions.last!)
         }
         .flatMap { $0 }
@@ -93,7 +93,7 @@ extension Move {
         self.init(direction: direction, amount: amount)
     }
 
-    fileprivate func positions(from start: Position<Int>) -> [Position<Int>] {
+    fileprivate func positions(from start: Position2D<Int>) -> [Position2D<Int>] {
         (1...amount).map { amount in
             let move = Move(direction: direction, amount: amount)
             return start + move.direction * amount

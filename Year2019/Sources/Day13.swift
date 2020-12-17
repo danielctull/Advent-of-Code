@@ -36,11 +36,11 @@ fileprivate struct BlockGame {
         try run()
     }
 
-    var grid = Grid<Position<Int>, Day13.Tile>(origin: .topLeft)
+    var grid = Grid<Position2D<Int>, Day13.Tile>(origin: .topLeft)
     var score: Int = -1
-    var blocks: [Position<Int>] { grid.positions(of: .block) }
-    var ball: Position<Int> { grid.firstPosition(of: .ball)! }
-    var paddle: Position<Int> { grid.firstPosition(of: .paddle)! }
+    var blocks: [Position2D<Int>] { grid.positions(of: .block) }
+    var ball: Position2D<Int> { grid.firstPosition(of: .ball)! }
+    var paddle: Position2D<Int> { grid.firstPosition(of: .paddle)! }
 }
 
 extension BlockGame {
@@ -76,7 +76,7 @@ extension BlockGame {
             let y = values[1]
             switch (x, y) {
             case (-1, 0): self.score = values[2]
-            default: grid[Position(x: x, y: y)] = try Day13.Tile(values[2])
+            default: grid[Position2D(x: x, y: y)] = try Day13.Tile(values[2])
             }
         }
     }

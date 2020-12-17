@@ -53,12 +53,12 @@ extension Matrix where Element == Day11.Tile {
 
     fileprivate func musicalChairs() -> Self {
 
-        func adjacent(to position: Position<Int>) -> [Day11.Tile] {
+        func adjacent(to position: Position2D<Int>) -> [Day11.Tile] {
             (position.orthogonallyAdjacent + position.diagonallyAdjacent)
                 .compactMap { self[$0] }
         }
 
-        return map { (position: Position, tile: Day11.Tile) -> Day11.Tile in
+        return map { (position: Position2D, tile: Day11.Tile) -> Day11.Tile in
             switch tile {
             case .empty where adjacent(to: position).count(of: .occupied) == 0: return .occupied
             case .occupied where adjacent(to: position).count(of: .occupied) >= 4: return .empty
