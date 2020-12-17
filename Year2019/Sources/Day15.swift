@@ -9,7 +9,7 @@ public struct Day15 {
     public func part1(input: Input) throws -> Int {
         var grid = Grid(tiles: [Position2D<Int>.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
-        return try Vector
+        return try Vector2D
             .orthogonal
             .compactMap { try findOxygen(grid: &grid, droid: droid, direction: $0) }
             .min()!
@@ -19,7 +19,7 @@ public struct Day15 {
     fileprivate func findOxygen(
         grid: inout Grid<Position2D<Int>, Tile>,
         droid inDroid: RepairDroid,
-        direction: Vector<Int>
+        direction: Vector2D<Int>
     ) throws -> Int? {
         var droid = inDroid
         try droid.move(direction: direction)
@@ -41,12 +41,12 @@ public struct Day15 {
     public func part2(input: Input) throws -> Int {
         var grid = Grid(tiles: [Position2D<Int>.origin: Tile.start])
         let droid = RepairDroid(computer: IntcodeComputer(input: input))
-        try Vector
+        try Vector2D
             .orthogonal
             .forEach { try findOxygen(grid: &grid, droid: droid, direction: $0) }
 
         let oxygen = grid.tiles.first(where: { $0.value == .oxygen })!
-        return Vector
+        return Vector2D
             .orthogonal
             .map { spreadOxygen(grid: &grid, position: oxygen.key, direction: $0) }
             .max()!
@@ -55,7 +55,7 @@ public struct Day15 {
     fileprivate func spreadOxygen(
         grid: inout Grid<Position2D<Int>, Tile>,
         position: Position2D<Int>,
-        direction: Vector<Int>
+        direction: Vector2D<Int>
     ) -> Int {
         let new = position + direction
         let tile = grid.tiles[new]!
@@ -81,7 +81,7 @@ fileprivate struct RepairDroid {
 
 extension RepairDroid {
 
-    mutating func move(direction: Vector<Int>) throws {
+    mutating func move(direction: Vector2D<Int>) throws {
         let new = position + direction
         computer.input(direction.code)
         try computer.run()
@@ -91,7 +91,7 @@ extension RepairDroid {
     }
 }
 
-extension Vector where Value == Int {
+extension Vector2D where Value == Int {
 
     fileprivate var code: Int {
         switch self {

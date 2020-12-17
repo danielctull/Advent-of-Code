@@ -20,11 +20,11 @@ extension Position2D where Scalar: SignedNumeric {
 
     /// An array of positions orthogonally adjacent to the receiver.
     public var orthogonallyAdjacent: [Position2D] {
-        Vector.orthogonal.map { self + $0 }
+        Vector2D.orthogonal.map { self + $0 }
     }
 
     public var diagonallyAdjacent: [Position2D] {
-        Vector.diagonal.map { self + $0 }
+        Vector2D.diagonal.map { self + $0 }
     }
 }
 
@@ -51,11 +51,11 @@ extension Position2D where Scalar: SignedNumeric {
 
 extension Position2D {
 
-    public static func + (position: Position2D, vector: Vector<Scalar>) -> Position2D {
-        Position2D(x: position.x + vector.dx, y: position.y + vector.dy)
+    public static func + (position: Position2D, vector: Vector2D<Scalar>) -> Position2D {
+        Position2D(x: position.x + vector.x, y: position.y + vector.y)
     }
 
-    public static func += (position: inout Position2D, vector: Vector<Scalar>) {
+    public static func += (position: inout Position2D, vector: Vector2D<Scalar>) {
         position = position + vector
     }
 }

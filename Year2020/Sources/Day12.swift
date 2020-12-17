@@ -10,7 +10,7 @@ public enum Day12: Day {
 
         let instructions = try Array(instructions: input)
         var ship = Position2D<Int>.origin
-        var heading = Vector<Int>.east
+        var heading = Vector2D<Int>.east
         for instruction in instructions {
             switch instruction.kind {
             case .N: ship += .north * instruction.amount
@@ -37,7 +37,7 @@ public enum Day12: Day {
             case .E: waypoint += .east * instruction.amount
             case .S: waypoint += .south * instruction.amount
             case .W: waypoint += .west * instruction.amount
-            case .F: ship += Vector(to: waypoint) * instruction.amount
+            case .F: ship += Vector2D(to: waypoint) * instruction.amount
             case .L: waypoint.rotate(.left) * (instruction.amount/90)
             case .R: waypoint.rotate(.right) * (instruction.amount/90)
             }

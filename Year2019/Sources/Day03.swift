@@ -40,7 +40,7 @@ public struct Day03 {
 }
 
 fileprivate struct Move {
-    let direction: Vector<Int>
+    let direction: Vector2D<Int>
     let amount: Int
 }
 
@@ -81,7 +81,7 @@ extension Move {
 
         guard let amount = Int(string) else { fatalError() }
 
-        let direction: Vector<Int>
+        let direction: Vector2D<Int>
         switch first {
         case "U": direction = .up
         case "D": direction = .down

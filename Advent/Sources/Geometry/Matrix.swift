@@ -66,14 +66,14 @@ extension Matrix {
 
 extension Matrix {
 
-    public func indices(from index: Index, in direction: Vector<Int>) -> VectorSequence {
+    public func indices(from index: Index, in direction: Vector2D<Int>) -> VectorSequence {
         VectorSequence(base: self, start: index, direction: direction)
     }
 
     public struct VectorSequence {
         let base: Matrix
         let start: Index
-        let direction: Vector<Int>
+        let direction: Vector2D<Int>
     }
 }
 
@@ -82,7 +82,7 @@ extension Matrix.VectorSequence: Sequence {
     public struct Iterator {
         let base: Matrix
         var previous: Matrix.Index
-        let direction: Vector<Int>
+        let direction: Vector2D<Int>
     }
 
     public func makeIterator() -> Iterator {

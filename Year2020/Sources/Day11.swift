@@ -72,12 +72,12 @@ extension Matrix where Element == Day11.Tile {
 
     fileprivate func musicalChairs2() -> Self {
 
-        func firstSeat(from position: Matrix<Day11.Tile>.Index, in direction: Vector<Int>) -> Element? {
+        func firstSeat(from position: Matrix<Day11.Tile>.Index, in direction: Vector2D<Int>) -> Element? {
             indices(from: position, in: direction).first(where: \.isSeat)
         }
 
         func adjacent(to position: Matrix<Day11.Tile>.Index) -> [Element] {
-            (Vector<Int>.diagonal + Vector<Int>.orthogonal)
+            (Vector2D<Int>.diagonal + Vector2D<Int>.orthogonal)
                 .compactMap { firstSeat(from: position, in: $0) }
         }
 

@@ -1,80 +1,80 @@
 
-public struct Vector<Value: Numeric>: Equatable {
-    public let dx: Value
-    public let dy: Value
+public struct Vector2D<Value: Numeric>: Equatable {
+    public let x: Value
+    public let y: Value
 
-    public init(dx: Value, dy: Value) {
-        self.dx = dx
-        self.dy = dy
+    public init(x: Value, y: Value) {
+        self.x = x
+        self.y = y
     }
 }
 
-extension Vector: Hashable where Value: Hashable {}
+extension Vector2D: Hashable where Value: Hashable {}
 
-extension Vector where Value == Int {
+extension Vector2D where Value == Int {
 
     public init(from start: Position2D<Value> = .origin, to end: Position2D<Value>) {
-        dx = end.x - start.x
-        dy = end.y - start.y
+        x = end.x - start.x
+        y = end.y - start.y
     }
 }
 
-extension Vector where Value: SignedNumeric {
-    public static var up: Vector { Vector(dx: 0, dy: 1) }
-    public static var down: Vector { Vector(dx: 0, dy: -1) }
-    public static var left: Vector { Vector(dx: -1, dy: 0) }
-    public static var right: Vector { Vector(dx: 1, dy: 0) }
+extension Vector2D where Value: SignedNumeric {
+    public static var up: Vector2D { Vector2D(x: 0, y: 1) }
+    public static var down: Vector2D { Vector2D(x: 0, y: -1) }
+    public static var left: Vector2D { Vector2D(x: -1, y: 0) }
+    public static var right: Vector2D { Vector2D(x: 1, y: 0) }
 }
 
-extension Vector where Value: SignedNumeric {
-    public static var north: Vector { .up }
-    public static var east: Vector { .right }
-    public static var south: Vector { .down }
-    public static var west: Vector { .left }
+extension Vector2D where Value: SignedNumeric {
+    public static var north: Vector2D { .up }
+    public static var east: Vector2D { .right }
+    public static var south: Vector2D { .down }
+    public static var west: Vector2D { .left }
 }
 
-extension Vector {
+extension Vector2D {
 
-    public static func * (vector: Vector, value: Value) -> Vector {
-        Vector(dx: vector.dx * value, dy: vector.dy * value)
+    public static func * (vector: Vector2D, value: Value) -> Vector2D {
+        Vector2D(x: vector.x * value, y: vector.y * value)
     }
 }
 
-extension Vector where Value: SignedNumeric {
+extension Vector2D where Value: SignedNumeric {
 
-    public var opposite: Vector { self * -1 }
+    public var opposite: Vector2D { self * -1 }
 
-    public var otherDirections: [Vector] {
-        Vector.orthogonal.filter { $0 != self }
+    public var otherDirections: [Vector2D] {
+        Vector2D.orthogonal.filter { $0 != self }
     }
 }
 
-extension Vector where Value: SignedNumeric {
+extension Vector2D where Value: SignedNumeric {
 
     public mutating func rotate(_ turn: Turn) {
         self = rotating(turn)
     }
 
-    public func rotating(_ turn: Turn) -> Vector {
+    public func rotating(_ turn: Turn) -> Vector2D {
         switch turn {
-        case .left: return Vector(dx: -dy, dy: dx)
-        case .right: return Vector(dx: dy, dy: -dx)
+        case .left: return Vector2D(x: -y, y: x)
+        case .right: return Vector2D(x: y, y: -x)
         }
     }
 }
 
-extension Vector where Value: SignedNumeric {
+extension Vector2D where Value: SignedNumeric {
 
-    public static var orthogonal: [Vector] {
+    public static var orthogonal: [Vector2D] {
         [.up, .down, .left, .right]
     }
 
-    public static var diagonal: [Vector] {
+    public static var diagonal: [Vector2D] {
         [
-            Vector(dx:  1, dy:  1),
-            Vector(dx:  1, dy: -1),
-            Vector(dx: -1, dy: -1),
-            Vector(dx: -1, dy:  1)
+            Vector2D(x:  1, y:  1),
+            Vector2D(x:  1, y: -1),
+            Vector2D(x: -1, y: -1),
+            Vector2D(x: -1, y:  1)
         ]
     }
 }

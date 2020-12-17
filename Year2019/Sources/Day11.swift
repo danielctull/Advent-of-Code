@@ -46,7 +46,7 @@ extension Day11 {
 
     public struct RobotPainter {
         var panels: Grid<Position2D<Int>, Day11.Tile>
-        var direction = Vector<Int>.up
+        var direction = Vector2D<Int>.up
         var position = Position2D<Int>.origin
     }
 }
@@ -95,7 +95,7 @@ extension Day11 {
     public enum Tile {
         case black
         case white
-        case robot(Vector<Int>)
+        case robot(Vector2D<Int>)
     }
 }
 

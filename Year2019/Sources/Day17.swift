@@ -48,7 +48,7 @@ extension Day17 {
 
     fileprivate enum Tile {
         case scaffold
-        case robot(Vector<Int>?)
+        case robot(Vector2D<Int>?)
         case space
     }
 
