@@ -57,6 +57,27 @@ extension RegularExpression.Pattern: ExpressibleByStringLiteral {
     }
 }
 
+extension RegularExpression.Pattern {
+
+    private var embed: String { "(?:\(rawValue))" }
+
+    public static var start: Self { "^" }
+
+    public static var end: Self { "$" }
+
+    public static func character(_ character: Character) -> Self {
+        Self(String(character))
+    }
+
+    public static func || (_ lhs: Self, _ rhs: Self) -> Self {
+        Self(lhs.embed + "|" + rhs.embed)
+    }
+
+    public static func + (_ lhs: Self, _ rhs: Self) -> Self {
+        Self(lhs.embed + rhs.embed)
+    }
+}
+
 // MARK: - Capture Group
 
 extension RegularExpression {
