@@ -58,8 +58,8 @@ extension Day11.RobotPainter {
     }
 
     public mutating func move(value: Int) {
-        let turn = value == 0 ? Turn.left : .right
-        direction = direction.rotating(turn)
+        let turn: Transform2D<Int> = value == 0 ? .rotate270 : .rotate90
+        direction = direction.transforming(turn)
         position += direction
     }
 

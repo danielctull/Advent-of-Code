@@ -38,26 +38,34 @@ final class VectorTests: XCTestCase {
         XCTAssert(Vector2D<Int>.right.otherDirections.elementsEqual([.up, .down, .left]))
     }
 
-    func testRotate() {
-        XCTAssertEqual(mutating(Vector2D<Int>.up) { $0.rotate(.left) }, .left)
-        XCTAssertEqual(mutating(Vector2D<Int>.up) { $0.rotate(.right) }, .right)
-        XCTAssertEqual(mutating(Vector2D<Int>.down) { $0.rotate(.left) }, .right)
-        XCTAssertEqual(mutating(Vector2D<Int>.down) { $0.rotate(.right) }, .left)
-        XCTAssertEqual(mutating(Vector2D<Int>.left) { $0.rotate(.left) }, .down)
-        XCTAssertEqual(mutating(Vector2D<Int>.left) { $0.rotate(.right) }, .up)
-        XCTAssertEqual(mutating(Vector2D<Int>.right) { $0.rotate(.left) }, .up)
-        XCTAssertEqual(mutating(Vector2D<Int>.right) { $0.rotate(.right) }, .down)
+    func testTransform() {
+        XCTAssertEqual(mutating(Vector2D<Int>.up) { $0.transform(.identity) }, .up)
+        XCTAssertEqual(mutating(Vector2D<Int>.up) { $0.transform(.rotate90) }, .right)
+        XCTAssertEqual(mutating(Vector2D<Int>.up) { $0.transform(.rotate270) }, .left)
+        XCTAssertEqual(mutating(Vector2D<Int>.down) { $0.transform(.identity) }, .down)
+        XCTAssertEqual(mutating(Vector2D<Int>.down) { $0.transform(.rotate90) }, .left)
+        XCTAssertEqual(mutating(Vector2D<Int>.down) { $0.transform(.rotate270) }, .right)
+        XCTAssertEqual(mutating(Vector2D<Int>.left) { $0.transform(.identity) }, .left)
+        XCTAssertEqual(mutating(Vector2D<Int>.left) { $0.transform(.rotate90) }, .up)
+        XCTAssertEqual(mutating(Vector2D<Int>.left) { $0.transform(.rotate270) }, .down)
+        XCTAssertEqual(mutating(Vector2D<Int>.right) { $0.transform(.identity) }, .right)
+        XCTAssertEqual(mutating(Vector2D<Int>.right) { $0.transform(.rotate90) }, .down)
+        XCTAssertEqual(mutating(Vector2D<Int>.right) { $0.transform(.rotate270) }, .up)
     }
 
-    func testRotating() {
-        XCTAssertEqual(Vector2D<Int>.up.rotating(.left), .left)
-        XCTAssertEqual(Vector2D<Int>.up.rotating(.right), .right)
-        XCTAssertEqual(Vector2D<Int>.down.rotating(.left), .right)
-        XCTAssertEqual(Vector2D<Int>.down.rotating(.right), .left)
-        XCTAssertEqual(Vector2D<Int>.left.rotating(.left), .down)
-        XCTAssertEqual(Vector2D<Int>.left.rotating(.right), .up)
-        XCTAssertEqual(Vector2D<Int>.right.rotating(.left), .up)
-        XCTAssertEqual(Vector2D<Int>.right.rotating(.right), .down)
+    func testTransforming() {
+        XCTAssertEqual(Vector2D<Int>.up.transforming(.identity), .up)
+        XCTAssertEqual(Vector2D<Int>.up.transforming(.rotate90), .right)
+        XCTAssertEqual(Vector2D<Int>.up.transforming(.rotate270), .left)
+        XCTAssertEqual(Vector2D<Int>.down.transforming(.identity), .down)
+        XCTAssertEqual(Vector2D<Int>.down.transforming(.rotate90), .left)
+        XCTAssertEqual(Vector2D<Int>.down.transforming(.rotate270), .right)
+        XCTAssertEqual(Vector2D<Int>.left.transforming(.identity), .left)
+        XCTAssertEqual(Vector2D<Int>.left.transforming(.rotate90), .up)
+        XCTAssertEqual(Vector2D<Int>.left.transforming(.rotate270), .down)
+        XCTAssertEqual(Vector2D<Int>.right.transforming(.identity), .right)
+        XCTAssertEqual(Vector2D<Int>.right.transforming(.rotate90), .down)
+        XCTAssertEqual(Vector2D<Int>.right.transforming(.rotate270), .up)
     }
 
     func testMultiply() {

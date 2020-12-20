@@ -99,15 +99,14 @@ extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
 extension Vector where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
-    public mutating func rotate(_ turn: Turn) {
-        self = rotating(turn)
+    public mutating func transform(_ transform: Transform2D<Scalar>) {
+        self = transforming(transform)
     }
 
-    public func rotating(_ turn: Turn) -> Vector {
-        switch turn {
-        case .left: return Vector(x: -self.y, y: self.x)
-        case .right: return Vector(x: self.y, y: -self.x)
-        }
+    public func transforming(_ transform: Transform2D<Scalar>) -> Vector2D<Scalar> {
+        let x = self.x * transform.storage.x.x + self.y * transform.storage.x.y
+        let y = self.x * transform.storage.y.x + self.y * transform.storage.y.y
+        return Vector2D(x: x, y: y)
     }
 }
 

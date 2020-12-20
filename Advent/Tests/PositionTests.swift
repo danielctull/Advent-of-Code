@@ -119,22 +119,22 @@ final class PositionTests: XCTestCase {
 
     func testRotate() {
         XCTAssertEqual(
-            mutating(Position(x: 1, y: 2)) { $0.rotate(.left) },
+            mutating(Position(x: 1, y: 2)) { $0.transform(.rotate270) },
             Position(x: -2, y: 1)
         )
         XCTAssertEqual(
-            mutating(Position(x: 2, y: 1)) { $0.rotate(.right) },
+            mutating(Position(x: 2, y: 1)) { $0.transform(.rotate90) },
             Position(x: 1, y: -2)
         )
     }
 
     func testRotating() {
         XCTAssertEqual(
-            Position(x: 1, y: -2).rotating(.left),
+            Position(x: 1, y: -2).transforming(.rotate270),
             Position(x: 2, y: 1)
         )
         XCTAssertEqual(
-            Position(x: 1, y: -2).rotating(.right),
+            Position(x: 1, y: -2).transforming(.rotate90),
             Position(x: -2, y: -1)
         )
     }

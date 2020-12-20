@@ -18,8 +18,8 @@ public enum Day12: Day {
             case .S: ship += .south * instruction.amount
             case .W: ship += .west * instruction.amount
             case .F: ship += heading * instruction.amount
-            case .L: heading.rotate(.left) * (instruction.amount / 90)
-            case .R: heading.rotate(.right) * (instruction.amount / 90)
+            case .L: heading.transform(.rotate270) * (instruction.amount / 90)
+            case .R: heading.transform(.rotate90) * (instruction.amount / 90)
             }
         }
 
@@ -38,8 +38,8 @@ public enum Day12: Day {
             case .S: waypoint += .south * instruction.amount
             case .W: waypoint += .west * instruction.amount
             case .F: ship += Vector2D(to: waypoint) * instruction.amount
-            case .L: waypoint.rotate(.left) * (instruction.amount/90)
-            case .R: waypoint.rotate(.right) * (instruction.amount/90)
+            case .L: waypoint.transform(.rotate270) * (instruction.amount/90)
+            case .R: waypoint.transform(.rotate90) * (instruction.amount/90)
             }
         }
 

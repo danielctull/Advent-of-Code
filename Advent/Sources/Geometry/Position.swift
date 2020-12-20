@@ -21,11 +21,11 @@ extension Position: Hashable where Space: Hashable {}
 
 extension Position {
 
-    private init(value: (Parameter) -> Scalar) {
+    public init(value: (Parameter) -> Scalar) {
         self.init(space: Space(value: value))
     }
 
-    subscript(parameter: Parameter) -> Scalar { space[parameter] }
+    public subscript(parameter: Parameter) -> Scalar { space[parameter] }
 }
 
 extension Position {
@@ -80,15 +80,14 @@ extension Position2D where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
 extension Position where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
 
-    public mutating func rotate(_ turn: Turn) {
-        self = rotating(turn)
+    public mutating func transform(_ transform: Transform2D<Scalar>) {
+        self = transforming(transform)
     }
 
-    public func rotating(_ turn: Turn) -> Position {
-        switch turn {
-        case .left: return Position(x: -self.y, y: self.x)
-        case .right: return Position(x: self.y, y: -self.x)
-        }
+    public func transforming(_ transform: Transform2D<Scalar>) -> Position2D<Scalar> {
+        let x = self.x * transform.storage.x.x + self.y * transform.storage.x.y
+        let y = self.x * transform.storage.y.x + self.y * transform.storage.y.y
+        return Position2D(x: x, y: y)
     }
 }
 
