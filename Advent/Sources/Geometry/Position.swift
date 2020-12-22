@@ -85,8 +85,8 @@ extension Position where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
     }
 
     public func transforming(_ transform: Transform2D<Scalar>) -> Position2D<Scalar> {
-        let x = self.x * transform.storage.x.x + self.y * transform.storage.x.y
-        let y = self.x * transform.storage.y.x + self.y * transform.storage.y.y
+        let x = self.x * transform.x.x + self.y * transform.x.y
+        let y = self.x * transform.y.x + self.y * transform.y.y
         return Position2D(x: x, y: y)
     }
 }

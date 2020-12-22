@@ -1,4 +1,5 @@
 
+@dynamicMemberLookup
 public struct Transform<Storage, Space, Scalar>
     where
     Storage: Dimension,
@@ -7,7 +8,11 @@ public struct Transform<Storage, Space, Scalar>
     Storage.Scalar == Space,
     Storage.Parameter == Space.Parameter
 {
-    let storage: Storage
+    private let storage: Storage
+
+    public subscript(dynamicMember keyPath: KeyPath<Storage, Space>) -> Space {
+        storage[keyPath: keyPath]
+    }
 }
 
 public typealias Transform2D<Scalar: Numeric> = Transform<Dimension2<Dimension2<Scalar>>, Dimension2<Scalar>, Scalar>
