@@ -13,11 +13,17 @@ public struct Transform<Storage, Space, Scalar>
     public subscript(dynamicMember keyPath: KeyPath<Storage, Space>) -> Space {
         storage[keyPath: keyPath]
     }
+
+    subscript(parameter: Storage.Parameter) -> Space { storage[parameter] }
 }
 
 public typealias Transform2D<Scalar: Numeric> = Transform<Dimension2<Dimension2<Scalar>>, Dimension2<Scalar>, Scalar>
 
-extension Transform2D where Scalar: Numeric, Storage == Dimension2<Dimension2<Scalar>> {
+extension Transform
+    where
+    Scalar: Numeric,
+    Storage == Dimension2<Dimension2<Scalar>>
+{
 
     public init(_ xx: Scalar, _ xy: Scalar, _ yx: Scalar, _ yy: Scalar) {
         storage = Storage {

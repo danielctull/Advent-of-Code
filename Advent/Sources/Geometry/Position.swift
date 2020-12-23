@@ -78,16 +78,28 @@ extension Position2D where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
     }
 }
 
-extension Position where Scalar: SignedNumeric, Space == Dimension2<Scalar> {
+extension Position where Scalar: SignedNumeric {
 
-    public mutating func transform(_ transform: Transform2D<Scalar>) {
+    public mutating func transform<Storage>(
+        _ transform: Transform<Storage, Space, Scalar>
+    )
+        where
+        Storage.Parameter == Space.Parameter
+    {
         self = transforming(transform)
     }
 
-    public func transforming(_ transform: Transform2D<Scalar>) -> Position2D<Scalar> {
-        let x = self.x * transform.x.x + self.y * transform.x.y
-        let y = self.x * transform.y.x + self.y * transform.y.y
-        return Position2D(x: x, y: y)
+    public func transforming<Storage>(
+        _ transform: Transform<Storage, Space, Scalar>
+    ) -> Self
+        where
+        Storage.Parameter == Space.Parameter
+    {
+        return Position { j in
+            Parameter.allCases
+                .map { i in self[i] * transform[i][j] }
+                .sum()
+        }
     }
 }
 

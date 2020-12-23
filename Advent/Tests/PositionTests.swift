@@ -117,24 +117,24 @@ final class PositionTests: XCTestCase {
         XCTAssert(neighbours.contains(Position(x:  1, y:  1, z:  1)))
     }
 
-    func testRotate() {
-        XCTAssertEqual(
-            mutating(Position(x: 1, y: 2)) { $0.transform(.rotate270) },
-            Position(x: -2, y: 1)
-        )
-        XCTAssertEqual(
-            mutating(Position(x: 2, y: 1)) { $0.transform(.rotate90) },
-            Position(x: 1, y: -2)
-        )
-    }
+//    func testRotate() {
+//        XCTAssertEqual(
+//            mutating(Position(x: 1, y: 2)) { $0.transform(.rotate270) },
+//            Position(x: -2, y: 1)
+//        )
+//        XCTAssertEqual(
+//            mutating(Position(x: 2, y: 1)) { $0.transform(.rotate90) },
+//            Position(x: 1, y: -2)
+//        )
+//    }
 
     func testRotating() {
         XCTAssertEqual(
-            Position(x: 1, y: -2).transforming(.rotate270),
+            Position(x: 1, y: -2).transforming(Transform2D.rotate270),
             Position(x: 2, y: 1)
         )
         XCTAssertEqual(
-            Position(x: 1, y: -2).transforming(.rotate90),
+            Position(x: 1, y: -2).transforming(Transform2D.rotate90),
             Position(x: -2, y: -1)
         )
     }
