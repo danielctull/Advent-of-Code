@@ -21,7 +21,7 @@ extension Vector: Hashable where Space: Hashable {}
 
 extension Vector {
 
-    private init(value: (Parameter) -> Scalar) {
+    public init(value: (Parameter) -> Scalar) {
         self.init(space: Space(value: value))
     }
 
