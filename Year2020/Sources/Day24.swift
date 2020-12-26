@@ -30,12 +30,12 @@ extension Vector where Space == HexagonalDimension<Int> {
 
     init(_ string: String) {
         switch string {
-        case "e": self = Vector(southEasting: 1, southWesting: -1)
-        case "w": self = Vector(southEasting: -1, southWesting: 1)
-        case "ne": self = Vector(northing: 1, southWesting: -1)
-        case "sw": self = Vector(northing: -1, southWesting: 1)
-        case "se": self = Vector(northing: -1, southEasting: 1)
-        case "nw": self = Vector(northing: 1, southEasting: -1)
+        case  "e": self = Vector(q:  0, r: -1)
+        case  "w": self = Vector(q:  0, r:  1)
+        case "ne": self = Vector(q:  1, r: -1)
+        case "sw": self = Vector(q: -1, r:  1)
+        case "se": self = Vector(q: -1, r:  0)
+        case "nw": self = Vector(q:  1, r:  0)
         default: fatalError()
         }
     }
@@ -45,35 +45,38 @@ extension Vector where Space == HexagonalDimension<Int> {
 
 extension Vector where Space == HexagonalDimension<Scalar> {
 
-    public init(northing: Scalar = 0, southEasting: Scalar = 0, southWesting: Scalar = 0) {
+    /// Axial coordinate initialiser.
+    ///
+    /// https://www.redblobgames.com/grids/hexagons/
+    public init(q: Scalar, r: Scalar) {
         self.init { parameter in
             switch parameter {
-            case .northing: return northing
-            case .southEasting: return southEasting
-            case .southWesting: return southWesting
+            case .q: return q
+            case .r: return r
+            case .s: return 0 - q - r
             }
         }
     }
 }
 
 public struct HexagonalDimension<Scalar> {
-    public let northing, southEasting, southWesting: Scalar
+    public let q, r, s: Scalar
 }
 
 extension HexagonalDimension: Advent.Dimension {
     public enum Parameter: CaseIterable {
-        case northing, southEasting, southWesting
+        case q, r, s
     }
     public init(value: (Parameter) -> Scalar) {
-        northing = value(.northing)
-        southEasting = value(.southEasting)
-        southWesting = value(.southWesting)
+        q = value(.q)
+        r = value(.r)
+        s = value(.s)
     }
     public subscript(parameter: Parameter) -> Scalar {
         switch parameter {
-        case .northing: return northing
-        case .southEasting: return southEasting
-        case .southWesting: return southWesting
+        case .q: return q
+        case .r: return r
+        case .s: return s
         }
     }
 }
