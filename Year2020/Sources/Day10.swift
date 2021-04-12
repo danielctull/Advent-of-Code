@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public enum Day10: Day {
@@ -10,7 +11,7 @@ public enum Day10: Day {
 
         let differences = ([0] + input.integers)
             .sorted()
-            .slidingWindows(ofCount: 2)
+            .windows(ofCount: 2)
             .map { $0.last! - $0.first! }
 
         let ones = differences.count(where: { $0 == 1 })

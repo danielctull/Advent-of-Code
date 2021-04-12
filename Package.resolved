@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "swift-algorithms",
-        "repositoryURL": "https://github.com/danielctull-forks/swift-algorithms.git",
+        "repositoryURL": "https://github.com/apple/swift-algorithms.git",
         "state": {
-          "branch": "reductions",
-          "revision": "b8bd047ac5051567c5b5c4d092568ef464d9ecfa",
-          "version": null
+          "branch": null,
+          "revision": "4cca4895cc65743c32ddd9a59d7663f8b058ac16",
+          "version": "0.0.4"
         }
       },
       {

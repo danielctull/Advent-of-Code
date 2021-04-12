@@ -19,7 +19,7 @@ public enum Day05: Day {
         input.lines
             .map { Int(BinaryNumber(seat: $0)) }
             .sorted()
-            .slidingWindows(ofCount: 2)
+            .windows(ofCount: 2)
             .first(where: { $0.last! - $0.first! == 2 }) //Find gap in seats.
             .map { $0.first! + 1 } ?? 0
     }

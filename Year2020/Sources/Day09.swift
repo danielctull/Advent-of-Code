@@ -1,5 +1,6 @@
 
 import Advent
+import Algorithms
 import Foundation
 
 public enum Day09: Day {
@@ -24,7 +25,7 @@ extension Array where Element == Int {
 
     fileprivate func invalidNumber(preamble: Int) -> Int {
 
-        slidingWindows(ofCount: preamble + 1)
+        windows(ofCount: preamble + 1)
             .lazy
             .map { ($0.dropLast(), $0.last!) }
             .first(where: !hasSumCombination)
