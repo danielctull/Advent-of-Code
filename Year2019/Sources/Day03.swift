@@ -96,9 +96,6 @@ extension Move {
     }
 
     fileprivate func positions(from start: Position2D<Int>) -> [Position2D<Int>] {
-        (1...amount).map { amount in
-            let move = Move(direction: direction, amount: amount)
-            return start + move.direction * amount
-        }
+        (1...amount).map { amount in start + direction * amount }
     }
 }
