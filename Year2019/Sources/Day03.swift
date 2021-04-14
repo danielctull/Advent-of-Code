@@ -1,4 +1,5 @@
 
+import Algorithms
 import Advent
 import Foundation
 
@@ -66,9 +67,10 @@ extension Array where Element == Move {
 
     fileprivate var positions: [Position2D<Int>] {
 
-        scan([Position2D.origin]) { positions, move -> [Position2D<Int>] in
+        reductions([Position2D.origin]) { positions, move -> [Position2D<Int>] in
             move.positions(from: positions.last!)
         }
+        .dropFirst()
         .flatMap { $0 }
     }
 }
