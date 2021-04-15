@@ -57,8 +57,9 @@ extension String {
 
     fileprivate func sumOfPots(offset: Int) -> Int {
 
-        return indices(of: "#")
-            .map { distance(from: startIndex, to: $0) - offset }
+        indexed()
+            .filter { $0.element == "#" }
+            .map { distance(from: startIndex, to: $0.index) - offset }
             .sum()
     }
 }
