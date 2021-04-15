@@ -1,20 +1,6 @@
 
 extension Collection {
 
-    /// Splits into an array of subsequences each with the given length.
-    ///
-    /// - Parameter length: Length of each subsequence of the returned array.
-    public func split(length: Int) -> [SubSequence] {
-        stride(from: 0, to: count, by: length).map {
-            let lower = index(startIndex, offsetBy: $0)
-            let upper = index(lower, offsetBy: length)
-            return self[lower..<upper]
-        }
-    }
-}
-
-extension Collection {
-
     /// Creates a new collection containing the specified number of copies of
     /// the receiver.
     ///

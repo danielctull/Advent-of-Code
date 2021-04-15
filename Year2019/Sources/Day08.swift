@@ -1,4 +1,5 @@
 
+import Algorithms
 import Advent
 import Foundation
 
@@ -11,7 +12,7 @@ public struct Day08 {
         input
             .lines
             .first!
-            .split(length: width * height)
+            .chunks(ofCount: width * height)
             .map { string -> (Int, Int) in
                 let characters = string.group(by: { $0 })
                 let zeros = characters["0"]?.count ?? 0
@@ -28,7 +29,7 @@ public struct Day08 {
         input
             .lines
             .first!
-            .split(length: width * height)
+            .chunks(ofCount: width * height)
             .zipped
             .map {
                 $0.reduce("2") { (result, character) in
@@ -36,7 +37,7 @@ public struct Day08 {
                 }
             }
             .map { $0 == "0" ? Character("◼️") : "◻️" }
-            .split(length: width)
+            .chunks(ofCount: width)
             .map { String($0) }
     }
 }

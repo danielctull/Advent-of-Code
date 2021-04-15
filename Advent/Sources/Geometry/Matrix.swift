@@ -1,4 +1,5 @@
 
+import Algorithms
 import Foundation
 
 public struct Matrix<Element> {
@@ -153,7 +154,7 @@ extension Matrix: CustomStringConvertible
 {
     public var description: String {
         elements
-            .split(length: size.width)
+            .chunks(ofCount: size.width)
             .map { $0.map(\.description).joined() }
             .joined(separator: "\n")
     }

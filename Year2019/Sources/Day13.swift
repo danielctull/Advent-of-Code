@@ -1,4 +1,5 @@
 
+import Algorithms
 import Advent
 import Foundation
 
@@ -69,7 +70,10 @@ extension BlockGame {
         guard !computer.isHalted else { return }
 
         try computer.run()
-        let output = computer.nextOutput().split(length: 3).map(Array.init)
+
+        let output = computer.nextOutput()
+            .chunks(ofCount: 3)
+            .map(Array.init)
 
         for values in output {
             let x = values[0]

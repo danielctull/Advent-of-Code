@@ -1,4 +1,5 @@
 
+import Algorithms
 import Advent
 import Foundation
 
@@ -95,9 +96,13 @@ fileprivate struct NetworkInerfaceController {
 
             try computer.run()
 
-            for output in computer.nextOutput().split(length: 3).map(Array.init) {
-                let packet = Packet(x: output[1], y: output[2])
-                packets[output[0], default: []].append(packet)
+            let output = computer.nextOutput()
+                .chunks(ofCount: 3)
+                .map(Array.init)
+
+            for values in output {
+                let packet = Packet(x: values[1], y: values[2])
+                packets[values[0], default: []].append(packet)
             }
         }
     }
