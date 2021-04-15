@@ -1,6 +1,6 @@
 
-import Algorithms
 import Advent
+import Algorithms
 import Foundation
 
 public struct Day08 {
