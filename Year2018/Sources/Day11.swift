@@ -10,7 +10,7 @@ public struct Day11 {
     public func part1(input: Input) -> String {
 
         let serial = input.lines.map { Int($0)! }.first!
-        let row = (1...300).lookingAhead(3)
+        let row = (1...300).windows(ofCount: 3)
 
         return product(row, Array(row))
             .map { xs, ys -> (Coordinate, Int) in

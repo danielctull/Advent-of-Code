@@ -28,7 +28,7 @@ public struct Day12 {
         for generation in (1...generations) {
 
             let next = ("...." + result + "....")
-                .lookingAhead(5)
+                .windows(ofCount: 5)
                 .map { chars -> String in
                     let string = String(chars)
                     let replacement = rules[string]
