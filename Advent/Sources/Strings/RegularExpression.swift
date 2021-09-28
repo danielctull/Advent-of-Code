@@ -83,13 +83,10 @@ extension RegularExpression.Pattern {
 extension RegularExpression {
 
     public struct CaptureGroup {
-        public let string: String
+        let original: String
         public let range: Range<String.Index>
+        public var value: String { String(original[range]) }
     }
-}
-
-extension RegularExpression.CaptureGroup: CustomStringConvertible {
-    public var description: String { String(string[range]) }
 }
 
 // MARK: - Match
@@ -111,7 +108,7 @@ extension RegularExpression.Match {
         captureGroups = (1..<result.numberOfRanges)
             .map { result.range(at: $0) }
             .map { Range($0, in: string)! }
-            .map { RegularExpression.CaptureGroup(string: string, range: $0) }
+            .map { RegularExpression.CaptureGroup(original: string, range: $0) }
     }
 }
 
@@ -121,7 +118,7 @@ extension RegularExpression.Match {
         guard index >= 0 && index < captureGroups.count else {
             throw RegularExpression.OutOfBounds()
         }
-        return captureGroups[index].description
+        return captureGroups[index].value
     }
 
     public func integer(at index: Int) throws -> Int {
