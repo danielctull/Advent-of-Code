@@ -10,7 +10,7 @@ public struct RegularExpression {
     }
 
     public func match(_ string: String) throws -> Match {
-        let range = NSRange(location: 0, length: string.utf16.count)
+        let range = NSRange(location: 0, length: string.count)
         guard
             let result = expression.firstMatch(in: string, options: [], range: range)
         else {
@@ -20,12 +20,12 @@ public struct RegularExpression {
     }
 
     public func matches(_ string: String) -> Bool {
-        let range = NSRange(location: 0, length: string.utf16.count)
+        let range = NSRange(location: 0, length: string.count)
         return expression.firstMatch(in: string, options: [], range: range) != nil
     }
 
     public func matches(in string: String) -> [Match] {
-        let range = NSRange(location: 0, length: string.utf16.count)
+        let range = NSRange(location: 0, length: string.count)
         return expression
             .matches(in: string, options: [], range: range)
             .map { Match(string: string, result: $0) }
