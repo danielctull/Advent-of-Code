@@ -69,9 +69,9 @@ extension Day22.Game {
 
             if card1 <= player1.count && card2 <= player2.count {
 
-                let new1 = player1.dropLast(player1.count - card1).map { $0 }
-                let new2 = player2.dropLast(player2.count - card2).map { $0 }
-                var subgame = Self(player1: new1, player2: new2)
+                var subgame = Self(
+                    player1: player1.prefix(card1).map { $0 },
+                    player2: player2.prefix(card2).map { $0 })
 
                 switch subgame.recursiveCombat() {
                 case .player1:
@@ -82,14 +82,12 @@ extension Day22.Game {
                     player2.append(card1)
                 }
 
+            } else if card1 > card2 {
+                player1.append(card1)
+                player1.append(card2)
             } else {
-                if card1 > card2 {
-                    player1.append(card1)
-                    player1.append(card2)
-                } else {
-                    player2.append(card2)
-                    player2.append(card1)
-                }
+                player2.append(card2)
+                player2.append(card1)
             }
         }
         return player2.isEmpty ? .player1 : .player2
