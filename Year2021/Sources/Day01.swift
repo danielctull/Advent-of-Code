@@ -16,7 +16,7 @@ public enum Day01: Day {
     public static func part2(_ input: Input) throws -> Int {
         input.integers
             .windows(ofCount: 3)
-            .map { $0.sum() }
+            .map(\.sum)
             .adjacentPairs()
             .count(where: <)
     }

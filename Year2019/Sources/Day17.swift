@@ -13,7 +13,7 @@ public struct Day17 {
             .keys
             .filter(grid.isScaffoldIntersection)
             .map { $0.x * $0.y }
-            .sum()
+            .sum
     }
 }
 

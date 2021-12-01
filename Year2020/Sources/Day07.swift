@@ -42,7 +42,7 @@ extension Day07.Bag {
         contents.map { bag, count in
             (1 + bag.countContainedBags()) * count
         }
-        .sum()
+        .sum
     }
 }
 

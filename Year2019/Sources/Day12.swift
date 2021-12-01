@@ -19,7 +19,7 @@ public struct Day12 {
                 return newMoons
             }
             .map { $0.position.sum * $0.velocity.sum }
-            .sum()
+            .sum
     }
 }
 

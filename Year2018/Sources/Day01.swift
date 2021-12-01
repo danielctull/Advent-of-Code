@@ -12,7 +12,7 @@ public struct Day01 {
         return input
             .lines
             .compactMap(Int.init)
-            .sum()
+            .sum
     }
 
     public func part2(input: Input) -> Int {

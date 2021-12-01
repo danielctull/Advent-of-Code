@@ -25,7 +25,7 @@ public enum Day14: Day {
             }
         }
 
-        return memory.values.sum()
+        return memory.values.sum
     }
 
     public static func part2(_ input: Input) throws -> Int {
@@ -61,7 +61,7 @@ public enum Day14: Day {
             }
         }
 
-        return memory.values.sum()
+        return memory.values.sum
     }
 }
 

@@ -130,13 +130,11 @@ extension Sequence where Element: Numeric {
     /// The sum of all the values in the sequence.
     ///
     /// ```
-    /// [1, 2, 3, 4].sum()
+    /// [1, 2, 3, 4].sum
     /// // -> 1 + 2 + 3 + 4
     /// // -> 10
     /// ```
-    ///
-    /// - Returns: The sum of all the values.
-    public func sum() -> Element { reduce(0, +) }
+    public var sum: Element { reduce(0, +) }
 
     /// The product of all the values in the sequence.
     ///

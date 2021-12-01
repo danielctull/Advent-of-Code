@@ -20,10 +20,10 @@ public struct Day02 {
                     .map { $0.product() }
                     .repeatingElements(2)
 
-                return sides.min()! + sides.sum()
+                return sides.min()! + sides.sum
 
             }
-            .sum()
+            .sum
     }
 
     public func part2(input: Input) -> Int {
@@ -40,12 +40,12 @@ public struct Day02 {
                     .sorted()
                     .dropLast()
                     .repeatingElements(2)
-                    .sum()
+                    .sum
 
                 let bow = lengths.reduce(1, *)
 
                 return perimeter + bow
             }
-            .sum()
+            .sum
     }
 }

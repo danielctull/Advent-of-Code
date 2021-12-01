@@ -18,7 +18,7 @@ public struct Day11 {
                 let power = product(xs, ys)
                     .map(Coordinate.init)
                     .map { $0.power(serial: serial) }
-                    .sum()
+                    .sum
 
                 let topLeft = Coordinate(x: xs.min()!, y: ys.min()!)
                 return (topLeft, power)

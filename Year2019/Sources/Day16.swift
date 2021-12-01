@@ -30,7 +30,7 @@ public struct Day16 {
                     let value = zip(values, base)
                         .dropFirst(iteration - 1) // Numbers before this will have a base value of zero.
                         .map(*)
-                        .sum()
+                        .sum
 
                     return abs(value) % 10
                 }
@@ -71,7 +71,7 @@ public struct Day16 {
         return (1...phases)
             .reduce(values) { values, _ -> [Int] in
 
-                var total = values.sum()
+                var total = values.sum
                 return values.map { value in
                     defer { total -= value }
                     return total % 10

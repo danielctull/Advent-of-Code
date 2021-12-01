@@ -22,7 +22,7 @@ public enum Day16: Day {
 
         return values
             .filter(!rules)
-            .sum()
+            .sum
     }
 
     public static func part2(_ input: Input) throws -> Int {
