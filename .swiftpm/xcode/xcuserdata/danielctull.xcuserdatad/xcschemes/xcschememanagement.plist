@@ -34,20 +34,35 @@
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
+		<key>Year2020 Debug.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>Year2020.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
-		<key>aoc.xcscheme_^#shared#^_</key>
+		<key>Year2021 Debug.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+		<key>Year2021.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>7</integer>
 		</dict>
-		<key>intcode.xcscheme_^#shared#^_</key>
+		<key>aoc.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>8</integer>
+		</dict>
+		<key>intcode.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -118,6 +133,11 @@
 			<true/>
 		</dict>
 		<key>Year2020Tests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>Year2021</key>
 		<dict>
 			<key>primary</key>
 			<true/>

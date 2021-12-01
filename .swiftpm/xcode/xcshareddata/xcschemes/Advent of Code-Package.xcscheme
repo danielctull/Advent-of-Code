@@ -230,6 +230,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Year2021"
+               BuildableName = "Year2021"
+               BlueprintName = "Year2021"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -285,6 +299,16 @@
                BlueprintIdentifier = "Year2020Tests"
                BuildableName = "Year2020Tests"
                BlueprintName = "Year2020Tests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Year2021Tests"
+               BuildableName = "Year2021Tests"
+               BlueprintName = "Year2021Tests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
