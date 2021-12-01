@@ -17,7 +17,7 @@ extension IntcodeComputer.ASCII {
         where S: Sequence,
         S.Element == Character
     {
-        let ascii = try characters.map(Int.init)
+        let ascii = try characters.map(Int.init(asciiCharacter:))
         computer.input(ascii)
     }
 
