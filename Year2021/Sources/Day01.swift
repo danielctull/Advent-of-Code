@@ -8,18 +8,18 @@ public enum Day01: Day {
     public static let title = "Sonar Sweep"
 
     public static func part1(_ input: Input) throws -> Int {
-        try input.integers
-            .windows(ofCount: 2)
-            .map { try $0.first.unwrapped() < $0.last.unwrapped() }
+        input.integers
+            .adjacentPairs()
+            .map { $0.0 < $0.1 }
             .count(of: true)
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        try input.integers
+        input.integers
             .windows(ofCount: 3)
             .map { $0.sum() }
-            .windows(ofCount: 2)
-            .map { try $0.first.unwrapped() < $0.last.unwrapped() }
+            .adjacentPairs()
+            .map { $0.0 < $0.1 }
             .count(of: true)
     }
 }
