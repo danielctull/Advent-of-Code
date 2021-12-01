@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - "swift:5.3"
+          - "swift:5.5"
     name: Linux
     runs-on: ubuntu-latest
     container:
