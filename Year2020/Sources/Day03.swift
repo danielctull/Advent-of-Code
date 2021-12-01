@@ -18,7 +18,7 @@ public enum Day03: Day {
             count(input: input, right: 5, down: 1),
             count(input: input, right: 7, down: 1),
             count(input: input, right: 1, down: 2)
-        ].product()
+        ].product
     }
 
     private static func count(input: Input, right: Int, down: Int) -> Int {

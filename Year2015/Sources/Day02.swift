@@ -17,7 +17,7 @@ public struct Day02 {
                     .components(separatedBy: "x")
                     .compactMap(Int.init)
                     .combinations(ofCount: 2)
-                    .map { $0.product() }
+                    .map { $0.product }
                     .repeatingElements(2)
 
                 return sides.min()! + sides.sum

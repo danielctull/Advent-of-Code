@@ -19,6 +19,6 @@ public enum Day01: Day {
         return input.integers
             .combinations(ofCount: 2)
             .first(where: { values.contains(2020 - $0.sum) })
-            .map { $0.product() * (2020 - $0.sum) } ?? 0
+            .map { $0.product * (2020 - $0.sum) } ?? 0
     }
 }

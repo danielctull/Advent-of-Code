@@ -139,11 +139,9 @@ extension Sequence where Element: Numeric {
     /// The product of all the values in the sequence.
     ///
     /// ```
-    /// [1, 2, 3, 4].product()
+    /// [1, 2, 3, 4].product
     /// // -> 1 * 2 * 3 * 4
     /// // -> 24
     /// ```
-    ///
-    /// - Returns: The product of all the values.
-    public func product() -> Element { reduce(1, *) }
+    public var product: Element { reduce(1, *) }
 }

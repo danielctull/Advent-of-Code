@@ -73,7 +73,7 @@ public enum Day16: Day {
             // fields in your ticket.
             .filter { $0.1.name.hasPrefix("departure") }
             .map { yourTicket.fields[$0.0] }
-            .product()
+            .product
     }
 }
 
