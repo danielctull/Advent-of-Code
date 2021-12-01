@@ -10,8 +10,7 @@ public enum Day01: Day {
     public static func part1(_ input: Input) throws -> Int {
         input.integers
             .adjacentPairs()
-            .map(<)
-            .count(of: true)
+            .count(where: <)
     }
 
     public static func part2(_ input: Input) throws -> Int {
@@ -19,7 +18,6 @@ public enum Day01: Day {
             .windows(ofCount: 3)
             .map { $0.sum() }
             .adjacentPairs()
-            .map(<)
-            .count(of: true)
+            .count(where: <)
     }
 }
