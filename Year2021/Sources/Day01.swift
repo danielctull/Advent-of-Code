@@ -14,7 +14,12 @@ public enum Day01: Day {
             .count(of: true)
     }
 
-    public static func part2(_ input: Input) -> Int {
-        0
+    public static func part2(_ input: Input) throws -> Int {
+        try input.integers
+            .windows(ofCount: 3)
+            .map { $0.sum() }
+            .windows(ofCount: 2)
+            .map { try $0.first.unwrapped() < $0.last.unwrapped() }
+            .count(of: true)
     }
 }
