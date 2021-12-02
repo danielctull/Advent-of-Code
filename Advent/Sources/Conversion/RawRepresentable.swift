@@ -11,11 +11,14 @@ extension RawRepresentable {
     }
 }
 
-fileprivate struct UnexpectedRawValue<RawValue>: Error {
+public struct UnexpectedRawValue<RawValue>: Error {
     let rawValue: RawValue
+    public init(rawValue: RawValue) {
+        self.rawValue = rawValue
+    }
 }
 
 extension UnexpectedRawValue: CustomStringConvertible {
 
-    var description: String { #"Unexpected rawValue: "\(rawValue)"."# }
+    public var description: String { #"Unexpected rawValue: "\(rawValue)"."# }
 }
