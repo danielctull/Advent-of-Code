@@ -21,7 +21,20 @@ public enum Day02: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines
+            .map(Command.init)
+            .reduce(into: Location()) { location, command in
+                switch command {
+                case .up(let amount):
+                    location.aim -= amount
+                case .down(let amount):
+                    location.aim += amount
+                case .forward(let amount):
+                    location.horizontal += amount
+                    location.depth += location.aim * amount
+                }
+            }
+            .result
     }
 }
 
@@ -34,6 +47,7 @@ extension Day02 {
     }
 
     private struct Location {
+        var aim: Int = 0
         var depth: Int = 0
         var horizontal: Int = 0
         var result: Int { depth * horizontal }
