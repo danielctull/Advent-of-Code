@@ -22,22 +22,19 @@ public enum Day03: Day {
 extension Day03 {
 
     fileprivate struct Count {
-        var zeros: [Int] = []
-        var ones: [Int] = []
+        var zeros: [BinaryNumber.Index: Int] = [:]
+        var ones: [BinaryNumber.Index: Int] = [:]
     }
 }
 
 extension Day03.Count {
 
     mutating func count(_ binary: BinaryNumber) {
-        if zeros.count == 0 { zeros = Array(repeating: 0, count: binary.count) }
-        if ones.count == 0 { ones = Array(repeating: 0, count: binary.count) }
-
         self = binary.indexed().reduce(into: self) { (count, argument) in
             let (index, bit) = argument
             switch bit {
-            case .one: count.ones[index] += 1
-            case .zero: count.zeros[index] += 1
+            case .one: count.ones[index, default: 0] += 1
+            case .zero: count.zeros[index, default: 0] += 1
             }
         }
     }
@@ -45,7 +42,9 @@ extension Day03.Count {
     var result: Int { Int(gamma) * Int(epsilon) }
 
     var gamma: BinaryNumber {
-        BinaryNumber(bits: zip(zeros, ones).map { $0 < $1 ? .zero : .one })
+        BinaryNumber(bits: zeros.keys.sorted().map {
+            zeros[$0, default: 0] < ones[$0, default: 0] ? .zero : .one
+        })
     }
 
     var epsilon: BinaryNumber { !gamma }

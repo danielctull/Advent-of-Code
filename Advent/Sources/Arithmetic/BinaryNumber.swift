@@ -45,15 +45,23 @@ extension BinaryNumber: Sequence {
 }
 
 extension BinaryNumber: Collection {
-    public typealias Index = Int
+
+    public struct Index: Comparable, Equatable, Hashable {
+        public static func < (lhs: Index, rhs: Index) -> Bool {
+            lhs.rawValue < rhs.rawValue
+        }
+        init(_ value: Int) { rawValue = value }
+        fileprivate let rawValue: Int
+    }
+
     public var startIndex: Index { Index(bits.startIndex) }
     public var endIndex: Index { Index(bits.endIndex) }
-    public func index(after i: Index) -> Index { Index(bits.index(after: i)) }
+    public func index(after i: Index) -> Index { Index(bits.index(after: i.rawValue)) }
     public subscript(position: Index) -> Bit {
-        get { bits[position] }
+        get { bits[position.rawValue] }
         set {
-            while position >= bits.count { bits.append(.zero) }
-            bits[position] = newValue
+            while position.rawValue >= bits.count { bits.append(.zero) }
+            bits[position.rawValue] = newValue
         }
     }
 }
