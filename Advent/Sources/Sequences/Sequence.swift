@@ -72,12 +72,76 @@ extension Sequence where Element: Hashable {
             result[element, default: 0] += 1
         }
     }
+}
+
+extension Sequence where Element: Hashable, Element: Comparable {
 
     /// Find the element that appears the majority of times.
+    ///
+    /// If there are the same number of elements, the value of the element will
+    /// be used to compare instead.
     public var most: Element? {
         countByElement
-            .max(by: { $0.value < $1.value })
+            .max(by: \.value, \.key)
             .map(\.key)
+    }
+
+    /// Find the element that appears the fewest times.
+    ///
+    /// If there are the same number of these elements, the value of the element
+    /// will be used to compare instead.
+    public var least: Element? {
+        countByElement
+            .min(by: \.value, \.key)
+            .map(\.key)
+    }
+}
+
+extension Sequence {
+
+    public func sorted<V1: Comparable>(
+        by kp1: KeyPath<Element, V1>
+    ) -> [Element] {
+        sorted(by: { $0[keyPath: kp1] < $1[keyPath: kp1] })
+    }
+
+    public func sorted<V1: Comparable, V2: Comparable>(
+        by kp1: KeyPath<Element, V1>,
+        _ kp2: KeyPath<Element, V2>
+    ) -> [Element] {
+        sorted(by: {
+            ($0[keyPath: kp1], $0[keyPath: kp2]) < ($1[keyPath: kp1], $1[keyPath: kp2])
+        })
+    }
+
+    public func max<V1: Comparable>(
+        by kp1: KeyPath<Element, V1>
+    ) -> Element? {
+        self.max(by: { $0[keyPath: kp1] < $1[keyPath: kp1] })
+    }
+
+    public func max<V1: Comparable, V2: Comparable>(
+        by kp1: KeyPath<Element, V1>,
+        _ kp2: KeyPath<Element, V2>
+    ) -> Element? {
+        self.max(by: {
+            ($0[keyPath: kp1], $0[keyPath: kp2]) < ($1[keyPath: kp1], $1[keyPath: kp2])
+        })
+    }
+
+    public func min<V1: Comparable>(
+        by kp1: KeyPath<Element, V1>
+    ) -> Element? {
+        self.min(by: { $0[keyPath: kp1] < $1[keyPath: kp1] })
+    }
+
+    public func min<V1: Comparable, V2: Comparable>(
+        by kp1: KeyPath<Element, V1>,
+        _ kp2: KeyPath<Element, V2>
+    ) -> Element? {
+        self.min(by: {
+            ($0[keyPath: kp1], $0[keyPath: kp2]) < ($1[keyPath: kp1], $1[keyPath: kp2])
+        })
     }
 }
 
