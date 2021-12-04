@@ -33,7 +33,28 @@ public enum Day04: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let sections = input.lines.split(separator: "")
+
+        let numbers = try sections
+            .first.unwrapped()
+            .first.unwrapped()
+            .split(separator: ",")
+            .map(Int.init)
+            .reductions(into: []) { $0.append($1) }
+
+        var boards = try sections
+            .dropFirst()
+            .map(Board.init)
+
+        for values in numbers {
+            if boards.count == 1 && boards[0].wins(Set(values)) {
+                return try values.last.unwrapped() * boards[0].unmarked(Set(values)).sum
+            }
+            boards.filtered { !$0.wins(Set(values)) }
+        }
+
+        return 0
     }
 }
 
