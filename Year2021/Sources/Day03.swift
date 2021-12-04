@@ -20,37 +20,32 @@ public enum Day03: Day {
 
     public static func part2(_ input: Input) throws -> Int {
 
-        var most = input.lines.map { Array($0) }
-        do {
-            var index = 0
-            while most.count > 1 {
+        let most = try input.lines
+            .map(Array.init)
+            .single { values, iteration in
 
-                let value = most
-                    .transpose()[index]
+                let value = values
+                    .transpose()[iteration]
                     .most
 
-                most = most.filter { $0[index] == value }
-                index += 1
+                values.filtered { $0[iteration] == value }
             }
-        }
+            .unwrapped()
 
+        let least = try input.lines
+            .map(Array.init)
+            .single { values, index in
 
-        var least = input.lines.map { Array($0) }
-        do {
-            var index = 0
-            while least.count > 1 {
-
-                let value = least
+                let value = values
                     .transpose()[index]
                     .least
 
-                least = least.filter { $0[index] == value }
-                index += 1
+                values.filtered { $0[index] == value }
             }
-        }
+            .unwrapped()
 
-        let oxygen = try BinaryNumber(most.first.unwrapped())
-        let co2 = try BinaryNumber(least.first.unwrapped())
+        let oxygen = try BinaryNumber(most)
+        let co2 = try BinaryNumber(least)
         return Int(oxygen) * Int(co2)
     }
 }

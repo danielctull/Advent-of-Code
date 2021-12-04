@@ -11,6 +11,29 @@ extension Collection {
     }
 }
 
+
+extension Collection {
+
+    /// While there is more than one element in the collection, this will run
+    /// the given iterate function to reduce the elements until there is only
+    /// one single element remaining.
+    ///
+    /// - Parameter iterate: The function to perform on each iteration.
+    /// - Returns: The single element.
+    public func single(
+        iterate: (inout Self, Int) throws -> Void
+    ) rethrows -> Element? {
+
+        var collection = self
+        var index = 0
+        while collection.count > 1 {
+            try iterate(&collection, index)
+            index += 1
+        }
+        return collection.first
+    }
+}
+
 extension Collection {
 
     /// Transposes this collection of collections of elements.
