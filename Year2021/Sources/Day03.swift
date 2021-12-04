@@ -20,32 +20,18 @@ public enum Day03: Day {
 
     public static func part2(_ input: Input) throws -> Int {
 
-        let most = try input.lines
-            .map(Array.init)
-            .single { values, iteration in
+        func iterate(using value: ([Character]) -> Character?) throws -> [Character] {
+            try input.lines
+                .map(Array.init)
+                .single { values, iteration in
+                    let character = value(values.transpose()[iteration])
+                    values.filtered { $0[iteration] == character }
+                }
+                .unwrapped()
+        }
 
-                let value = values
-                    .transpose()[iteration]
-                    .most
-
-                values.filtered { $0[iteration] == value }
-            }
-            .unwrapped()
-
-        let least = try input.lines
-            .map(Array.init)
-            .single { values, index in
-
-                let value = values
-                    .transpose()[index]
-                    .least
-
-                values.filtered { $0[index] == value }
-            }
-            .unwrapped()
-
-        let oxygen = try BinaryNumber(most)
-        let co2 = try BinaryNumber(least)
+        let oxygen = try BinaryNumber(iterate(using: \.most))
+        let co2 = try BinaryNumber(iterate(using: \.least))
         return Int(oxygen) * Int(co2)
     }
 }
