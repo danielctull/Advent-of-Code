@@ -68,10 +68,16 @@ extension Sequence where Element: Hashable {
     ///
     /// `[A: 4, B: 3, C: 2, D: 1]`
     public var countByElement: [Element: Int] {
-
-        return reduce(into: [:]) { result, element in
+        reduce(into: [:]) { result, element in
             result[element, default: 0] += 1
         }
+    }
+
+    /// Find the element that appears the majority of times.
+    public var most: Element? {
+        countByElement
+            .max(by: { $0.value < $1.value })
+            .map(\.key)
     }
 }
 
@@ -106,7 +112,7 @@ extension Sequence {
     /// - Parameter key: A closure to fetch a key for the given element.
     /// - Returns: A dictionary of keys to an array of elements.
     public func group<Key: Hashable>(by key: (Element) -> Key) -> [Key: [Element]] {
-        return Dictionary(grouping: self, by: key)
+        Dictionary(grouping: self, by: key)
     }
 }
 

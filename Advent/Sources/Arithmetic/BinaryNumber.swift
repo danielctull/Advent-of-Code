@@ -23,8 +23,10 @@ extension BinaryNumber: CustomStringConvertible {
 
 extension BinaryNumber {
 
-    public init(_ string: String) throws {
-        try self.init(bits: string.map(Bit.init).reversed())
+    public init<Characters>(
+        _ characters: Characters
+    ) throws where Characters: Sequence, Characters.Element == Character {
+        try self.init(bits: characters.map(Bit.init))
     }
 
     public init(_ value: Int) {
