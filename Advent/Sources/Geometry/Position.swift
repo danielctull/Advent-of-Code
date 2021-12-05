@@ -19,6 +19,10 @@ public struct Position<Space, Scalar>
 extension Position: Equatable where Space: Equatable {}
 extension Position: Hashable where Space: Hashable {}
 
+extension Position: CustomStringConvertible {
+    public var description: String { "Position(\(space))" }
+}
+
 extension Position {
 
     public init(value: (Parameter) -> Scalar) {

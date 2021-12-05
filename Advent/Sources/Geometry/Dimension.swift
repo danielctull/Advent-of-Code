@@ -31,6 +31,10 @@ extension Dimension2: Dimension {
 extension Dimension2: Equatable where Scalar: Equatable {}
 extension Dimension2: Hashable where Scalar: Hashable {}
 
+extension Dimension2: CustomStringConvertible {
+    public var description: String { "x: \(x), y: \(y)" }
+}
+
 // MARK: - 3D
 
 public struct Dimension3<Scalar> {
