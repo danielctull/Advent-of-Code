@@ -16,7 +16,11 @@ public enum Day05: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines
+            .map(Line.init)
+            .flatMap(\.positions)
+            .countByElement
+            .count(where: { $0.value > 1 })
     }
 }
 
@@ -44,14 +48,25 @@ extension Day05.Line {
     }
 
     var positions: [Position2D<Int>] {
+
+        var xs: [Int] {
+            start.x < end.x
+                ? Array(start.x...end.x)
+                : Array(end.x...start.x).reversed()
+        }
+
+        var ys: [Int] {
+            start.y < end.y
+                ? Array(start.y...end.y)
+                : Array(end.y...start.y).reversed()
+        }
+
         if start.x == end.x {
-            return (min(start.y, end.y)...max(start.y, end.y))
-                .map { Position2D(x: start.x, y: $0) }
+            return ys.map { Position2D(x: start.x, y: $0) }
         } else if start.y == end.y {
-            return (min(start.x, end.x)...max(start.x, end.x))
-                .map { Position2D(x: $0, y: start.y) }
+            return xs.map { Position2D(x: $0, y: start.y) }
         } else {
-            return []
+            return zip(xs, ys).map { Position2D(x: $0, y: $1) }
         }
     }
 }
