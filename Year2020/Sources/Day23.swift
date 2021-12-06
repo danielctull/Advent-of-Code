@@ -24,7 +24,7 @@ extension Day23 {
         private var values: [Int]
         private let sorted: [Int]
         init(_ input: Input) throws {
-            values = try input.lines.first.unwrapped().map(Int.init)
+            values = try input.lines.first.unwrapped.map(Int.init)
             sorted = values.sorted()
         }
 
@@ -32,13 +32,13 @@ extension Day23 {
             let current = values.removeFirst()
             let three = [values.removeFirst(), values.removeFirst(), values.removeFirst()]
             let destination = try nextCup(current)
-            let index = try values.firstIndex(of: destination).unwrapped()
+            let index = try values.firstIndex(of: destination).unwrapped
             values.insert(contentsOf: three, at: values.index(after: index))
             values.append(current)
         }
 
         private func nextCup(_ current: Int) throws -> Int {
-            var index = try sorted.firstIndex(of: current).unwrapped()
+            var index = try sorted.firstIndex(of: current).unwrapped
             var destination = current
             repeat {
                 index = sorted.startIndex < index
@@ -52,13 +52,13 @@ extension Day23 {
         var sequence: Int {
             get throws {
                 let split = values.split(separator: 1)
-                let first = try Array(split.first.unwrapped())
-                let last = try Array(split.last.unwrapped())
+                let first = try Array(split.first.unwrapped)
+                let last = try Array(split.last.unwrapped)
                 let numbers = (first == last)
                     ? Array(first)
                     : Array(last) + Array(first)
                 let string = numbers.map(String.init).joined()
-                return try Int(string).unwrapped()
+                return try Int(string).unwrapped
             }
         }
     }

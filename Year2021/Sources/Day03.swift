@@ -11,7 +11,7 @@ public enum Day03: Day {
 
         let most = try input.lines
             .transpose()
-            .map { try $0.most.unwrapped() }
+            .map { try $0.most.unwrapped }
 
         let gamma = try BinaryNumber(most)
         let epsilon = !gamma
@@ -27,7 +27,7 @@ public enum Day03: Day {
                     let character = value(values.transpose()[iteration])
                     values.filtered { $0[iteration] == character }
                 }
-                .unwrapped()
+                .unwrapped
         }
 
         let oxygen = try BinaryNumber(iterate(using: \.most))

@@ -29,7 +29,7 @@ public enum Day16: Day {
 
         let sections = input.lines.split(whereSeparator: \.isEmpty)
         let rules = try Array(rules: sections[0])
-        let yourTicket = try Array(tickets: sections[1]).first.unwrapped()
+        let yourTicket = try Array(tickets: sections[1]).first.unwrapped
         let nearbyTickets = try Array(tickets: sections[2])
         let fieldCount = yourTicket.fields.count
 
@@ -64,7 +64,7 @@ public enum Day16: Day {
                 let rule = try potential
                     .element
                     .first(where: { rule in !rules.contains { $0.1 == rule }})
-                    .unwrapped()
+                    .unwrapped
 
                 rules.append((potential.offset, rule))
             }

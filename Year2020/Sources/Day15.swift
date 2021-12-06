@@ -23,10 +23,10 @@ public enum Day15: Day {
         var sightings = try zip(1..., integers)
             .dropLast()
             .group(by: \.1)
-            .mapValues { try $0.last.unwrapped().0 }
+            .mapValues { try $0.last.unwrapped.0 }
 
         // Seed last value of the input sequence.
-        let last = try integers.last.unwrapped()
+        let last = try integers.last.unwrapped
 
         // Reduce until we hit our goal amount.
         return (integers.count..<goal).reduce(last) { value, turn in

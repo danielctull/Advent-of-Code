@@ -11,11 +11,11 @@ public enum Day13: Day {
         let goal = try input.lines
             .compactMap(Int.init)
             .first
-            .unwrapped()
+            .unwrapped
 
         return try input.lines
             .last
-            .unwrapped()
+            .unwrapped
             .components(separatedBy: ",")
             .compactMap(Int.init)
             .map { bus -> (Int, Int) in
@@ -26,7 +26,7 @@ public enum Day13: Day {
             }
             .min(by: { $0.1 < $1.1 })
             .map(*)
-            .unwrapped()
+            .unwrapped
     }
 
     //--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ public enum Day13: Day {
 
         try input.lines
             .last
-            .unwrapped()
+            .unwrapped
             .components(separatedBy: ",")
             .map(Int.init)
             .enumerated()
@@ -75,10 +75,10 @@ public enum Day13: Day {
 
                 let lowestCommon = try stride(from: offset1, to: .max, by: bus1)
                     .first(where: { ($0 + offset2).isMultiple(of: bus2) })
-                    .unwrapped()
+                    .unwrapped
 
                 return (lowestCommon, bus1 * bus2)
             }
-            .unwrapped().0
+            .unwrapped.0
     }
 }

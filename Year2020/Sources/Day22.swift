@@ -38,8 +38,8 @@ extension Day22.Game {
         let decks = input.lines
             .split(separator: "")
             .map { $0.compactMap(Int.init) }
-        player1 = try decks.first.unwrapped()
-        player2 = try decks.last.unwrapped()
+        player1 = try decks.first.unwrapped
+        player2 = try decks.last.unwrapped
     }
 
     mutating func combat() {

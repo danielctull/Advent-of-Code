@@ -58,8 +58,8 @@ extension Day02.Command {
 
     init(_ string: String) throws {
         let components = string.split(separator: " ")
-        let name = try components.first.unwrapped()
-        let value = try Int(components.last.unwrapped())
+        let name = try components.first.unwrapped
+        let value = try Int(components.last.unwrapped)
         switch name {
         case "up": self = .up(value)
         case "down": self = .down(value)
