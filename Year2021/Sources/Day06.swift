@@ -17,15 +17,7 @@ public enum Day06: Day {
 
     private static func run(_ input: Input, amount: Int) throws -> Int {
 
-        let eightDays = (0...9)
-            .map(Lanternfish.init)
-            .map { lanternfish in
-                (1...8).reduce([lanternfish]) { fish, _ in fish.flatMap(\.ticktock) }
-            }
-
-        let amount = amount/8
-
-        let lanternfish = try input.lines
+        let school = try input.lines
             .first.unwrapped
             .split(separator: ",")
             .map(Int.init)
@@ -33,15 +25,14 @@ public enum Day06: Day {
             .countByElement
 
         return (1...amount)
-            .reduce(lanternfish) { fish, _ in
-                fish.map { (fish, count) in
-                        eightDays[fish.timer]
-                            .countByElement
-                            .mapValues { $0 * count }
+            .reduce(school) { school, _ in
+                var out: [Lanternfish: Int] = [:]
+                school.forEach { fish, count in
+                    for fish in fish.ticktock {
+                        out[fish, default: 0] += count
                     }
-                    .reduce(into: [:]) { result, count in
-                        result.merge(count, uniquingKeysWith: +)
-                    }
+                }
+                return out
             }
             .values
             .sum
