@@ -30,12 +30,21 @@ public enum Day06: Day {
             .split(separator: ",")
             .map(Int.init)
             .map(Lanternfish.init)
+            .countByElement
 
         return (1...amount)
             .reduce(lanternfish) { fish, _ in
-                fish.flatMap { eightDays[$0.timer] }
+                fish.map { (fish, count) in
+                        eightDays[fish.timer]
+                            .countByElement
+                            .mapValues { $0 * count }
+                    }
+                    .reduce(into: [:]) { result, count in
+                        result.merge(count, uniquingKeysWith: +)
+                    }
             }
-            .count
+            .values
+            .sum
     }
 }
 
