@@ -6,6 +6,9 @@ struct AdventCommand: ParsableCommand {
     static var configuration: CommandConfiguration {
         CommandConfiguration(
             commandName: "aoc",
-            subcommands: [SolveCommand  .self])
+            subcommands: [
+                CreateCommand.self,
+                SolveCommand.self
+            ])
     }
 }

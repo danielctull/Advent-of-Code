@@ -50,7 +50,8 @@ let package = Package(
                 "Year2019",
                 "Year2020",
             ],
-            path: "Advent/Tool"),
+            path: "Advent/Tool",
+            resources: [.copy("Templates")]),
 
         // MARK: - Year2015
 
