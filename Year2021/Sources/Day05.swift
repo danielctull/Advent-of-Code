@@ -9,7 +9,7 @@ public enum Day05: Day {
 
     public static func part1(_ input: Input) throws -> Int {
         try input.lines
-            .compactMap(Line.orthogonal)
+            .compactMap(Line2D.orthogonal)
             .flatMap(\.positions)
             .countByElement
             .count(where: { $0.value > 1 })
@@ -17,37 +17,30 @@ public enum Day05: Day {
 
     public static func part2(_ input: Input) throws -> Int {
         try input.lines
-            .map(Line.init)
+            .map(Line2D.init)
             .flatMap(\.positions)
             .countByElement
             .count(where: { $0.value > 1 })
     }
 }
 
-extension Day05 {
+extension Line where Space == Dimension2<Int> {
 
-    struct Line {
-        let start: Position2D<Int>
-        let end: Position2D<Int>
-    }
-}
-
-extension Day05.Line {
-
-    init(_ string: String) throws {
+    fileprivate init(_ string: String) throws {
         let regex = try RegularExpression(pattern: #"([0-9]+),([0-9]+) -> ([0-9]+),([0-9]+)"#)
         let match = try regex.match(string)
-        start = try Position2D(x: match.integer(at: 0), y: match.integer(at: 1))
-        end = try Position2D(x: match.integer(at: 2), y: match.integer(at: 3))
+        self.init(
+            start: try Position2D(x: match.integer(at: 0), y: match.integer(at: 1)),
+            end: try Position2D(x: match.integer(at: 2), y: match.integer(at: 3)))
     }
 
-    static func orthogonal(_ string: String) throws -> Self? {
+    fileprivate static func orthogonal(_ string: String) throws -> Self? {
         let line = try Self(string)
         guard line.start.x == line.end.x || line.end.y == line.start.y else { return nil }
         return line
     }
 
-    var positions: [Position2D<Int>] {
+    fileprivate var positions: [Position2D<Int>] {
 
         var xs: [Int] {
             start.x < end.x
@@ -66,11 +59,7 @@ extension Day05.Line {
         } else if start.y == end.y {
             return xs.map { Position2D(x: $0, y: start.y) }
         } else {
-            return zip(xs, ys).map { Position2D(x: $0, y: $1) }
+            return zip(xs, ys).map(Position2D.init)
         }
     }
-}
-
-extension Day05.Line: CustomStringConvertible {
-    var description: String { "Line(start: \(start), end: \(end))" }
 }

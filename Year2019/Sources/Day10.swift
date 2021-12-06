@@ -4,37 +4,6 @@ import Foundation
 
 public struct Day10 {
 
-    public struct Line {
-        let start: Position2D<Int>
-        let end: Position2D<Int>
-        
-        public init(start: Position2D<Int>, end: Position2D<Int>) {
-            self.start = start
-            self.end = end
-        }
-
-        private func gradient(from start: Position2D<Int>, to end: Position2D<Int>) -> Double {
-            let denominator = end.y - start.y
-            guard denominator != 0 else { return .greatestFiniteMagnitude }
-            return Double(end.x - start.x) / Double(denominator)
-        }
-
-        public func contains(_ position: Position2D<Int>) -> Bool {
-            guard
-                position != start,
-                position != end,
-                min(start.x, end.x) <= position.x,
-                min(start.y, end.y) <= position.y,
-                position.x <= max(start.x, end.x),
-                position.y <= max(start.y, end.y)
-            else {
-                return false
-            }
-            return gradient(from: start, to: position)
-                == gradient(from: position, to: end)
-        }
-    }
-
     public init() {}
 
     public func part1(input: Input) throws -> (Position2D<Int>, Int) {
@@ -85,5 +54,29 @@ public struct Day10 {
 
         let asteroidPosition = sortedAsteroids[199].0
         return asteroidPosition.x * 100 + asteroidPosition.y
+    }
+}
+
+extension Line where Space == Dimension2<Int> {
+
+    private func gradient(from start: Position2D<Int>, to end: Position2D<Int>) -> Double {
+        let denominator = end.y - start.y
+        guard denominator != 0 else { return .greatestFiniteMagnitude }
+        return Double(end.x - start.x) / Double(denominator)
+    }
+
+    fileprivate func contains(_ position: Position2D<Int>) -> Bool {
+        guard
+            position != start,
+            position != end,
+            min(start.x, end.x) <= position.x,
+            min(start.y, end.y) <= position.y,
+            position.x <= max(start.x, end.x),
+            position.y <= max(start.y, end.y)
+        else {
+            return false
+        }
+        return gradient(from: start, to: position)
+            == gradient(from: position, to: end)
     }
 }
