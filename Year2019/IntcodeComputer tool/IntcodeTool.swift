@@ -1,19 +1,22 @@
 
+import Advent
+import ArgumentParser
 import Foundation
 import Year2019
 
-struct IntcodeTool {
+struct IntcodeCommand: ParsableCommand {
 
-    var computer: IntcodeComputer
-    let mode: Mode
+    static let configuration = CommandConfiguration(commandName: "intcode")
 
-    init(arguments: [String]) throws {
-        guard arguments.count == 3 else { throw Usage() }
-        mode = try Mode(arguments[1])
-        computer = try IntcodeComputer(path: arguments[2])
-    }
+    @Argument(help: "The mode to use. [\(Mode.allValueStrings.joined(separator: "|"))]", completion: .list(Mode.allValueStrings))
+    var mode: Mode
 
-    mutating func run() throws {
+    @Argument(help: "The input.")
+    var input: Input
+
+    func run() throws {
+
+        var computer = IntcodeComputer(input: input)
 
         while !computer.isHalted {
 
@@ -26,22 +29,9 @@ struct IntcodeTool {
     }
 }
 
+// MARK: - Intcode Computer
+
 extension IntcodeComputer {
-
-    fileprivate init(path: String) throws {
-
-        let current = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
-        let intcodeURL = URL(fileURLWithPath: path, relativeTo: current)
-        let data = try Data(contentsOf: intcodeURL)
-        guard let string = String(data: data, encoding: .utf8) else { throw NotString() }
-
-        let code = try string
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .components(separatedBy: ",")
-            .map(Int.init(code:))
-
-        self.init(code: code)
-    }
 
     fileprivate mutating func input(_ value: String, for mode: Mode) throws {
         switch mode {
@@ -58,20 +48,23 @@ extension IntcodeComputer {
     }
 }
 
-// MARK: - Errors
+// MARK: - Input
 
-struct NotString: Error {}
+extension Input: ExpressibleByArgument {
 
-struct Usage: LocalizedError {
-    var errorDescription: String? { "intcode [int|ascii] [intcode filepath]" }
+    public init?(argument: String) {
+        guard let directory = Process().currentDirectoryURL else { return nil }
+        let url = directory.appendingPathComponent(argument)
+        try? self.init(url: url)
+    }
 }
+
+// MARK: - Int conversion
 
 struct NotInteger: LocalizedError {
     let value: String
     var errorDescription: String? { "Expected integer but received \(value)." }
 }
-
-// MARK: - Int conversion
 
 extension Int {
 
@@ -83,19 +76,9 @@ extension Int {
 
 // MARK: - Mode
 
-enum Mode {
+enum Mode: String, ExpressibleByArgument {
     case int
     case ascii
-}
 
-extension Mode {
-
-    init(_ name: String) throws {
-        struct NotMode: Error {}
-        switch name {
-        case "int": self = .int
-        case "ascii": self = .ascii
-        default: throw NotMode()
-        }
-    }
+    static var allValueStrings: [String] { ["int", "ascii"] }
 }

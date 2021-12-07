@@ -94,7 +94,11 @@ let package = Package(
 
         .target(
             name: "IntcodeComputer tool",
-            dependencies: ["Advent", "Year2019"],
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                "Advent",
+                "Year2019",
+            ],
             path: "Year2019/IntcodeComputer tool"),
 
         // MARK: - Year2020
