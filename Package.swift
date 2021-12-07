@@ -119,7 +119,7 @@ let package = Package(
 
         .testTarget(
             name: "Year2021Tests",
-            dependencies: ["Advent", "Year2021"],
+            dependencies: ["Advent", "Year2019", "Year2021"],
             path: "Year2021/Tests",
             resources: [.copy("Inputs")]),
     ],

@@ -5,7 +5,7 @@ import Advent
 
 extension IntcodeComputer {
 
-    init(input: Input) {
+    public init(input: Input) {
 
         let code = input
               .lines
