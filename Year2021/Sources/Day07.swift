@@ -29,6 +29,28 @@ public enum Day07: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let positions = try input.lines
+            .first.unwrapped
+            .split(separator: ",")
+            .map(Int.init)
+
+        let min = try positions.min().unwrapped
+        let max = try positions.max().unwrapped
+        let costs = positions.countByElement
+
+        return try (min...max).map { proposed -> Int in
+            costs.map { position, cost in
+                abs(proposed - position).triangle * cost
+            }
+            .sum
+        }
+        .min()
+        .unwrapped
     }
+}
+
+extension Int {
+
+    var triangle: Int { (self * (self + 1)) / 2 }
 }
