@@ -49,8 +49,3 @@ public enum Day07: Day {
         .unwrapped
     }
 }
-
-extension Int {
-
-    var triangle: Int { (self * (self + 1)) / 2 }
-}

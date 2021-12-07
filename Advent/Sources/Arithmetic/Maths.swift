@@ -18,6 +18,11 @@ public func lowestCommonMultiple<T: SignedInteger>(_ lhs: T, _ rhs: T) -> T {
 }
 
 extension Int {
+
+    public var triangle: Int {
+        (self * (self + 1)) / 2
+    }
+
     public func power(_ power: Int) -> Int {
         Int(pow(Double(self), Double(power)))
     }
