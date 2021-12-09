@@ -13,10 +13,6 @@ public struct Predicate<Value> {
 
 // MARK: - Modifying Predicates
 
-public func ~= <T>(predicate: Predicate<T>, value: T) -> Bool {
-    predicate(value)
-}
-
 public func && <T>(lhs: Predicate<T>, rhs: Predicate<T>) -> Predicate<T> {
     Predicate { value in lhs(value) && rhs(value) }
 }
@@ -143,6 +139,10 @@ extension Predicate where Value: Equatable {
 }
 
 // MARK: - Using Predicates
+
+public func ~= <T>(predicate: Predicate<T>, value: T) -> Bool {
+    predicate(value)
+}
 
 extension Sequence {
 
