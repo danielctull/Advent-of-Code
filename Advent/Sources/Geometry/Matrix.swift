@@ -18,6 +18,11 @@ extension Matrix {
         self.size = Size(width: width, height: height)
         self.elements = elements.flatMap { $0 }
     }
+
+    public init(input: Input, element: (Character) throws -> Element) throws {
+        let elements = try input.lines.map { try $0.map(element) }
+        self.init(elements: elements)
+    }
 }
 
 extension Matrix
