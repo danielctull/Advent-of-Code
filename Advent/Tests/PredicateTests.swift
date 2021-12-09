@@ -43,6 +43,28 @@ final class PredicateTests: XCTestCase {
         XCTAssertTrue(predicate("C"))
     }
 
+    func testFalse() {
+        let predicate = Predicate<Int>.false
+        XCTAssertFalse(predicate(0))
+        XCTAssertFalse(predicate(11))
+        XCTAssertFalse(predicate(10000))
+    }
+
+    func testTrue() {
+        let predicate = Predicate<Int>.true
+        XCTAssertTrue(predicate(0))
+        XCTAssertTrue(predicate(11))
+        XCTAssertTrue(predicate(10000))
+    }
+
+    func testCount() {
+        let predicate = Predicate<[Int]>.count(is: 2)
+        XCTAssertFalse(predicate([]))
+        XCTAssertFalse(predicate([0]))
+        XCTAssertTrue(predicate([0, 1]))
+        XCTAssertFalse(predicate([0, 1, 2]))
+    }
+
     func testHasPrefix() {
         let predicate = Predicate.hasPrefix("yes")
         XCTAssertTrue(predicate("yes string"))
@@ -56,8 +78,43 @@ final class PredicateTests: XCTestCase {
         XCTAssertFalse(predicate("B"))
     }
 
-    func testIsWithinList() {
-        let predicate = Predicate.isWithin("A", "B")
+    func testIsGreaterThan() {
+        let predicate = Predicate.isGreaterThan(2)
+        XCTAssertFalse(predicate(0))
+        XCTAssertFalse(predicate(1))
+        XCTAssertFalse(predicate(2))
+        XCTAssertTrue(predicate(3))
+        XCTAssertTrue(predicate(4))
+    }
+
+    func testIsLessThan() {
+        let predicate = Predicate.isLessThan(2)
+        XCTAssertTrue(predicate(0))
+        XCTAssertTrue(predicate(1))
+        XCTAssertFalse(predicate(2))
+        XCTAssertFalse(predicate(3))
+    }
+
+    func testIsSubset() {
+        let predicate = Predicate.isSubset(of: Set(["A", "B"]))
+        XCTAssertTrue(predicate([]))
+        XCTAssertTrue(predicate(["A"]))
+        XCTAssertTrue(predicate(["A", "B"]))
+        XCTAssertFalse(predicate(["A", "B", "C"]))
+        XCTAssertFalse(predicate(["A", "C"]))
+    }
+
+    func testIsSuperset() {
+        let predicate = Predicate.isSuperset(of: Set(["A", "B"]))
+        XCTAssertFalse(predicate([]))
+        XCTAssertFalse(predicate(["A"]))
+        XCTAssertTrue(predicate(["A", "B"]))
+        XCTAssertTrue(predicate(["A", "B", "C"]))
+        XCTAssertFalse(predicate(["A", "C"]))
+    }
+
+    func testContainedIn() {
+        let predicate = Predicate.contained(in: ["A", "B"])
         XCTAssertFalse(predicate(""))
         XCTAssertTrue(predicate("A"))
         XCTAssertTrue(predicate("B"))

@@ -22,7 +22,7 @@ public enum Day04: Day {
             .expirationYear(.isWithin(2020...2030))
             .height(.matches("^(1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in$"))
             .hairColor(.matches("^#[0-9a-f]{6}$"))
-            .eyeColor(.isWithin("amb", "blu", "brn", "gry", "grn", "hzl", "oth"))
+            .eyeColor(.contained(in: ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]))
             .passportID(.matches("^[0-9]{9}$"))
 
         return input.lines

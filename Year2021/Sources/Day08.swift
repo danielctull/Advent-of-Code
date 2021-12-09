@@ -58,7 +58,7 @@ extension Day08 {
 //  #7:    a     c        f       * 3 characters
 //  #4:       b  c  d     f       * 4 characters
 //  #2:    a     c  d  e     g    * 5 characters not #5 or #3
-//  #5:    a  b     d     f  g    * 5 characters superset of (#4 subtracting #7)
+//  #5:    a  b     d     f  g    * 5 characters superset of (#4 subtracting #1)
 //  #3:    a     c  d     f  g    * 5 characters superset of #1
 //  #9:    a  b  c  d     f  g    * 6 characters superset of #4
 //  #0:    a  b  c     e  f  g    * 6 characters not #9 or #6
@@ -74,25 +74,16 @@ extension Day08.Mapping {
             .filter { !$0.isEmpty }
             .map(Set.init)
 
-        func pattern(
-            count: Int,
-            where predicate: (Set<Character>) -> Bool = { _ in true }
-        ) throws -> Set<Character> {
-            try patterns
-                .first(where: { $0.count == count && predicate($0) })
-                .unwrapped
-        }
-
-        let one   = try pattern(count: 2)
-        let seven = try pattern(count: 3)
-        let four  = try pattern(count: 4)
-        let eight = try pattern(count: 7)
-        let three = try pattern(count: 5) { $0.isSuperset(of: one) }
-        let five  = try pattern(count: 5) { $0.isSuperset(of: four.subtracting(seven)) }
-        let two   = try pattern(count: 5) { ![three, five].contains($0) }
-        let nine  = try pattern(count: 6) { $0.isSuperset(of: four) }
-        let six   = try pattern(count: 6) { !$0.isSuperset(of: one) }
-        let zero  = try pattern(count: 6) { ![nine, six].contains($0) }
+        let one   = try patterns[.count(is: 2)]
+        let seven = try patterns[.count(is: 3)]
+        let four  = try patterns[.count(is: 4)]
+        let eight = try patterns[.count(is: 7)]
+        let three = try patterns[.count(is: 5) && .isSuperset(of: one)]
+        let five  = try patterns[.count(is: 5) && .isSuperset(of: four.subtracting(one))]
+        let two   = try patterns[.count(is: 5) && !.contained(in: [three, five])]
+        let nine  = try patterns[.count(is: 6) && .isSuperset(of: four)]
+        let six   = try patterns[.count(is: 6) && !.isSuperset(of: one)]
+        let zero  = try patterns[.count(is: 6) && !.contained(in: [nine, six])]
 
         self.dictionary = [zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9]
     }
