@@ -103,13 +103,6 @@ extension Day10.Token: RawRepresentable {
         }
     }
 
-    var opposite: Self {
-        switch end {
-        case .open: return Self(kind: kind, end: .close)
-        case .close: return Self(kind: kind, end: .open)
-        }
-    }
-
     var points: Int {
         switch kind {
         case .round: return 3
