@@ -10,124 +10,76 @@ public enum Day10: Day {
     public static func part1(_ input: Input) throws -> Int {
 
         try input.lines
-            .map { try $0.map(Token.init(_:)) }
-            .catching(IllegalToken.self) { try $0.completion() }
+            .catching(IllegalCharacter.self) { try $0.completion() }
             .compacted()
-            .sum(of: \.token.points)
+            .sum(of: { try $0.points })
     }
 
     public static func part2(_ input: Input) throws -> Int {
 
         try input.lines
-            .map { try $0.map(Token.init(_:)) }
-            .map { try? $0.completion() }
-            .compacted()
-            .map(\.points)
+            .compactMap { try? $0.completion() }
+            .map { try $0.points }
             .sorted()
             .middle
     }
 }
 
-extension Array where Element == Day10.Token {
+extension Sequence where Element == Character {
 
-    func completion() throws -> Day10.Completion {
-        var expecting: [Day10.Token] = []
-        for token in self {
-            switch token.end {
-            case .open:
-                expecting.append(.init(kind: token.kind, end: .close))
-            case .close where expecting.last == token:
+    fileprivate func completion() throws -> [Character] {
+        var expecting: [Character] = []
+        for character in self {
+            switch character {
+            case "{": expecting.append("}")
+            case "(": expecting.append(")")
+            case "[": expecting.append("]")
+            case "<": expecting.append(">")
+            case let character where expecting.last == character:
                 _ = expecting.removeLast()
-            case .close:
-                throw Day10.IllegalToken(token: token)
+            case let character:
+                throw Day10.IllegalCharacter(character: character)
             }
         }
-        return Day10.Completion(tokens: expecting.reversed())
+        return expecting.reversed()
     }
 }
 
 extension Day10 {
 
-    struct Completion {
-        let tokens: [Token]
-    }
-
-    struct IllegalToken: Error {
-        let token: Token
-    }
-
-    enum Kind: Equatable {
-        case round
-        case square
-        case curly
-        case angle
-    }
-
-    enum End: Equatable {
-        case open
-        case close
-    }
-
-    struct Token: Equatable {
-        let kind: Kind
-        let end: End
+    fileprivate struct IllegalCharacter: Error {
+        let character: Character
     }
 }
 
-extension Day10.Token: RawRepresentable {
-
-    init?(rawValue: Character) {
-        switch rawValue {
-        case "(": self.init(kind: .round,  end: .open)
-        case ")": self.init(kind: .round,  end: .close)
-        case "[": self.init(kind: .square, end: .open)
-        case "]": self.init(kind: .square, end: .close)
-        case "{": self.init(kind: .curly,  end: .open)
-        case "}": self.init(kind: .curly,  end: .close)
-        case "<": self.init(kind: .angle,  end: .open)
-        case ">": self.init(kind: .angle,  end: .close)
-        default: return nil
-        }
-    }
-
-    var rawValue: Character {
-        switch (kind, end) {
-        case (.round,  .open ): return "("
-        case (.round,  .close): return ")"
-        case (.square, .open ): return "["
-        case (.square, .close): return "]"
-        case (.curly,  .open ): return "{"
-        case (.curly,  .close): return "}"
-        case (.angle,  .open ): return "<"
-        case (.angle,  .close): return ">"
-        }
-    }
+extension Day10.IllegalCharacter {
 
     var points: Int {
-        switch kind {
-        case .round: return 3
-        case .square: return 57
-        case .curly: return 1197
-        case .angle: return 25137
-        }
-    }
-}
-
-extension Day10.Completion {
-
-    var points: Int {
-
-        func points(for token: Day10.Token) -> Int {
-            switch token.kind {
-            case .round: return 1
-            case .square: return 2
-            case .curly: return 3
-            case .angle: return 4
+        get throws {
+            switch character {
+            case ")": return 3
+            case "]": return 57
+            case "}": return 1197
+            case ">": return 25137
+            default: throw UnexpectedRawValue(rawValue: character)
             }
         }
+    }
+}
 
-        return tokens.reduce(0) { result, token in
-            result * 5 + points(for: token)
+extension Array where Element == Character {
+
+    fileprivate var points: Int {
+        get throws {
+            try reduce(0) { result, character in
+                switch character {
+                case ")": return result * 5 + 1
+                case "]": return result * 5 + 2
+                case "}": return result * 5 + 3
+                case ">": return result * 5 + 4
+                default: throw UnexpectedRawValue(rawValue: character)
+                }
+            }
         }
     }
 }
