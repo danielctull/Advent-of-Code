@@ -1,6 +1,14 @@
 
 extension Collection {
 
+    /// Returns the element in the middle of the collection.
+    public var middle: Element {
+        self[index(startIndex, offsetBy: Int(count / 2))]
+    }
+}
+
+extension Collection {
+
     /// Creates a new collection containing the specified number of copies of
     /// the receiver.
     ///

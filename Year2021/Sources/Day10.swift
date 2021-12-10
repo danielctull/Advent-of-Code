@@ -11,19 +11,26 @@ public enum Day10: Day {
 
         try input.lines
             .map { try $0.map(Token.init(_:)) }
-            .catching(IllegalToken.self) { try $0.validate() }
+            .catching(IllegalToken.self) { try $0.completion() }
             .compacted()
             .sum(of: \.token.points)
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        try input.lines
+            .map { try $0.map(Token.init(_:)) }
+            .map { try? $0.completion() }
+            .compacted()
+            .map(\.points)
+            .sorted()
+            .middle
     }
 }
 
 extension Array where Element == Day10.Token {
 
-    func validate() throws {
+    func completion() throws -> Day10.Completion {
         var expecting: [Day10.Token] = []
         for token in self {
             switch token.end {
@@ -35,10 +42,15 @@ extension Array where Element == Day10.Token {
                 throw Day10.IllegalToken(token: token)
             }
         }
+        return Day10.Completion(tokens: expecting.reversed())
     }
 }
 
 extension Day10 {
+
+    struct Completion {
+        let tokens: [Token]
+    }
 
     struct IllegalToken: Error {
         let token: Token
@@ -104,6 +116,25 @@ extension Day10.Token: RawRepresentable {
         case .square: return 57
         case .curly: return 1197
         case .angle: return 25137
+        }
+    }
+}
+
+extension Day10.Completion {
+
+    var points: Int {
+
+        func points(for token: Day10.Token) -> Int {
+            switch token.kind {
+            case .round: return 1
+            case .square: return 2
+            case .curly: return 3
+            case .angle: return 4
+            }
+        }
+
+        return tokens.reduce(0) { result, token in
+            result * 5 + points(for: token)
         }
     }
 }

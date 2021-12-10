@@ -26,11 +26,22 @@ final class Day10Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day10.part2([]), 0)
+        XCTAssertEqual(try Day10.part2([
+            "[({(<(())[]>[[{[]{<()<>>",
+            "[(()[<>])]({[<{<<[]>>(",
+            "{([(<{}[<>[]}>{[]{[(<()>",
+            "(((({<>}<{<{<>}{[]{[]{}",
+            "[[<[([]))<([[{}[[()]]]",
+            "[{[{({}]{}}([{[{{{}}([]",
+            "{<[[]]>}<{[{[{[]{()[[[]",
+            "[<(<(<(<{}))><([]([]()",
+            "<{([([[(<>()){}]>(<<{{",
+            "<{([{{}}[<[[[<>{}]]]>[]]",
+        ]), 288957)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day10")
-        XCTAssertEqual(try Day10.part2(input), 0)
+        XCTAssertEqual(try Day10.part2(input), 4245130838)
     }
 }
