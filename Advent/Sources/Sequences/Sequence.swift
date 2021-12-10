@@ -167,6 +167,29 @@ extension Sequence where Element: Equatable {
     }
 }
 
+extension Sequence {
+
+    /// Returns an array of errors thrown from executing the given function on
+    /// each element of the sequence.
+    ///
+    /// - Returns: An array containing errors that are thrown.
+    public func catching<E: Error, Return>(
+        _ kind: E.Type,
+        _ function: (Element) throws -> Return
+    ) -> [E?] {
+        map { element in
+            do {
+                _ = try function(element)
+                return nil
+            } catch let error as E {
+                return error
+            } catch {
+                return nil
+            }
+        }
+    }
+}
+
 // MARK: - Grouping
 
 extension Sequence {
