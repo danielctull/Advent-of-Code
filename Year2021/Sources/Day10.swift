@@ -5,7 +5,7 @@ import Foundation
 
 public enum Day10: Day {
 
-    public static let title = ""
+    public static let title = "Syntax Scoring"
 
     public static func part1(_ input: Input) throws -> Int {
 
