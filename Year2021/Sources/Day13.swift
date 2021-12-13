@@ -3,7 +3,7 @@ import Advent
 import Algorithms
 import Foundation
 
-public enum Day13: Day {
+public enum Day13 {
 
     public static let title = "Transparent Origami"
 
@@ -16,8 +16,14 @@ public enum Day13: Day {
             .count
     }
 
-    public static func part2(_ input: Input) throws -> Int {
-        0
+    public static func part2(_ input: Input) throws -> [String] {
+        let segments = input.lines.split(whereSeparator: \.isEmpty)
+        let positions = try Set(positions: segments[0])
+        let instructions = try Array(instructions: segments[1])
+        let result = instructions.reduce(positions) { positions, instruction in
+            positions.apply(instruction: instruction)
+        }
+        return try result.output
     }
 }
 
@@ -40,15 +46,28 @@ extension Set where Element == Position2D<Int> {
 
         Set(map { position in
             switch instruction {
-            case let .x(x) where x > position.x:
+            case let .x(x) where x < position.x:
                 return Position2D(x: abs(position.x - 2 * x), y: position.y)
-            case let .y(y) where y > position.y:
+            case let .y(y) where y < position.y:
                 return Position2D(x: position.x, y: abs(position.y - 2 * y))
             default:
                 return position
             }
         })
+    }
 
+    fileprivate var output: [String] {
+        get throws {
+            let maxX = try map(\.x).max().unwrapped + 1
+            let maxY = try map(\.y).max().unwrapped + 1
+            var output = Array(
+                repeating: Array(repeating: ".", count: maxX),
+                count: maxY)
+            for position in self {
+                output[position.y][position.x] = "#"
+            }
+            return  output.map { $0.joined() }
+        }
     }
 }
 
