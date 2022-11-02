@@ -2,6 +2,7 @@
 import Advent
 import Algorithms
 import Foundation
+import RegexBuilder
 
 public enum Day14: Day {
 
@@ -77,12 +78,17 @@ extension Dictionary where Key == Day14.Pair, Value == [Day14.Pair] {
         strings: Strings
     ) throws where Strings: Sequence, Strings.Element == String {
 
-        let regex = try RegularExpression(pattern: #"([A-Z])([A-Z]) -> ([A-Z])"#)
+        let regex = Regex {
+            TryCapture.character
+            TryCapture.character
+            " -> "
+            TryCapture.character
+        }
         self = try strings.map { (string: String) -> (Day14.Pair, [Day14.Pair]) in
-            let match = try regex.match(string)
-            let lhs = try match.character(at: 0)
-            let rhs = try match.character(at: 1)
-            let middle = try match.character(at: 2)
+            let match = try regex.match(in: string)
+            let lhs = match.output.1
+            let rhs = match.output.2
+            let middle = match.output.3
 
             let pair = Day14.Pair(lhs: lhs, rhs: rhs)
 

@@ -19,3 +19,12 @@ extension TryCapture where Output == (Substring, Int) {
         Int($0)
     }
 }
+
+extension TryCapture where Output == (Substring, Character) {
+
+    public static let character = TryCapture {
+        One(.any)
+    } transform: {
+        $0.first
+    }
+}
