@@ -1,4 +1,6 @@
 
+import RegexBuilder
+
 public struct Predicate<Value> {
 
     private let predicate: (Value) -> Bool
@@ -8,6 +10,19 @@ public struct Predicate<Value> {
 
     public func callAsFunction(_ value: Value) -> Bool {
         predicate(value)
+    }
+}
+
+extension Predicate {
+
+    public init(_ predicate: @escaping (Value) throws -> Bool) {
+        self.init { value in
+            do {
+                return try predicate(value)
+            } catch {
+                return false
+            }
+        }
     }
 }
 
@@ -79,6 +94,29 @@ extension Predicate where Value == String {
             return Predicate { _ in false }
         }
         return Predicate(regex.matches)
+    }
+}
+
+extension Predicate where Value == String {
+
+    public static func hasPrefix<Output>(_ regex: Regex<Output>) -> Predicate {
+        Predicate { try regex.prefixMatch(in: $0) != nil }
+    }
+
+    public static func hasPrefix(
+        @RegexComponentBuilder _ builder: () -> some RegexComponent
+    ) -> Predicate {
+        .hasPrefix(Regex(builder))
+    }
+
+    public static func wholeMatch<Output>(_ regex: Regex<Output>) -> Predicate {
+        Predicate { try regex.wholeMatch(in: $0) != nil }
+    }
+
+    public static func wholeMatch(
+        @RegexComponentBuilder _ builder: () -> some RegexComponent
+    ) -> Predicate {
+        .wholeMatch(Regex(builder))
     }
 }
 

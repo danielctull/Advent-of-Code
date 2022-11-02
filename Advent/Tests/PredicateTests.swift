@@ -1,5 +1,6 @@
 
 import Advent
+import RegexBuilder
 import XCTest
 
 final class PredicateTests: XCTestCase {
@@ -141,6 +142,24 @@ final class PredicateTests: XCTestCase {
         XCTAssertFalse(predicate("A2"))
 
         let failure = Predicate.matches("^[$")
+        XCTAssertFalse(failure("A"))
+        XCTAssertFalse(failure("B"))
+        XCTAssertFalse(failure("A0"))
+        XCTAssertFalse(failure("B1"))
+    }
+
+    func testWholeMatch() {
+        let predicate = Predicate.wholeMatch(/[A-B][0-1]/)
+        XCTAssertFalse(predicate("A"))
+        XCTAssertFalse(predicate("B"))
+        XCTAssertTrue(predicate("A0"))
+        XCTAssertTrue(predicate("A1"))
+        XCTAssertTrue(predicate("B0"))
+        XCTAssertTrue(predicate("B1"))
+        XCTAssertFalse(predicate("C0"))
+        XCTAssertFalse(predicate("A2"))
+
+        let failure = Predicate.wholeMatch(/^$/)
         XCTAssertFalse(failure("A"))
         XCTAssertFalse(failure("B"))
         XCTAssertFalse(failure("A0"))
