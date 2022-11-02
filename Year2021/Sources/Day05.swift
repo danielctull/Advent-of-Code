@@ -2,6 +2,7 @@
 import Advent
 import Algorithms
 import Foundation
+import RegexBuilder
 
 public enum Day05: Day {
 
@@ -27,11 +28,19 @@ public enum Day05: Day {
 extension Line where Space == Dimension2<Int> {
 
     fileprivate init(_ string: String) throws {
-        let regex = try RegularExpression(pattern: #"([0-9]+),([0-9]+) -> ([0-9]+),([0-9]+)"#)
-        let match = try regex.match(string)
+        let regex = Regex {
+            TryCapture.integer
+            ","
+            TryCapture.integer
+            " -> "
+            TryCapture.integer
+            ","
+            TryCapture.integer
+        }
+        let match = try regex.match(in: string)
         self.init(
-            start: try Position2D(x: match.integer(at: 0), y: match.integer(at: 1)),
-            end: try Position2D(x: match.integer(at: 2), y: match.integer(at: 3)))
+            start: Position2D(x: match.output.1, y: match.output.2),
+            end: Position2D(x: match.output.3, y: match.output.4))
     }
 
     fileprivate static func orthogonal(_ string: String) throws -> Self? {
