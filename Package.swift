@@ -1,14 +1,12 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.7
 
 import PackageDescription
 
 let package = Package(
     name: "Advent of Code",
     platforms: [
-        .iOS(.v9),
-        .macOS(.v10_13),
-        .tvOS(.v9),
-        .watchOS(.v2),
+        .iOS(.v16),
+        .macOS(.v13),
     ],
     products: [
         .library(name: "Advent", targets: ["Advent"]),
@@ -33,12 +31,18 @@ let package = Package(
             dependencies: [
                 .product(name: "Algorithms", package: "swift-algorithms"),
             ],
-            path: "Advent/Sources"),
+            path: "Advent/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .testTarget(
             name: "AdventTests",
             dependencies: ["Advent"],
-            path: "Advent/Tests"),
+            path: "Advent/Tests",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .target(
             name: "AdventTool",
@@ -51,46 +55,67 @@ let package = Package(
                 "Year2020",
             ],
             path: "Advent/Tool",
-            resources: [.copy("Templates")]),
+            resources: [.copy("Templates")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         // MARK: - Year2015
 
         .target(
             name: "Year2015",
             dependencies: ["Advent"],
-            path: "Year2015/Sources"),
+            path: "Year2015/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .testTarget(
             name: "Year2015Tests",
             dependencies: ["Advent", "Year2015"],
             path: "Year2015/Tests",
-            resources: [.copy("Inputs")]),
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         // MARK: - Year2018
 
         .target(
             name: "Year2018",
             dependencies: ["Advent"],
-            path: "Year2018/Sources"),
+            path: "Year2018/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .testTarget(
             name: "Year2018Tests",
             dependencies: ["Advent", "Year2018"],
             path: "Year2018/Tests",
-            resources: [.copy("Inputs")]),
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         // MARK: - Year2019
 
         .target(
             name: "Year2019",
             dependencies: ["Advent"],
-            path: "Year2019/Sources"),
+            path: "Year2019/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .testTarget(
             name: "Year2019Tests",
             dependencies: ["Advent", "Year2019"],
             path: "Year2019/Tests",
-            resources: [.copy("Inputs")]),
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .target(
             name: "IntcodeComputer tool",
@@ -99,33 +124,48 @@ let package = Package(
                 "Advent",
                 "Year2019",
             ],
-            path: "Year2019/IntcodeComputer tool"),
+            path: "Year2019/IntcodeComputer tool",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         // MARK: - Year2020
 
         .target(
             name: "Year2020",
             dependencies: ["Advent"],
-            path: "Year2020/Sources"),
+            path: "Year2020/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .testTarget(
             name: "Year2020Tests",
             dependencies: ["Advent", "Year2020"],
             path: "Year2020/Tests",
-            resources: [.copy("Inputs")]),
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         // MARK: - Year2021
 
         .target(
             name: "Year2021",
             dependencies: ["Advent"],
-            path: "Year2021/Sources"),
+            path: "Year2021/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
 
         .testTarget(
             name: "Year2021Tests",
             dependencies: ["Advent", "Year2019", "Year2021"],
             path: "Year2021/Tests",
-            resources: [.copy("Inputs")]),
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
     ],
     swiftLanguageVersions: [.v5]
 )
