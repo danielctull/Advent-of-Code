@@ -28,3 +28,12 @@ extension TryCapture where Output == (Substring, Character) {
         $0.first
     }
 }
+
+extension Capture where Output == (Substring, String) {
+
+    public static let string = Capture {
+        OneOrMore(.any)
+    } transform: {
+        String($0)
+    }
+}

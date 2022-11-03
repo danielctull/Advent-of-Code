@@ -1,20 +1,30 @@
 
 import Advent
 import Foundation
+import RegexBuilder
 
 public enum Day02: Day {
 
     public static let title = "Password Philosophy"
 
+    private static let regex = Regex {
+        TryCapture.integer
+        "-"
+        TryCapture.integer
+        " "
+        TryCapture.character
+        ": "
+        Capture.string
+    }
+
     public static func part1(_ input: Input) throws -> Int {
 
-        let regex = try RegularExpression(pattern: "([0-9]+)-([0-9]+) (.): (.+)")
-        return try input.lines.count(where: { input in
-            let match = try regex.match(input)
-            let lower = try match.integer(at: 0)
-            let upper = try match.integer(at: 1)
-            let character = try match.character(at: 2)
-            let password = try match.string(at: 3)
+        try input.lines.count(where: { input in
+            let match = try regex.match(in: input)
+            let lower = match.output.1
+            let upper = match.output.2
+            let character = match.output.3
+            let password = match.output.4
             let count = password.count(of: character)
             return (lower...upper).contains(count)
         })
@@ -22,13 +32,12 @@ public enum Day02: Day {
 
     public static func part2(_ input: Input) throws -> Int {
 
-        let regex = try RegularExpression(pattern: "([0-9]+)-([0-9]+) (.): (.+)")
-        return try input.lines.count(where: { input in
-            let match = try regex.match(input)
-            let index1 = try match.integer(at: 0) - 1
-            let index2 = try match.integer(at: 1) - 1
-            let character = try match.character(at: 2)
-            let password = try match.string(at: 3)
+        try input.lines.count(where: { input in
+            let match = try regex.match(in: input)
+            let index1 = match.output.1 - 1
+            let index2 = match.output.2 - 1
+            let character = match.output.3
+            let password = match.output.4
             let match1 = password.character(at: index1) == character
             let match2 = password.character(at: index2) == character
             return match1 != match2
