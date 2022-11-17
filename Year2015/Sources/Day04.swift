@@ -20,6 +20,14 @@ public enum Day04: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let input = try input.lines.first.unwrapped
+        return try (1...)
+            .first {
+                Hash.md5(input + String($0))
+                    .description
+                    .hasPrefix("000000")
+            }
+            .unwrapped
     }
 }
