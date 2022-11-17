@@ -17,7 +17,12 @@ public enum Day05: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        input.lines
+            .filter(.repeatedPair)
+            .filter(.repeatedEitherSideOfOneCharacter)
+            .count
+
     }
 }
 
@@ -36,6 +41,23 @@ extension Predicate where Value == String {
         ["ab", "cd", "pq", "xy"]
             .map(Predicate.contains)
             .reduce(.false) { $0 || $1 }
+    }
+
+    fileprivate static var repeatedPair: Self {
+        Predicate { string in
+            string
+                .windows(ofCount: 2)
+                .map(String.init)
+                .map(string.ranges)
+                .filter { $0.count > 1 }
+                .count > 0
+        }
+    }
+
+    fileprivate static var repeatedEitherSideOfOneCharacter: Self {
+        Predicate {
+            $0.windows(ofCount: 3).contains { $0.first == $0.last }
+        }
     }
 
     fileprivate static func contains(_ value: String) -> Self {
