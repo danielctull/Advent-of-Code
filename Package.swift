@@ -19,8 +19,9 @@ let package = Package(
         .executable(name: "intcode", targets: ["IntcodeComputer tool"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-algorithms.git", from: "0.0.4"),
-        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.1"),
+        .package(url: "https://github.com/apple/swift-algorithms", from: "0.0.4"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.1"),
+        .package(url: "https://github.com/apple/swift-crypto", from: "2.2.0"),
     ],
     targets: [
 
@@ -30,6 +31,7 @@ let package = Package(
             name: "Advent",
             dependencies: [
                 .product(name: "Algorithms", package: "swift-algorithms"),
+                .product(name: "Crypto", package: "swift-crypto"),
             ],
             path: "Advent/Sources",
             swiftSettings: [
