@@ -36,8 +36,58 @@ public enum Day06: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let brightness = try input.lines
+            .map(Instruction.init)
+            .reduce(.zero) { existing, instruction in
+                Counter { position in
+
+                    guard instruction.affects(position) else {
+                        return existing(position)
+                    }
+
+                    switch instruction.kind {
+                    case .off: return max(existing(position) - 1, 0)
+                    case .on: return existing(position) + 1
+                    case .toggle: return existing(position) + 2
+                    }
+                }
+            }
+
+        return (0...999).flatMap { x in
+            (0...999).map { y in
+                Position2D(x: x, y: y)
+            }
+        }
+        .map(brightness)
+        .sum
     }
+}
+
+typealias Counter<Input> = Function<Input, Int>
+
+struct Function<Input, Output> {
+
+    private let function: (Input) -> Output
+    public init(_ function: @escaping (Input) -> Output) {
+        self.function = function
+    }
+
+    public func callAsFunction(_ input: Input) -> Output {
+        function(input)
+    }
+}
+
+extension Sequence {
+
+    func map<NewElement>(_ function: Function<Element, NewElement>) -> [NewElement] {
+        map { function($0) }
+    }
+}
+
+extension Function where Output == Int {
+
+    static var zero: Self { Function { _ in 0 } }
 }
 
 extension Day06 {

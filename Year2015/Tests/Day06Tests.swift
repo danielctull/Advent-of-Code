@@ -19,11 +19,13 @@ final class Day06Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day06.part2([]), 0)
-    }
+        XCTAssertEqual(try Day06.part2([
+            "turn on 0,0 through 0,0",
+            "toggle 0,0 through 999,999",
+        ]), 2000001)    }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day06")
-        XCTAssertEqual(try Day06.part2(input), 0)
+        XCTAssertEqual(try Day06.part2(input), 17836115)
     }
 }
