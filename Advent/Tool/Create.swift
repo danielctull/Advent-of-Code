@@ -5,14 +5,16 @@ import Foundation
 
 struct Create: ParsableCommand {
 
-    @Argument(help: "The year.")
+    @Argument(help: "The year of the puzzle.")
     var year: Year = .current
 
-    @Argument(help: "The day.")
+    @Argument(help: "The day of the puzzle.")
     var day: Day = .current
 
     static var configuration: CommandConfiguration {
-        CommandConfiguration(commandName: "create")
+        CommandConfiguration(
+            commandName: "create",
+            abstract: "Create empty source, test and input files for an Advent of Code puzzle.")
     }
 
     func run() throws {
@@ -136,6 +138,11 @@ extension Create.Day: ExpressibleByArgument {
     }
 }
 
+extension Create.Day: CustomStringConvertible {
+
+    var description: String { value.description }
+}
+
 extension String.StringInterpolation {
 
     mutating func appendInterpolation(_ day: Create.Day) {
@@ -165,6 +172,11 @@ extension Create.Year: ExpressibleByArgument {
         guard let value = Int(argument: argument) else { return nil }
         self.value = value
     }
+}
+
+extension Create.Year: CustomStringConvertible {
+
+    var description: String { value.description }
 }
 
 extension String.StringInterpolation {
