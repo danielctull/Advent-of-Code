@@ -2,8 +2,9 @@
 import ArgumentParser
 import FileBuilder
 import Foundation
+import KeychainItem
 
-struct Create: ParsableCommand {
+struct Create: AsyncParsableCommand {
 
     @Argument(help: "The year of the puzzle.")
     var year: Year = .current
@@ -17,7 +18,14 @@ struct Create: ParsableCommand {
             abstract: "Create empty source, test and input files for an Advent of Code puzzle.")
     }
 
-    func run() throws {
+    func run() async throws {
+
+        let cookie = await Keychain(.sessionCookie).wrappedValue
+
+        let inputData = try await URLSession
+            .configured(with: cookie)
+            .data(from: .input(day: day, year: year))
+            .0
 
         try Directory("\(year)") {
             Directory("Sources") {
@@ -26,7 +34,7 @@ struct Create: ParsableCommand {
             Directory("Tests") {
                 TestFile(day: day, year: year)
                 Directory("Inputs") {
-                    InputFile(day: day)
+                    InputFile(day: day, data: inputData)
                 }
             }
         }
@@ -106,11 +114,10 @@ private struct TestFile: File {
 private struct InputFile: File {
 
     let day: Create.Day
+    let data: Data
 
     var body: some File {
-        TextFile("\(day).txt") {
-            ""
-        }
+        DataFile("\(day).txt", data: data)
     }
 }
 
@@ -183,6 +190,35 @@ extension String.StringInterpolation {
 
     mutating func appendInterpolation(_ year: Create.Year) {
         appendInterpolation("Year\(year.value)")
+    }
+}
+
+// MARK: - Input Data
+
+extension URL {
+
+    static func input(day: Create.Day, year: Create.Year) -> Self {
+        self.init(string: "https://adventofcode.com/\(year.value)/day/\(day.value)/input")!
+    }
+}
+
+extension URLSession {
+
+    static func configured(with cookie: SessionCookie?) -> URLSession {
+
+        guard let cookie else { return URLSession.shared }
+
+        let config = URLSessionConfiguration.default
+        config.httpCookieAcceptPolicy = .always
+        config.httpCookieStorage?.setCookie(HTTPCookie(properties: [
+            .domain: ".adventofcode.com",
+            .path: "",
+            .secure: true,
+            .name: "session",
+            .value: cookie.value,
+        ])!)
+
+        return URLSession(configuration: config)
     }
 }
 

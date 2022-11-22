@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "keychainitem",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielctull/KeychainItem",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f6b9899c6f9ff973211543d50abaf63c8a5a708d"
+      }
+    },
+    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
