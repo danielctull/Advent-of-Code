@@ -4,6 +4,7 @@ import ArgumentParser
 import Foundation
 import Year2019
 
+@main
 struct IntcodeCommand: ParsableCommand {
 
     static let configuration = CommandConfiguration(commandName: "intcode")

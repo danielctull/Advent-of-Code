@@ -1,6 +1,7 @@
 
 import ArgumentParser
 
+@main
 struct AdventCommand: ParsableCommand {
 
     static var configuration: CommandConfiguration {

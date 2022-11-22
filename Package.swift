@@ -46,7 +46,7 @@ let package = Package(
                 .unsafeFlags(["-enable-bare-slash-regex"]),
             ]),
 
-        .target(
+        .executableTarget(
             name: "AdventTool",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
@@ -119,7 +119,7 @@ let package = Package(
                 .unsafeFlags(["-enable-bare-slash-regex"]),
             ]),
 
-        .target(
+        .executableTarget(
             name: "IntcodeComputer tool",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),

@@ -1,2 +1,0 @@
-
-IntcodeCommand.main()
