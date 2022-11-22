@@ -1,5 +1,6 @@
 
 import ArgumentParser
+import FileBuilder
 import Foundation
 
 struct CreateCommand: ParsableCommand {
@@ -12,72 +13,79 @@ struct CreateCommand: ParsableCommand {
 
     private var dayString: String { String(format: "%02d", day) }
 
+    private var currentDirectory: URL { URL(fileURLWithPath: FileManager().currentDirectoryPath) }
+
     static var configuration: CommandConfiguration {
         CommandConfiguration(commandName: "create")
     }
 
     func run() throws {
-        let fileManager = FileManager.default
-        let templates = try Bundle.module.url(forDirectory: "Templates")
-        let currentDirectory = URL(fileURLWithPath: fileManager.currentDirectoryPath)
 
-        let sourceOrigin = templates
-            .appendingPathComponent("DayDD")
-            .appendingPathExtension("swift")
+        try Directory("Year\(year)") {
 
-        let sourceDestination = currentDirectory
-            .appendingPathComponent("Year\(year)")
-            .appendingPathComponent("Sources")
-            .appendingPathComponent("Day\(dayString)")
-            .appendingPathExtension("swift")
+            Directory("Sources") {
+                TextFile("Day\(dayString).swift") {
+                    """
 
-        let source = try String(contentsOf: sourceOrigin)
-            .replacingOccurrences(of: "DayDD", with: "Day\(dayString)")
-            .replacingOccurrences(of: "YearYYYY", with: "Year\(year)")
+                    import Advent
+                    import Algorithms
+                    import Foundation
 
-        try source.write(to: sourceDestination, atomically: true, encoding: .utf8)
+                    public enum Day\(dayString): Day {
 
-        let testOrigin = templates
-            .appendingPathComponent("DayDDTests")
-            .appendingPathExtension("swift")
+                        public static let title = ""
 
-        let testDestination = currentDirectory
-            .appendingPathComponent("Year\(year)")
-            .appendingPathComponent("Tests")
-            .appendingPathComponent("Day\(dayString)Tests")
-            .appendingPathExtension("swift")
+                        public static func part1(_ input: Input) throws -> Int {
+                            0
+                        }
 
-        let test = try String(contentsOf: testOrigin)
-            .replacingOccurrences(of: "DayDD", with: "Day\(dayString)")
-            .replacingOccurrences(of: "YearYYYY", with: "Year\(year)")
+                        public static func part2(_ input: Input) throws -> Int {
+                            0
+                        }
+                    }
+                    """
+                }
+            }
 
-        try test.write(to: testDestination, atomically: true, encoding: .utf8)
+            Directory("Tests") {
 
-//        let inputOrigin = templates
-//            .appendingPathComponent("DayDDTests")
-//            .appendingPathExtension("swift")
-//
-//        let inputDestination = currentDirectory
-//            .appendingPathComponent("Year\(year)")
-//            .appendingPathComponent("Tests")
-//            .appendingPathComponent("Inputs")
-//            .appendingPathComponent("Day\(dayString)")
-//            .appendingPathExtension("txt")
-//
-//        try fileManager.copyItem(at: inputOrigin, to: inputDestination)
-    }
-}
+                Directory("Inputs") {
+                    TextFile("Day\(dayString).txt") {
+                        ""
+                    }
+                }
 
-extension Bundle {
+                TextFile("Day\(dayString)Tests.swift") {
+                    """
 
-    func url(forDirectory directory: String) throws -> URL {
+                    import Advent
+                    import Year\(year)
+                    import XCTest
 
-        guard let directory = url(forResource: directory, withExtension: nil) else {
-            struct CannotFindDirectory: Error {}
-            throw CannotFindDirectory()
-        }
+                    final class DayDDTests: XCTestCase {
 
-        return directory
+                        func testPart1Examples() throws {
+                            XCTAssertEqual(try Day\(dayString).part1([]), 0)
+                        }
+
+                        func testPart1Puzzle() throws {
+                            let input = try Bundle.module.input(named: "Day\(dayString)")
+                            XCTAssertEqual(try Day\(dayString).part1(input), 0)
+                        }
+
+                        func testPart2Examples() throws {
+                            XCTAssertEqual(try Day\(dayString).part2([]), 0)
+                        }
+
+                        func testPart2Puzzle() throws {
+                            let input = try Bundle.module.input(named: "Day\(dayString)")
+                            XCTAssertEqual(try Day\(dayString).part2(input), 0)
+                        }
+                    }
+                    """
+                }
+            }
+        }.write(in: currentDirectory)
     }
 }
 

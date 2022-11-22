@@ -22,6 +22,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-algorithms", from: "0.0.4"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.1"),
         .package(url: "https://github.com/apple/swift-crypto", from: "2.2.0"),
+        .package(url: "https://github.com/danielctull/FileBuilder", branch: "main"),
     ],
     targets: [
 
@@ -50,6 +51,7 @@ let package = Package(
             name: "AdventTool",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "FileBuilder", package: "FileBuilder"),
                 "Advent",
                 "Year2015",
                 "Year2018",

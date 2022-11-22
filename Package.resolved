@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "filebuilder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielctull/FileBuilder",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ed3ed22dace0ba8cf54c7eb47553c7f00cf632b9"
+      }
+    },
+    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
@@ -12,10 +21,10 @@
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "location" : "https://github.com/apple/swift-argument-parser",
       "state" : {
-        "revision" : "92646c0cdbaca076c8d3d0207891785b3379cbff",
-        "version" : "0.3.1"
+        "revision" : "6b2aa2748a7881eebb9f84fb10c01293e15b52ca",
+        "version" : "0.5.0"
       }
     },
     {
@@ -23,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto",
       "state" : {
-        "revision" : "f652300628eb2003449e627f1f394a27ea2af9a8",
-        "version" : "2.2.0"
+        "revision" : "71ae6adf89ba5346a209ec7f48dbb571a7e8ad1e",
+        "version" : "2.2.1"
       }
     },
     {
