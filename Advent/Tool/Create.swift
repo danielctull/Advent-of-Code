@@ -3,7 +3,7 @@ import ArgumentParser
 import FileBuilder
 import Foundation
 
-struct CreateCommand: ParsableCommand {
+struct Create: ParsableCommand {
 
     @Argument(help: "The year.")
     var year: Year = .current
@@ -36,7 +36,7 @@ struct CreateCommand: ParsableCommand {
 
 private struct SourceFile: File {
 
-    let day: CreateCommand.Day
+    let day: Create.Day
 
     var body: some File {
         TextFile("\(day).swift") {
@@ -65,8 +65,8 @@ private struct SourceFile: File {
 
 private struct TestFile: File {
 
-    let day: CreateCommand.Day
-    let year: CreateCommand.Year
+    let day: Create.Day
+    let year: Create.Year
 
     var body: some File {
         TextFile("\(day)Tests.swift") {
@@ -103,7 +103,7 @@ private struct TestFile: File {
 
 private struct InputFile: File {
 
-    let day: CreateCommand.Day
+    let day: Create.Day
 
     var body: some File {
         TextFile("\(day).txt") {
@@ -114,21 +114,21 @@ private struct InputFile: File {
 
 // MARK: - Day
 
-extension CreateCommand {
+extension Create {
 
     struct Day {
         fileprivate let value: Int
     }
 }
 
-extension CreateCommand.Day {
+extension Create.Day {
 
     static var current: Self {
         Self(value: Calendar.gregorian.value(for: .day, from: Date()))
     }
 }
 
-extension CreateCommand.Day: ExpressibleByArgument {
+extension Create.Day: ExpressibleByArgument {
 
     init?(argument: String) {
         guard let value = Int(argument: argument) else { return nil }
@@ -138,28 +138,28 @@ extension CreateCommand.Day: ExpressibleByArgument {
 
 extension String.StringInterpolation {
 
-    mutating func appendInterpolation(_ day: CreateCommand.Day) {
+    mutating func appendInterpolation(_ day: Create.Day) {
         appendInterpolation("Day" + String(format: "%02d", day.value))
     }
 }
 
 // MARK: - Year
 
-extension CreateCommand {
+extension Create {
 
     struct Year {
         fileprivate let value: Int
     }
 }
 
-extension CreateCommand.Year {
+extension Create.Year {
 
     static var current: Self {
         Self(value: Calendar.gregorian.value(for: .year, from: Date()))
     }
 }
 
-extension CreateCommand.Year: ExpressibleByArgument {
+extension Create.Year: ExpressibleByArgument {
 
     init?(argument: String) {
         guard let value = Int(argument: argument) else { return nil }
@@ -169,7 +169,7 @@ extension CreateCommand.Year: ExpressibleByArgument {
 
 extension String.StringInterpolation {
 
-    mutating func appendInterpolation(_ year: CreateCommand.Year) {
+    mutating func appendInterpolation(_ year: Create.Year) {
         appendInterpolation("Year\(year.value)")
     }
 }

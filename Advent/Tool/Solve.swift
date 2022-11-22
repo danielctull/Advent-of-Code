@@ -4,7 +4,7 @@ import ArgumentParser
 import Foundation
 import Year2020
 
-struct SolveCommand: ParsableCommand {
+struct Solve: ParsableCommand {
 
     @Argument(help: "The year.")
     var year: Int

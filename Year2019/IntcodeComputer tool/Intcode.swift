@@ -5,7 +5,7 @@ import Foundation
 import Year2019
 
 @main
-struct IntcodeCommand: ParsableCommand {
+struct Intcode: ParsableCommand {
 
     static let configuration = CommandConfiguration(commandName: "intcode")
 
