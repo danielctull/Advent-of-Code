@@ -59,7 +59,6 @@ let package = Package(
                 "Year2020",
             ],
             path: "Advent/Tool",
-            resources: [.copy("Templates")],
             swiftSettings: [
                 .unsafeFlags(["-enable-bare-slash-regex"]),
             ]),
