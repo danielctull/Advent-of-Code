@@ -6,15 +6,10 @@ import Foundation
 struct CreateCommand: ParsableCommand {
 
     @Argument(help: "The year.")
-    var year: Int = { Calendar.gregorian.value(for: .year, from: Date()) }()
+    var year: Year = .current
 
     @Argument(help: "The day.")
-    var day: Int = { Calendar.gregorian.value(for: .day, from: Date()) }()
-
-    private var dayString: String { "Day" + String(format: "%02d", day) }
-    private var yearString: String { "Year\(year)" }
-
-    private var currentDirectory: URL { URL(fileURLWithPath: FileManager().currentDirectoryPath) }
+    var day: Day = .current
 
     static var configuration: CommandConfiguration {
         CommandConfiguration(commandName: "create")
@@ -22,27 +17,29 @@ struct CreateCommand: ParsableCommand {
 
     func run() throws {
 
-        try Directory("Year\(year)") {
+        try Directory("\(year)") {
             Directory("Sources") {
-                SourceFile(day: dayString)
+                SourceFile(day: day)
             }
             Directory("Tests") {
-                TestFile(day: dayString, year: yearString)
+                TestFile(day: day, year: year)
                 Directory("Inputs") {
-                    InputFile(day: dayString)
+                    InputFile(day: day)
                 }
             }
         }
-        .write(in: currentDirectory)
+        .write(in: FileManager().currentDirectory)
     }
 }
 
+// MARK: - Files
+
 private struct SourceFile: File {
 
-    let day: String
+    let day: CreateCommand.Day
 
     var body: some File {
-        TextFile(day + ".swift") {
+        TextFile("\(day).swift") {
             """
 
             import Advent
@@ -68,18 +65,18 @@ private struct SourceFile: File {
 
 private struct TestFile: File {
 
-    let day: String
-    let year: String
+    let day: CreateCommand.Day
+    let year: CreateCommand.Year
 
     var body: some File {
-        TextFile(day + "Tests.swift") {
+        TextFile("\(day)Tests.swift") {
             """
 
             import Advent
-            import Year\(year)
+            import \(year)
             import XCTest
 
-            final class DayDDTests: XCTestCase {
+            final class \(day)Tests: XCTestCase {
 
                 func testPart1Examples() throws {
                     XCTAssertEqual(try \(day).part1([]), 0)
@@ -106,14 +103,78 @@ private struct TestFile: File {
 
 private struct InputFile: File {
 
-    let day: String
+    let day: CreateCommand.Day
 
     var body: some File {
-        TextFile(day + ".txt") {
+        TextFile("\(day).txt") {
             ""
         }
     }
 }
+
+// MARK: - Day
+
+extension CreateCommand {
+
+    struct Day {
+        fileprivate let value: Int
+    }
+}
+
+extension CreateCommand.Day {
+
+    static var current: Self {
+        Self(value: Calendar.gregorian.value(for: .day, from: Date()))
+    }
+}
+
+extension CreateCommand.Day: ExpressibleByArgument {
+
+    init?(argument: String) {
+        guard let value = Int(argument: argument) else { return nil }
+        self.value = value
+    }
+}
+
+extension String.StringInterpolation {
+
+    mutating func appendInterpolation(_ day: CreateCommand.Day) {
+        appendInterpolation("Day" + String(format: "%02d", day.value))
+    }
+}
+
+// MARK: - Year
+
+extension CreateCommand {
+
+    struct Year {
+        fileprivate let value: Int
+    }
+}
+
+extension CreateCommand.Year {
+
+    static var current: Self {
+        Self(value: Calendar.gregorian.value(for: .year, from: Date()))
+    }
+}
+
+extension CreateCommand.Year: ExpressibleByArgument {
+
+    init?(argument: String) {
+        guard let value = Int(argument: argument) else { return nil }
+        self.value = value
+    }
+}
+
+extension String.StringInterpolation {
+
+    mutating func appendInterpolation(_ year: CreateCommand.Year) {
+        appendInterpolation("Year\(year.value)")
+    }
+}
+
+// MARK: - Calendar
 
 extension Calendar {
 
@@ -121,5 +182,14 @@ extension Calendar {
 
     func value(for component: Calendar.Component, from date: Date) -> Int {
         dateComponents([component], from: date).value(for: component)!
+    }
+}
+
+// MARK: - FileManager
+
+extension FileManager {
+
+    fileprivate var currentDirectory: URL {
+        URL(fileURLWithPath: currentDirectoryPath)
     }
 }
