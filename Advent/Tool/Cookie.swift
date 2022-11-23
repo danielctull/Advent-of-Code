@@ -15,7 +15,11 @@ struct Cookie: ParsableCommand {
     }
 
     func run() {
+#if canImport(Security)
         Keychain(.sessionCookie).wrappedValue = cookie
+#else
+        print("Cookie storage not currently supported on this platform.")
+#endif
     }
 }
 

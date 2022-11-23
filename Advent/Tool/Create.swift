@@ -20,12 +20,16 @@ struct Create: AsyncParsableCommand {
 
     func run() async throws {
 
+#if canImport(Security)
         let cookie = await Keychain(.sessionCookie).wrappedValue
 
         let inputData = try await URLSession
             .configured(with: cookie)
             .data(from: .input(day: day, year: year))
             .0
+#else
+        let inputData = Data()
+#endif
 
         try Directory("\(year)") {
             Directory("Sources") {
