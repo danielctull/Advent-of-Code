@@ -4,6 +4,10 @@ import FileBuilder
 import Foundation
 import KeychainItem
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 struct Create: AsyncParsableCommand {
 
     @Argument(help: "The year of the puzzle.")
