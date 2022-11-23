@@ -11,6 +11,7 @@ let package = Package(
     products: [
         .library(name: "Advent", targets: ["Advent"]),
         .library(name: "Year2015", targets: ["Year2015"]),
+        .library(name: "Year2016", targets: ["Year2016"]),
         .library(name: "Year2018", targets: ["Year2018"]),
         .library(name: "Year2019", targets: ["Year2019"]),
         .library(name: "Year2020", targets: ["Year2020"]),
@@ -79,6 +80,25 @@ let package = Package(
             name: "Year2015Tests",
             dependencies: ["Advent", "Year2015"],
             path: "Year2015/Tests",
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
+
+        // MARK: - Year2016
+
+        .target(
+            name: "Year2016",
+            dependencies: ["Advent"],
+            path: "Year2016/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
+
+        .testTarget(
+            name: "Year2016Tests",
+            dependencies: ["Advent", "Year2016"],
+            path: "Year2016/Tests",
             resources: [.copy("Inputs")],
             swiftSettings: [
                 .unsafeFlags(["-enable-bare-slash-regex"]),
