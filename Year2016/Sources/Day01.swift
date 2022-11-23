@@ -21,7 +21,25 @@ public enum Day01: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let instructions = try Array(instructions: input)
+        var heading = Vector2D<Int>.north
+        var position = Position2D<Int>.origin
+        var visited = Set([position])
+
+        for instruction in instructions {
+            heading.transform(instruction.turn)
+
+            for _ in (0..<instruction.amount) {
+                position += heading
+                let (inserted, _) = visited.insert(position)
+                if !inserted {
+                    return position.manhattenDistance(to: .origin)
+                }
+            }
+        }
+
+        return 0
     }
 }
 

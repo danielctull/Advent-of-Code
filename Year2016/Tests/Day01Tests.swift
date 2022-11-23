@@ -17,11 +17,11 @@ final class Day01Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day01.part2([]), 0)
+        XCTAssertEqual(try Day01.part2(["R8, R4, R4, R8"]), 4)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day01")
-        XCTAssertEqual(try Day01.part2(input), 0)
+        XCTAssertEqual(try Day01.part2(input), 113)
     }
 }
