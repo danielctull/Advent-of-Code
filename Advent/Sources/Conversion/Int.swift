@@ -1,7 +1,19 @@
 
+import Foundation
+
+struct NotInteger: LocalizedError {
+    let value: String
+    var errorDescription: String? { "Expected integer but received \(value)." }
+}
+
 extension Int {
 
+    public init(_ string: String) throws {
+        guard let int = Int.init(string) else { throw NotInteger(value: string) }
+        self = int
+    }
+
     public init(_ character: Character) throws {
-        self = try Int(String(character)).unwrapped
+        try self.init(String(character))
     }
 }

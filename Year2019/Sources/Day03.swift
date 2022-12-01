@@ -3,13 +3,13 @@ import Advent
 import Algorithms
 import Foundation
 
-public struct Day03 {
+public struct Day03: Day {
 
-    public init() {}
+    public static let title = "Crossed Wires"
 
-    public func part1(input: Input) -> Int {
+    public static func part1(_ input: Input) throws -> Int {
 
-        let moves = input
+        let moves = try input
             .lines
             .map(Array.init(moves:))
 
@@ -20,9 +20,9 @@ public struct Day03 {
             .first ?? 0
     }
 
-    public func part2(input: Input) -> Int {
+    public static func part2(_ input: Input) throws -> Int {
 
-         let moves = input
+         let moves = try input
              .lines
              .map(Array.init(moves:))
 
@@ -58,8 +58,8 @@ extension Array where Element == Position2D<Int> {
 
 extension Array where Element == Move {
 
-    fileprivate init(moves: String) {
-        self = moves
+    fileprivate init(moves: String) throws {
+        try self = moves
             .components(separatedBy: ",")
             .map(Move.init)
     }
@@ -77,11 +77,11 @@ extension Array where Element == Move {
 
 extension Move {
 
-    fileprivate init(_ inString: String) {
+    fileprivate init(_ inString: String) throws {
         var string = inString
         let first = string.removeFirst()
 
-        guard let amount = Int(string) else { fatalError() }
+        let amount = try Int(string)
 
         let direction: Vector2D<Int>
         switch first {

@@ -66,7 +66,6 @@ public enum Day13: Day {
             .map(Int.init)
             .enumerated()
             .compactMap { offset, bus -> (Int, Int)? in
-                guard let bus = bus else { return nil }
                 return (offset, bus)
             }
             .reduce { t1, t2 -> (Int, Int) in

@@ -37,7 +37,7 @@ extension IntcodeComputer {
     fileprivate mutating func input(_ value: String, for mode: Mode) throws {
         switch mode {
         case .ascii: try ascii.input(value + "\n")
-        case .int: try input(Int(code: value))
+        case .int: try input(Int(value))
         }
     }
 
@@ -57,21 +57,6 @@ extension Input: ExpressibleByArgument {
         guard let directory = Process().currentDirectoryURL else { return nil }
         let url = directory.appendingPathComponent(argument)
         try? self.init(url: url)
-    }
-}
-
-// MARK: - Int conversion
-
-struct NotInteger: LocalizedError {
-    let value: String
-    var errorDescription: String? { "Expected integer but received \(value)." }
-}
-
-extension Int {
-
-    init(code string: String) throws {
-        guard let int = Int(string) else { throw NotInteger(value: string) }
-        self = int
     }
 }
 

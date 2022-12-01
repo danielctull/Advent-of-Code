@@ -22,10 +22,3 @@ public enum Day01: Day {
             .sum
     }
 }
-
-extension Int {
-
-    fileprivate init(_ string: String) throws {
-        self = try Int(string).unwrapped
-    }
-}
