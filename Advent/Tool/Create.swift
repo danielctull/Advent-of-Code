@@ -29,7 +29,7 @@ struct Create: AsyncParsableCommand {
 
         let inputData = try await URLSession
             .configured(with: cookie)
-            .data(from: .input(day: day, year: year))
+            .data(for: .input(day: day, year: year))
             .0
 #else
         let inputData = Data()
@@ -203,10 +203,13 @@ extension String.StringInterpolation {
 
 // MARK: - Input Data
 
-extension URL {
+extension URLRequest {
 
     static func input(day: Create.Day, year: Create.Year) -> Self {
-        self.init(string: "https://adventofcode.com/\(year.value)/day/\(day.value)/input")!
+        var request = URLRequest(
+            url: URL(string: "https://adventofcode.com/\(year.value)/day/\(day.value)/input")!)
+        request.setValue("https://github.com/danielctull/Advent-of-Code by dt@danieltull.co.uk", forHTTPHeaderField: "User-Agent")
+        return request
     }
 }
 
