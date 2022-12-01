@@ -63,11 +63,8 @@ public enum Day13: Day {
             .last
             .unwrapped
             .components(separatedBy: ",")
-            .map(Int.init)
             .enumerated()
-            .compactMap { offset, bus -> (Int, Int)? in
-                return (offset, bus)
-            }
+            .compactMap { try ($0, Int($1)) }
             .reduce { t1, t2 -> (Int, Int) in
                 let (offset1, bus1) = t1
                 let (offset2, bus2) = t2

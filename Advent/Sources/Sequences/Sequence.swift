@@ -12,6 +12,30 @@ extension Sequence {
     }
 }
 
+extension Sequence {
+
+    /// Returns an array containing the non-throwing results of calling the
+    /// given transformation with each element of this sequence.
+    ///
+    /// - Parameter transform: A throwing closure that accepts an element of
+    ///                        this sequence as its argument and returns a new
+    ///                        value.
+    /// - Returns: An array of the non-throwing results of calling transform
+    ///            with each element of the sequence.
+    public func compactMap<NewElement>(
+        _ transform: (Element) throws -> NewElement
+    ) -> [NewElement] {
+
+        compactMap { element in
+            do {
+                return try transform(element)
+            } catch {
+                return nil
+            }
+        }
+    }
+}
+
 extension LazySequenceProtocol {
 
     /// Returns the non-throwing results of mapping the given transformation
