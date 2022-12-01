@@ -18,9 +18,8 @@ public enum Day01: Day {
         try input.lines
             .split(whereSeparator: \.isEmpty)
             .map { try $0.map(Int.init).sum }
-            .sorted(by: >)
-            .chunks(ofCount: 3)
-            .first.unwrapped.sum
+            .max(count: 3)
+            .sum
     }
 }
 
