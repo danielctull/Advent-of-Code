@@ -15,7 +15,12 @@ public enum Day01: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines
+            .split(whereSeparator: \.isEmpty)
+            .map { try $0.map(Int.init).sum }
+            .sorted(by: >)
+            .chunks(ofCount: 3)
+            .first.unwrapped.sum
     }
 }
 
