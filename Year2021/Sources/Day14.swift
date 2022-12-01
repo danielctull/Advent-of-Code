@@ -53,8 +53,8 @@ public enum Day14: Day {
 
         output = output.mapValues { $0 / 2 }
 
-        let min = try output.values.min().unwrapped
-        let max = try output.values.max().unwrapped
+        let min = try output.values.min
+        let max = try output.values.max
         return max - min
     }
 }

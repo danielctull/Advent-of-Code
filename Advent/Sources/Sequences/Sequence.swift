@@ -145,6 +145,25 @@ extension Sequence {
     }
 }
 
+struct NoElementsFound: Error {}
+
+extension Sequence where Element: Comparable {
+
+    public var min: Element {
+        get throws {
+            guard let min = self.min() else { throw NoElementsFound() }
+            return min
+        }
+    }
+
+    public var max: Element {
+        get throws {
+            guard let max = self.max() else { throw NoElementsFound() }
+            return max
+        }
+    }
+}
+
 extension Sequence {
 
     public func count(

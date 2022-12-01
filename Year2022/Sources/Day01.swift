@@ -11,7 +11,7 @@ public enum Day01: Day {
         try input.lines
             .split(whereSeparator: \.isEmpty)
             .map { try $0.map(Int.init).sum }
-            .max().unwrapped
+            .max
     }
 
     public static func part2(_ input: Input) throws -> Int {

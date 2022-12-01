@@ -25,8 +25,8 @@ public enum Day07: Day {
             .split(separator: ",")
             .map(Int.init)
 
-        let min = try positions.min().unwrapped
-        let max = try positions.max().unwrapped
+        let min = try positions.min
+        let max = try positions.max
         let amounts = positions.countByElement
 
         return try (min...max).map { proposed -> Int in

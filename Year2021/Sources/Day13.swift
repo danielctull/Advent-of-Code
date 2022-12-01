@@ -58,8 +58,8 @@ extension Set where Element == Position2D<Int> {
 
     fileprivate var output: [String] {
         get throws {
-            let maxX = try map(\.x).max().unwrapped + 1
-            let maxY = try map(\.y).max().unwrapped + 1
+            let maxX = try map(\.x).max + 1
+            let maxY = try map(\.y).max + 1
             var output = Array(
                 repeating: Array(repeating: ".", count: maxX),
                 count: maxY)
