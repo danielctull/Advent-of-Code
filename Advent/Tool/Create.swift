@@ -61,8 +61,6 @@ private struct SourceFile: File {
             """
 
             import Advent
-            import Algorithms
-            import Foundation
 
             public enum \(day): Day {
 

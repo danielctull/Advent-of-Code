@@ -1,7 +1,5 @@
 
 import Advent
-import Algorithms
-import Foundation
 
 public enum Day02: Day {
 
