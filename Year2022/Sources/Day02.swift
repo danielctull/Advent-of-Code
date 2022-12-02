@@ -10,13 +10,13 @@ public enum Day02: Day {
     public static func part1(_ input: Input) throws -> Int {
         try input.lines
             .map { try (theirs: Shape($0.first), mine: Shape($0.last)) }
-            .sum { $0.theirs.result(with: $0.mine).rawValue + $0.mine.rawValue }
+            .sum { Result($0).rawValue + $0.mine.rawValue }
     }
 
     public static func part2(_ input: Input) throws -> Int {
         try input.lines
             .map { try (theirs: Shape($0.first), result: Result($0.last)) }
-            .sum { $0.theirs.mine(with: $0.result).rawValue + $0.result.rawValue }
+            .sum { Shape($0).rawValue + $0.result.rawValue }
     }
 }
 
@@ -46,19 +46,11 @@ extension Day02.Shape {
         }
     }
 
-    func result(with mine: Self) -> Day02.Result {
-        switch (self, mine) {
-        case (.rock, .paper), (.paper, .scissors), (.scissors, .rock): return .win
-        case (.rock, .rock), (.paper, .paper), (.scissors, .scissors): return .draw
-        case (.rock, .scissors), (.paper, .rock), (.scissors, .paper): return .lose
-        }
-    }
-
-    func mine(with result: Day02.Result) -> Self {
-        switch (self, result) {
-        case (.rock, .win), (.paper, .draw), (.scissors, .lose): return .paper
-        case (.rock, .draw), (.paper, .lose), (.scissors, .win): return .rock
-        case (.rock, .lose), (.paper, .win), (.scissors, .draw): return .scissors
+    init(_ values: (theirs: Self, result: Day02.Result)) {
+        switch (values.theirs, values.result) {
+        case (.rock, .win), (.paper, .draw), (.scissors, .lose): self = .paper
+        case (.rock, .draw), (.paper, .lose), (.scissors, .win): self = .rock
+        case (.rock, .lose), (.paper, .win), (.scissors, .draw): self = .scissors
         }
     }
 }
@@ -71,6 +63,14 @@ extension Day02.Result {
         case "Y": self = .draw
         case "Z": self = .win
         default: throw UnexpectedRawValue(rawValue: character)
+        }
+    }
+
+    init(_ values: (theirs: Day02.Shape, mine: Day02.Shape)) {
+        switch (values.mine, values.theirs) {
+        case (.rock, .scissors), (.paper, .rock), (.scissors, .paper): self = .win
+        case (.rock, .rock), (.paper, .paper), (.scissors, .scissors): self = .draw
+        case (.rock, .paper), (.paper, .scissors), (.scissors, .rock): self = .lose
         }
     }
 }
