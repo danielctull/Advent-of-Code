@@ -19,7 +19,15 @@ public enum Day03: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines
+            .chunks(ofCount: 3)
+            .sum { group in
+                try group
+                    .map(Set.init)
+                    .reduce { $0.intersection($1) }
+                    .unwrapped
+                    .sum { try $0.priority }
+            }
     }
 }
 
