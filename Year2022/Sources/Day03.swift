@@ -35,28 +35,12 @@ extension Character {
 
     fileprivate var priority: Int {
         get throws {
-            let ascii = try Int(ascii: self)
+            let ascii = try Int.ascii(self)
             switch ascii {
             case (65...90): return ascii - 38
             case (97...122): return ascii - 96
             default: throw UnexpectedRawValue(rawValue: self)
             }
         }
-    }
-}
-
-extension Int {
-
-    fileprivate init(ascii character: Character) throws {
-
-        struct NotASCII: Error {
-            let character: Character
-        }
-
-        guard let ascii = character.asciiValue else {
-            throw NotASCII(character: character)
-        }
-
-        self = Int(ascii)
     }
 }

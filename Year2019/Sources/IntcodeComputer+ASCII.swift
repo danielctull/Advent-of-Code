@@ -17,12 +17,12 @@ extension IntcodeComputer.ASCII {
         where S: Sequence,
         S.Element == Character
     {
-        let ascii = try characters.map(Int.init(asciiCharacter:))
+        let ascii = try characters.map(Int.ascii)
         computer.input(ascii)
     }
 
     public mutating func input(_ character: Character) throws {
-        let ascii = try Int(asciiCharacter: character)
+        let ascii = try Int.ascii(character)
         computer.input(ascii)
     }
 
@@ -42,21 +42,5 @@ extension String {
             .compactMap(UnicodeScalar.init)
             .map(Character.init)
         self.init(characters)
-    }
-}
-
-extension Int {
-
-    fileprivate init(asciiCharacter: Character) throws {
-
-        struct NotASCII: Error {
-            let character: Character
-        }
-
-        guard let ascii = asciiCharacter.asciiValue else {
-            throw NotASCII(character: asciiCharacter)
-        }
-
-        self = Int(ascii)
     }
 }
