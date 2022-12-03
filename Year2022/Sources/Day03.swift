@@ -14,7 +14,7 @@ public enum Day03: Day {
                 let first = Set(array[..<middle])
                 let last = Set(array[middle...])
                 return try first.intersection(last)
-                    .sum { try $0.priority }
+                    .sum(of: Int.priority)
             }
     }
 
@@ -26,21 +26,19 @@ public enum Day03: Day {
                     .map(Set.init)
                     .reduce { $0.intersection($1) }
                     .unwrapped
-                    .sum { try $0.priority }
+                    .sum(of: Int.priority)
             }
     }
 }
 
-extension Character {
+extension Int {
 
-    fileprivate var priority: Int {
-        get throws {
-            let ascii = try Int.ascii(self)
-            switch ascii {
-            case (65...90): return ascii - 38
-            case (97...122): return ascii - 96
-            default: throw UnexpectedRawValue(rawValue: self)
-            }
+    fileprivate static func priority(_ character: Character) throws -> Int {
+        let ascii = try Int.ascii(character)
+        switch ascii {
+        case (65...90): return ascii - 38
+        case (97...122): return ascii - 96
+        default: throw UnexpectedRawValue(rawValue: self)
         }
     }
 }
