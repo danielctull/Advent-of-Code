@@ -1,6 +1,5 @@
 
 import Advent
-import Algorithms
 import RegexBuilder
 
 public enum Day04: Day {
