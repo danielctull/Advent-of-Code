@@ -7,31 +7,23 @@ public enum Day04: Day {
     public static let title = "Camp Cleanup"
 
     private static let regex = Regex {
-        TryCapture.integer
-        "-"
-        TryCapture.integer
+        TryCapture.range
         ","
-        TryCapture.integer
-        "-"
-        TryCapture.integer
+        TryCapture.range
     }
 
     public static func part1(_ input: Input) throws -> Int {
         try input.lines.count(where: { line in
             let output = try regex.match(in: line).output
-            let first = output.1...output.2
-            let second = output.3...output.4
-            return first.isSuperset(of: second)
-                || first.isSubset(of: second)
+            return output.1.isSuperset(of: output.2)
+                || output.1.isSubset(of: output.2)
         })
     }
 
     public static func part2(_ input: Input) throws -> Int {
         try input.lines.count(where: { line in
             let output = try regex.match(in: line).output
-            let first = output.1...output.2
-            let second = output.3...output.4
-            return first.overlaps(second)
+            return output.1.overlaps(output.2)
         })
     }
 }

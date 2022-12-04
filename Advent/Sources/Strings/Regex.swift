@@ -20,6 +20,17 @@ extension TryCapture where Output == (Substring, Int) {
     }
 }
 
+extension TryCapture where Output == (Substring, ClosedRange<Int>) {
+
+    public static let range = TryCapture {
+        TryCapture<(Substring, Int)>.integer
+        "-"
+        TryCapture<(Substring, Int)>.integer
+    } transform: { foo in
+        (foo.1...foo.2)
+    }
+}
+
 extension TryCapture where Output == (Substring, Character) {
 
     public static let character = TryCapture {
