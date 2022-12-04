@@ -28,6 +28,11 @@ public enum Day04: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines.count(where: { line in
+            let output = try regex.match(in: line).output
+            let first = output.1...output.2
+            let second = output.3...output.4
+            return !Set(first).isDisjoint(with: Set(second))
+        })
     }
 }
