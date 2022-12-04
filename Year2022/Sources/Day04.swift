@@ -22,8 +22,8 @@ public enum Day04: Day {
             let output = try regex.match(in: line).output
             let first = output.1...output.2
             let second = output.3...output.4
-            return Set(first).isSuperset(of: Set(second))
-                || Set(first).isSubset(of: Set(second))
+            return first.isSuperset(of: second)
+                || first.isSubset(of: second)
         })
     }
 
@@ -32,7 +32,7 @@ public enum Day04: Day {
             let output = try regex.match(in: line).output
             let first = output.1...output.2
             let second = output.3...output.4
-            return !Set(first).isDisjoint(with: Set(second))
+            return first.overlaps(second)
         })
     }
 }
