@@ -5,9 +5,24 @@ public struct NoRegexMatch: Error {}
 
 extension Regex {
 
-    public func match(in string: String) throws -> Regex<Output>.Match {
+    public func match(in string: String) throws -> Match {
         guard let match = try wholeMatch(in: string) else { throw NoRegexMatch() }
         return match
+    }
+
+    public func matches(in string: String) throws -> [Match] {
+
+        var matches: [Match] = []
+        var string = string[...]
+
+        while let match = try firstMatch(in: string) {
+            let next = string.index(match.range.lowerBound, offsetBy: 1)
+            string = string[next...]
+            matches.append(match)
+        }
+
+        guard !matches.isEmpty else { throw NoRegexMatch() }
+        return matches
     }
 }
 
