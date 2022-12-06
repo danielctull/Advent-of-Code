@@ -7,6 +7,12 @@ extension Collection {
     }
 }
 
+extension Collection where Element: Hashable {
+
+    /// Returns whether all the elements in the collection are different.
+    public var allDifferent: Bool { Set(self).count == count }
+}
+
 extension Collection {
 
     /// Creates a new collection containing the specified number of copies of
