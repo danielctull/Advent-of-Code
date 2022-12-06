@@ -11,16 +11,7 @@ extension Regex {
     }
 
     public func matches(in string: String) throws -> [Match] {
-
-        var matches: [Match] = []
-        var string = string[...]
-
-        while let match = try firstMatch(in: string) {
-            let next = string.index(match.range.lowerBound, offsetBy: 1)
-            string = string[next...]
-            matches.append(match)
-        }
-
+        let matches = string.matches(of: self)
         guard !matches.isEmpty else { throw NoRegexMatch() }
         return matches
     }
