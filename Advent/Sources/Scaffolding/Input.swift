@@ -31,6 +31,7 @@ extension Bundle {
 
 extension Input {
     public var integers: [Int] { lines.map { Int($0)! } }
+    public var characters: [Character] { lines.flatMap { $0 } }
 }
 
 extension Input {
