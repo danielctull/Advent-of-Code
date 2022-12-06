@@ -14,6 +14,9 @@ public enum Day06: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        let line = try input.lines.first.unwrapped
+        let windows = line.windows(ofCount: 14)
+        let index = try windows.firstIndex { Set($0).count == 14 }.unwrapped
+        return windows.distance(from: windows.startIndex, to: index) + 14
     }
 }
