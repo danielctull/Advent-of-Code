@@ -54,4 +54,10 @@ extension Capture where Output == (Substring, String) {
     } transform: {
         String($0)
     }
+
+    public static let alpha = Capture {
+        OneOrMore(.word)
+    } transform: {
+        String($0)
+    }
 }
