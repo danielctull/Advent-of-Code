@@ -35,6 +35,18 @@ extension TryCapture where Output == (Substring, Character) {
     }
 }
 
+extension TryCapture {
+
+    public init<T>(_ type: T.Type) where T: RawRepresentable, T.RawValue == Character, Output == (Substring, T) {
+
+        self.init {
+            One(.any)
+        } transform: {
+            $0.first.flatMap(T.init(rawValue:))
+        }
+    }
+}
+
 extension Capture where Output == (Substring, String) {
 
     public static let string = Capture {
