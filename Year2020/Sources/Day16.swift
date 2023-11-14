@@ -85,7 +85,7 @@ extension Day16 {
 
     fileprivate struct Rule {
         let name: String
-        let valid: Predicate<Int>
+        let valid: Advent.Predicate<Int>
     }
 }
 

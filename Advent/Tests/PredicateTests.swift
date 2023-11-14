@@ -6,8 +6,8 @@ import XCTest
 final class PredicateTests: XCTestCase {
 
     func testInit() {
-        let truePredicate = Predicate<Int> { _ in true }
-        let falsePredicate = Predicate<Int> { _ in false }
+        let truePredicate = Advent.Predicate<Int> { _ in true }
+        let falsePredicate = Advent.Predicate<Int> { _ in false }
         XCTAssertTrue(truePredicate(1))
         XCTAssertFalse(falsePredicate(1))
     }
@@ -45,21 +45,21 @@ final class PredicateTests: XCTestCase {
     }
 
     func testFalse() {
-        let predicate = Predicate<Int>.false
+        let predicate = Advent.Predicate<Int>.false
         XCTAssertFalse(predicate(0))
         XCTAssertFalse(predicate(11))
         XCTAssertFalse(predicate(10000))
     }
 
     func testTrue() {
-        let predicate = Predicate<Int>.true
+        let predicate = Advent.Predicate<Int>.true
         XCTAssertTrue(predicate(0))
         XCTAssertTrue(predicate(11))
         XCTAssertTrue(predicate(10000))
     }
 
     func testCount() {
-        let predicate = Predicate<[Int]>.count(is: 2)
+        let predicate = Advent.Predicate<[Int]>.count(is: 2)
         XCTAssertFalse(predicate([]))
         XCTAssertFalse(predicate([0]))
         XCTAssertTrue(predicate([0, 1]))

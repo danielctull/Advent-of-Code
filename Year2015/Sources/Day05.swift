@@ -26,7 +26,7 @@ public enum Day05: Day {
     }
 }
 
-extension Predicate where Value == String {
+extension Advent.Predicate where Value == String {
 
     fileprivate static var threeVowels: Self {
         let vowels: [Character] = ["a", "e", "i", "o", "u"]
