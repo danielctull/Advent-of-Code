@@ -122,10 +122,7 @@ extension RegularExpression.Match {
     }
 
     public func integer(at index: Int) throws -> Int {
-        guard let integer = try Int(string(at: index)) else {
-            throw RegularExpression.NotAnInteger()
-        }
-        return integer
+        try Int(string(at: index))
     }
 
     public func character(at index: Int) throws -> Character {
