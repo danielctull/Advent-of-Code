@@ -17,6 +17,7 @@ let package = Package(
         .library(name: "Year2020", targets: ["Year2020"]),
         .library(name: "Year2021", targets: ["Year2021"]),
         .library(name: "Year2022", targets: ["Year2022"]),
+        .library(name: "Year2023", targets: ["Year2023"]),
         .executable(name: "aoc", targets: ["AdventTool"]),
         .executable(name: "intcode", targets: ["IntcodeComputer tool"]),
     ],
@@ -207,6 +208,25 @@ let package = Package(
             name: "Year2022Tests",
             dependencies: ["Advent", "Year2022"],
             path: "Year2022/Tests",
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
+
+        // MARK: - Year2023
+
+        .target(
+            name: "Year2023",
+            dependencies: ["Advent"],
+            path: "Year2023/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
+
+        .testTarget(
+            name: "Year2023Tests",
+            dependencies: ["Advent", "Year2023"],
+            path: "Year2023/Tests",
             resources: [.copy("Inputs")],
             swiftSettings: [
                 .unsafeFlags(["-enable-bare-slash-regex"]),
