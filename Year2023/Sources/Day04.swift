@@ -19,7 +19,25 @@ public enum Day04: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        var cards: [Int: Int] = [:]
+        for line in input.lines {
+            
+            let output = try regex.match(in: line).output
+            let card = output.1
+            let winning: Set<Int> = Set(output.2.map(\.1))
+            let mine: Set<Int> = Set(output.3.map(\.1))
+            let amount = winning.intersection(mine).count
+
+            cards[card, default: 0] += 1
+
+            guard amount > 0 else { continue }
+
+            let count = cards[card, default: 0]
+            for card in ((card+1)...(card+amount)) {
+                cards[card, default: 0] += count
+            }
+        }
+        return cards.map(\.value).sum
     }
 
     public static let regex = Regex {
