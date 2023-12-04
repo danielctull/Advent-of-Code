@@ -23,7 +23,15 @@ public enum Day02: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines
+            .map(Game.init)
+            .map { game in
+                let red = try game.draws.map(\.red).max
+                let green = try game.draws.map(\.green).max
+                let blue = try game.draws.map(\.blue).max
+                return red * green * blue
+            }
+            .sum
     }
 }
 
