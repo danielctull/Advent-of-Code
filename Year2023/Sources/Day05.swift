@@ -19,7 +19,25 @@ public enum Day05: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        let output = try regex.match(in: input.string).output
+        let seeds: [Int] = try output.1.map(\.1)
+            .chunks(ofCount: 2)
+            .flatMap {
+                let start = try $0.first.unwrapped
+                let range = try $0.last.unwrapped
+                return start..<start+range
+            }
+        let mappings: [Mapping] = output.2.map(\.1).map(Mapping.init)
+
+        print("Steps:", mappings.count)
+        var step = 0
+
+        return try mappings
+            .reduce(seeds) { seeds, mapping in
+                print("Step:", step); step += 1
+                return Set(seeds).map { mapping.destination(for: $0) }
+            }
+            .min
     }
 
     public static let regex = Regex {
