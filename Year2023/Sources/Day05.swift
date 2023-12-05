@@ -20,23 +20,20 @@ public enum Day05: Day {
 
     public static func part2(_ input: Input) throws -> Int {
         let output = try regex.match(in: input.string).output
-        let seeds: [Int] = try output.1.map(\.1)
+        let seeds: [Range<Int>] = try output.1.map(\.1)
             .chunks(ofCount: 2)
-            .flatMap {
+            .map {
                 let start = try $0.first.unwrapped
                 let range = try $0.last.unwrapped
                 return start..<start+range
             }
         let mappings: [Mapping] = output.2.map(\.1).map(Mapping.init)
 
-        print("Steps:", mappings.count)
-        var step = 0
-
         return try mappings
             .reduce(seeds) { seeds, mapping in
-                print("Step:", step); step += 1
-                return Set(seeds).map { mapping.destination(for: $0) }
+                seeds.flatMap { mapping.destinations(for: $0) }
             }
+            .map(\.lowerBound)
             .min
     }
 
@@ -75,22 +72,54 @@ fileprivate struct Mapping {
     let groups: [Group]
 
     init(_ output: [(Substring, Int, Int, Int)]) {
-        groups = output.map { Group(destination: $0.1, source: $0.2, range: $0.3) }
+        groups = output.map {
+            Group(destination: $0.1, source: $0.2, range: $0.3)
+        }
     }
 
     func destination(for source: Int) -> Int {
-        guard let group = groups.first(where: { $0.source.contains(source) }) else { return source }
-        let difference = group.destination.lowerBound - group.source.lowerBound
-        return source + difference
+        let destination = groups
+            .lazy
+            .compactMap { $0.destination(for: source) }
+            .first
+        return destination ?? source
+    }
+
+    func destinations(for source: Range<Int>) -> [Range<Int>] {
+        var sources = [source]
+        var mapped: [Range<Int>] = []
+        for group in groups {
+            sources = sources.flatMap { source in
+                let (intersection, remainder) = group.source.intersection(source)
+                if let intersection, let destination = group.destination(for: intersection) {
+                    mapped.append(destination)
+                }
+                return remainder
+            }
+        }
+        mapped.append(contentsOf: sources)
+        return mapped
     }
 
     struct Group {
         let source: Range<Int>
-        let destination: Range<Int>
+        private let destination: Range<Int>
+        private let difference: Int
 
         init(destination: Int, source: Int, range: Int) {
             self.source = source..<source+range
             self.destination = destination..<destination+range
+            difference = destination - source
+        }
+
+        func destination(for value: Int) -> Int? {
+            guard source.contains(value) else { return nil }
+            return value + difference
+        }
+
+        func destination(for range: Range<Int>) -> Range<Int>? {
+            guard source.contains(range) else { return nil }
+            return (range.lowerBound + difference)..<(range.upperBound + difference)
         }
     }
 }
