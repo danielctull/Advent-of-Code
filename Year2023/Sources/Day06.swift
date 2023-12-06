@@ -12,34 +12,36 @@ public enum Day06: Day {
         let output = try regex1.match(in: input.string).output
         let times = output.1.map(\.1)
         let distances = output.2.map(\.1)
-
-        return zip(times, distances).map { time, distance in
-            (0...time)
-                .filter(wins(time: time, distance: distance))
-                .count
-        }
-        .product
+        return zip(times, distances)
+            .map(wins)
+            .product
     }
 
     public static func part2(_ input: Input) throws -> Int {
         let string = input.string.replacingOccurrences(of: " ", with: "")
         let output = try regex2.match(in: string).output
-        let time = output.1
-        let distance = output.2
-
-        let first = try (0...time)
-            .first(where: wins(time: time, distance: distance))
-            .unwrapped
-
-        let last = try (0...time)
-            .last(where: wins(time: time, distance: distance))
-            .unwrapped
-
-        return last - first + 1
+        return wins(time: output.1, distance: output.2)
     }
 
-    static func wins(time: Int, distance: Int) -> (Int) -> Bool {
-        { hold in (time - hold) * hold > distance }
+    // This is a quadratic equation!
+    //
+    // distance = (time - hold) * hold
+    // distance / hold = time - hold
+    // -hold = (distance / hold) - time
+    // hold = time - (distance / hold)
+    // hold^2 = (time * hold) - distance
+    //      0 = (time * hold) - distance - hold^2
+    //      0 = hold^2 - (time * hold) + distance
+    //      0 = a.x^2 + b.x + c
+    //    x = ( -b  ± sqrt(  b^2   -     4ac     )) / 2a
+    // hold = (time ± sqrt(-time^2 - 4*1*distance)) / 2*1
+    static func wins(time: Int, distance: Int) -> Int {
+        let time = Double(time)
+        let distance = Double(distance) + 0.1  // We need to be further than this
+        let sqrt = sqrt(time * time - 4 * distance)
+        let upper = floor((time + sqrt) / 2)
+        let lower = ceil((time - sqrt) / 2)
+        return Int(upper) - Int(lower) + 1
     }
 
     static let regex1 = Regex {
