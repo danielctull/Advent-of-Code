@@ -6,12 +6,12 @@ import XCTest
 final class Day06Tests: XCTestCase {
 
     func testPart1Examples() throws {
-        XCTAssertEqual(try Day06.part1([
+        XCTAssertEqual(try Day06.part1(
             """
             Time:      7  15   30
             Distance:  9  40  200
             """
-        ]), 288)
+        ), 288)
     }
 
     func testPart1Puzzle() throws {
@@ -20,11 +20,16 @@ final class Day06Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day06.part2([]), 0)
+        XCTAssertEqual(try Day06.part2(
+            """
+            Time:      7  15   30
+            Distance:  9  40  200
+            """
+        ), 71503)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day06")
-        XCTAssertEqual(try Day06.part2(input), 0)
+        XCTAssertEqual(try Day06.part2(input), 34655848)
     }
 }
