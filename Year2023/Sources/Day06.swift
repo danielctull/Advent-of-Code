@@ -40,6 +40,18 @@ public enum Day06: Day {
 
     static func wins(time: Int, distance: Int) -> (Int) -> Bool {
         { hold in (time - hold) * hold > distance }
+
+        // distance = (time - hold) * hold
+        // distance / hold = time - hold
+        // -hold = (distance / hold) - time
+        // hold = time - (distance / hold)
+
+        // hold^2 = (time * hold) - distance
+        // hold^2 + distance = time * hold
+        // hold + distance/hold = time
+
+        
+
     }
 
     static let regex1 = Regex {
