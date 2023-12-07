@@ -11,14 +11,19 @@ public enum Day07: Day {
     public static func part1(_ input: Input) throws -> Int {
         try input.lines
             .map { try regex.match(in: $0).output }
-            .sorted(by: \.1)
+            .sorted(by: \.1.strength, \.1.cards)
             .indexed()
             .map { $0.element.2 * ($0.index + 1) }
             .sum
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines
+            .map { try regex.match(in: $0).output }
+            .sorted(by: \.1.strength2, \.1.cards2)
+            .indexed()
+            .map { $0.element.2 * ($0.index + 1) }
+            .sum
     }
 
     fileprivate static let regex = Regex {
@@ -77,10 +82,10 @@ private enum Card: RawRepresentable, Hashable, Comparable {
 
 private struct Hand {
 
-    let cards: [Card]
+    private let _cards: [Card]
 
     init(_ string: String) throws {
-        cards = try string.map(Card.init)
+        _cards = try string.map(Card.init)
     }
 
     enum Strength: Comparable {
@@ -93,8 +98,20 @@ private struct Hand {
         case fiveOfAKind
     }
 
+    struct Cards: Comparable {
+        let cards: [Card]
+
+        static func < (lhs: Cards, rhs: Cards) -> Bool {
+            (lhs.cards[0], lhs.cards[1], lhs.cards[2], lhs.cards[3], lhs.cards[4])
+            <
+            (rhs.cards[0], rhs.cards[1], rhs.cards[2], rhs.cards[3], rhs.cards[4])
+        }
+    }
+
+    var cards: Cards { Cards(cards: _cards) }
+
     var strength: Strength {
-        let group = cards.group { $0 }
+        let group = _cards.group { $0 }
         return switch group.count {
         case 1: .fiveOfAKind
         case 2 where group.values.contains { $0.count == 4 }: .fourOfAKind
@@ -106,13 +123,50 @@ private struct Hand {
         default: fatalError()
         }
     }
-}
 
-extension Hand: Comparable {
-    
-    static func < (lhs: Hand, rhs: Hand) -> Bool {
-        (lhs.strength, lhs.cards[0], lhs.cards[1], lhs.cards[2], lhs.cards[3], lhs.cards[4])
-        <
-        (rhs.strength, rhs.cards[0], rhs.cards[1], rhs.cards[2], rhs.cards[3], rhs.cards[4])
+    struct Cards2: Comparable {
+        let cards: [Card]
+
+        static func < (lhs: Cards2, rhs: Cards2) -> Bool {
+            let lhs: [Card] = lhs.cards.map {
+                switch $0 {
+                case .j: .one
+                default: $0
+                }
+            }
+
+            let rhs: [Card] = rhs.cards.map {
+                switch $0 {
+                case .j: .one
+                default: $0
+                }
+            }
+
+            return (lhs[0], lhs[1], lhs[2], lhs[3], lhs[4])
+            <
+            (rhs[0], rhs[1], rhs[2], rhs[3], rhs[4])
+        }
+    }
+
+    var cards2: Cards2 { Cards2(cards: _cards) }
+
+    var strength2: Strength {
+        let jokers = _cards.filter { $0 == .j }
+        let group = _cards
+            .filter { $0 != .j }
+            .group { $0 }
+            .mapValues { $0 + jokers }
+
+        return switch group.count {
+        case 0: .fiveOfAKind
+        case 1: .fiveOfAKind
+        case 2 where group.values.contains { $0.count == 4 }: .fourOfAKind
+        case 2: .fullHouse
+        case 3 where group.values.contains { $0.count == 3 }: .threeOfAKind
+        case 3: .twoPair
+        case 4: .onePair
+        case 5: .highCard
+        default: fatalError()
+        }
     }
 }
