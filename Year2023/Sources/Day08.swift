@@ -36,7 +36,40 @@ public enum Day08: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+
+        let output = try regex.match(in: input.string).output
+
+        let instructions = try Array<Instruction>(output.1)
+            .cycled()
+            .enumerated()
+
+        let network = try output.2
+            .map { (String($0.1), String($0.2), String($0.3)) }
+            .group(by: \.0)
+            .mapValues { try ($0.first.unwrapped.1, $0.first.unwrapped.2) }
+
+        let starts = network.keys.filter { $0.last == "A" }
+
+        let counts = try starts.map {
+
+            var current = $0
+            var instructions = instructions.makeIterator()
+
+            while !current.hasSuffix("Z") {
+                let instruction = try instructions.next().unwrapped.element
+                let next = try network[current].unwrapped
+                switch instruction {
+                case .left: current = next.0
+                case .right: current = next.1
+                }
+            }
+
+            return try instructions.next().unwrapped.offset
+        }
+
+        return try counts
+            .reduce(lowestCommonMultiple)
+            .unwrapped
     }
 
     fileprivate static let regex = Regex {

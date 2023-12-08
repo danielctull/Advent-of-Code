@@ -35,11 +35,22 @@ final class Day08Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day08.part2([]), 0)
+        XCTAssertEqual(try Day08.part2([
+            "LR",
+            "",
+            "11A = (11B, XXX)",
+            "11B = (XXX, 11Z)",
+            "11Z = (11B, XXX)",
+            "22A = (22B, XXX)",
+            "22B = (22C, 22C)",
+            "22C = (22Z, 22Z)",
+            "22Z = (22B, 22B)",
+            "XXX = (XXX, XXX)",
+        ]), 6)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day08")
-        XCTAssertEqual(try Day08.part2(input), 0)
+        XCTAssertEqual(try Day08.part2(input), 15299095336639)
     }
 }
