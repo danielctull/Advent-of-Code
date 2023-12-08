@@ -63,9 +63,9 @@ extension Capture where Output == (Substring, String) {
 }
 
 /// A regex component that matches a list of items.
-public struct List<Component: RegexComponent>: CustomConsumingRegexComponent {
+public struct List<Component: RegexComponent, Element>: CustomConsumingRegexComponent where Component.RegexOutput == (Substring, Element) {
 
-    public typealias RegexOutput = [Component.RegexOutput]
+    public typealias RegexOutput = [Element]
 
     private let component: () -> Component
 
@@ -77,15 +77,15 @@ public struct List<Component: RegexComponent>: CustomConsumingRegexComponent {
         _ input: String,
         startingAt start: String.Index,
         in bounds: Range<String.Index>
-    ) throws -> (upperBound: String.Index, output: RegexOutput)? {
+    ) throws -> (upperBound: String.Index, output: [Element])? {
         let regex = Regex(component)
         var index = start
-        var list: [Component.RegexOutput] = []
+        var list: [Element] = []
         while
             index < input.endIndex,
             let match = input[index...].prefixMatch(of: regex)
         {
-            list.append(match.output)
+            list.append(match.output.1)
             index = match.range.upperBound
         }
         return (index, list)

@@ -10,8 +10,8 @@ public enum Day05: Day {
 
     public static func part1(_ input: Input) throws -> Int {
         let output = try regex.match(in: input.string).output
-        let seeds: [Int] = output.1.map(\.1)
-        let mappings: [Mapping] = output.2.map(\.1).map(Mapping.init)
+        let seeds: [Int] = output.1
+        let mappings: [Mapping] = output.2.map(Mapping.init)
 
         return try mappings
             .reduce(seeds) { seeds, mapping in seeds.map { mapping.destination(for: $0) } }
@@ -20,14 +20,14 @@ public enum Day05: Day {
 
     public static func part2(_ input: Input) throws -> Int {
         let output = try regex.match(in: input.string).output
-        let seeds: [Range<Int>] = try output.1.map(\.1)
+        let seeds: [Range<Int>] = try output.1
             .chunks(ofCount: 2)
             .map {
                 let start = try $0.first.unwrapped
                 let range = try $0.last.unwrapped
                 return start..<start+range
             }
-        let mappings: [Mapping] = output.2.map(\.1).map(Mapping.init)
+        let mappings: [Mapping] = output.2.map(Mapping.init)
 
         return try mappings
             .reduce(seeds) { seeds, mapping in

@@ -56,7 +56,7 @@ extension Game {
 
     init(_ string: String) throws {
         let output = try string.firstMatch(of: game).unwrapped.output
-        self.init(number: output.1, draws: output.2.map(\.1))
+        self.init(number: output.1, draws: output.2)
     }
 }
 

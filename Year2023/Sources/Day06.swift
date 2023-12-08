@@ -10,8 +10,8 @@ public enum Day06: Day {
 
     public static func part1(_ input: Input) throws -> Int {
         let output = try regex1.match(in: input.string).output
-        let times = output.1.map(\.1)
-        let distances = output.2.map(\.1)
+        let times = output.1
+        let distances = output.2
         return zip(times, distances)
             .map(wins)
             .product

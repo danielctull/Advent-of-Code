@@ -10,8 +10,8 @@ public enum Day04: Day {
         try input.lines
             .map {
                 let output = try regex.match(in: $0).output
-                let winning: Set<Int> = Set(output.2.map(\.1))
-                let mine: Set<Int> = Set(output.3.map(\.1))
+                let winning: Set<Int> = Set(output.2)
+                let mine: Set<Int> = Set(output.3)
                 let amount = winning.intersection(mine).count
                 return 2.power(amount - 1)
             }
@@ -24,8 +24,8 @@ public enum Day04: Day {
             
             let output = try regex.match(in: line).output
             let card = output.1
-            let winning: Set<Int> = Set(output.2.map(\.1))
-            let mine: Set<Int> = Set(output.3.map(\.1))
+            let winning: Set<Int> = Set(output.2)
+            let mine: Set<Int> = Set(output.3)
             let amount = winning.intersection(mine).count
 
             cards[card, default: 0] += 1
