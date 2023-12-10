@@ -20,5 +20,5 @@ public struct UnexpectedRawValue<RawValue>: Error {
 
 extension UnexpectedRawValue: CustomStringConvertible {
 
-    public var description: String { #"Unexpected rawValue: "\(rawValue)"."# }
+    public var description: String { #"Unexpected rawValue: "\#(rawValue)"."# }
 }
