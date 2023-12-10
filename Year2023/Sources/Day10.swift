@@ -38,6 +38,96 @@ public enum Day10: Day {
     }
 }
 
+public struct Size<Space, Scalar>
+    where
+    Space: Advent.Dimension,
+    Space.Scalar == Scalar,
+    Scalar: Numeric
+{
+    public typealias Parameter = Space.Parameter
+    private let space: Space
+
+    public subscript(
+        dynamicMember keyPath: KeyPath<Space, Scalar>
+    ) -> Scalar {
+        space[keyPath: keyPath]
+    }
+}
+
+extension Size {
+
+    public init(value: (Parameter) -> Scalar) {
+        self.init(space: Space(value: value))
+    }
+
+    public subscript(parameter: Parameter) -> Scalar { space[parameter] }
+}
+
+
+public typealias Size2D<Scalar: Numeric> = Size<Dimension2<Scalar>, Scalar>
+
+extension Size where Space == Dimension2<Scalar> {
+
+    public init(width: Scalar, height: Scalar) {
+        self.init { parameter in
+            switch parameter {
+            case .x: return width
+            case .y: return height
+            }
+        }
+    }
+}
+
+public struct Box<Space>
+    where
+    Space: Advent.Dimension,
+    Space.Scalar: Numeric
+{
+    public var origin: Position<Space, Space.Scalar>
+    public var size: Size<Space, Space.Scalar>
+}
+
+public struct Path<Space>
+    where
+    Space: Advent.Dimension,
+    Space.Scalar: Numeric
+{
+    public typealias P = Position<Space, Space.Scalar>
+    public private(set) var positions: [P]
+
+    public mutating func append(_ position: P) {
+        positions.append(position)
+    }
+}
+
+extension Path<Dimension2<Int>> {
+
+    public var bounds: Box<Dimension2<Int>>? {
+        let xs = positions.map(\.x)
+        let ys = positions.map(\.y)
+        
+        guard
+            let minY = ys.min(),
+            let maxY = ys.max(),
+            let minX = xs.min(),
+            let maxX = xs.max()
+        else {
+            return nil
+        }
+
+        return Box(
+            origin: Position(x: minX, y: minY),
+            size: Size(width: maxX - minX, height: maxY - minY))
+    }
+
+    public func contains(_ position: P) -> Bool {
+        guard let x = positions.map(\.x).max() else { return false }
+        let outside = position + Vector2D(x: x + 1, y: position.y)
+        let line = Line(start: position, end: outside)
+        line.
+    }
+}
+
 private struct Tile: RawRepresentable, Equatable {
 
     static let start = try! Self("S")
