@@ -19,19 +19,23 @@ extension Regex {
 
 extension TryCapture where Output == (Substring, Int) {
 
-    public static let integer = TryCapture {
-        OneOrMore(.digit)
-    } transform: {
-        Int($0)
+    public static var integer: Self {
+        TryCapture {
+            OneOrMore(.digit)
+        } transform: {
+            Int($0)
+        }
     }
 }
 
 extension TryCapture where Output == (Substring, Character) {
 
-    public static let character = TryCapture {
-        One(.any)
-    } transform: {
-        $0.first
+    public static var character: Self {
+        TryCapture {
+            One(.any)
+        } transform: {
+            $0.first
+        }
     }
 }
 
@@ -49,16 +53,20 @@ extension TryCapture {
 
 extension Capture where Output == (Substring, String) {
 
-    public static let string = Capture {
-        OneOrMore(.any)
-    } transform: {
-        String($0)
+    public static var string: Self {
+        Capture {
+           OneOrMore(.any)
+       } transform: {
+           String($0)
+       }
     }
 
-    public static let alpha = Capture {
-        OneOrMore(.word)
-    } transform: {
-        String($0)
+    public static var alpha: Self {
+        Capture {
+           OneOrMore(.word)
+       } transform: {
+           String($0)
+       }
     }
 }
 

@@ -1,5 +1,5 @@
 
-extension RawRepresentable {
+extension RawRepresentable where RawValue: Sendable {
 
     public init(_ rawValue: RawValue) throws {
 
@@ -11,7 +11,7 @@ extension RawRepresentable {
     }
 }
 
-public struct UnexpectedRawValue<RawValue>: Error {
+public struct UnexpectedRawValue<RawValue: Sendable>: Error {
     let rawValue: RawValue
     public init(rawValue: RawValue) {
         self.rawValue = rawValue

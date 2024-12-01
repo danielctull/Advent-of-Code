@@ -15,7 +15,7 @@ public struct Angle {
 
 extension Angle {
 
-    public static let zero = Angle(radians: 0)
+    public static var zero: Angle { Angle(radians: 0) }
 
     public init(degrees: Double) {
         self.init(radians: degrees/360 * .tau)

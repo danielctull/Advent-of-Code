@@ -100,24 +100,26 @@ extension Day06 {
             case off = "turn off"
         }
 
-        private static let regex = Regex {
-            TryCapture {
-                ChoiceOf {
-                    "turn on"
-                    "toggle"
-                    "turn off"
+        private static var regex: Regex<(Substring, Day06.Instruction.Kind, Int, Int, Int, Int)> {
+            Regex {
+                TryCapture {
+                    ChoiceOf {
+                        "turn on"
+                        "toggle"
+                        "turn off"
+                    }
+                } transform: {
+                    Kind(rawValue: String($0))
                 }
-            } transform: {
-                Kind(rawValue: String($0))
+                " "
+                TryCapture.integer
+                ","
+                TryCapture.integer
+                " through "
+                TryCapture.integer
+                ","
+                TryCapture.integer
             }
-            " "
-            TryCapture.integer
-            ","
-            TryCapture.integer
-            " through "
-            TryCapture.integer
-            ","
-            TryCapture.integer
         }
 
         let kind: Kind

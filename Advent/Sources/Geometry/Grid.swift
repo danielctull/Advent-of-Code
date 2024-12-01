@@ -158,7 +158,7 @@ extension Grid where Location == Position2D<Int>, Tile: RawRepresentable {
     /// If you have an array of array of Ints this works! :D
     ///
     /// - Parameter characters: The sequence of sequences of raw values.
-    public init<Rows, Columns, RawValue>(
+    public init<Rows, Columns, RawValue: Sendable>(
         origin: Origin = .bottomLeft,
         rawValues: Rows
     ) throws
