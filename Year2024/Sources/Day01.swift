@@ -20,7 +20,15 @@ public enum Day01: Day {
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        let rows = try input.lines
+            .map {
+                let values = $0.split(whereSeparator:(\.isWhitespace))
+                return try (Int(values.first.unwrapped), Int(values.last.unwrapped))
+            }
+        let columns = rotate(rows)
+        let lhs = columns.0
+        let rhs = columns.1
+        return lhs.map { $0 * rhs.count(of: $0) }.sum
     }
 }
 
