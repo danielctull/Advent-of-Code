@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "Advent of Code",
     platforms: [
-        .iOS(.v16),
-        .macOS(.v13),
+        .iOS(.v17),
+        .macOS(.v14),
     ],
     products: [
         .library(name: "Advent", targets: ["Advent"]),
@@ -18,6 +18,7 @@ let package = Package(
         .library(name: "Year2021", targets: ["Year2021"]),
         .library(name: "Year2022", targets: ["Year2022"]),
         .library(name: "Year2023", targets: ["Year2023"]),
+        .library(name: "Year2024", targets: ["Year2024"]),
         .executable(name: "aoc", targets: ["AdventTool"]),
         .executable(name: "intcode", targets: ["IntcodeComputer tool"]),
     ],
@@ -231,6 +232,26 @@ let package = Package(
             swiftSettings: [
                 .unsafeFlags(["-enable-bare-slash-regex"]),
             ]),
+
+        // MARK: - Year2024
+
+        .target(
+            name: "Year2024",
+            dependencies: ["Advent"],
+            path: "Year2024/Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
+
+        .testTarget(
+            name: "Year2024Tests",
+            dependencies: ["Advent", "Year2024"],
+            path: "Year2024/Tests",
+            resources: [.copy("Inputs")],
+            swiftSettings: [
+                .unsafeFlags(["-enable-bare-slash-regex"]),
+            ]),
+
     ],
     swiftLanguageVersions: [.v5]
 )
