@@ -11,15 +11,32 @@ public enum Day02: Day {
                 .split(whereSeparator:(\.isWhitespace))
                 .map(Int.init)
 
-            let differences = zip(values, values.dropFirst())
-                .map(-)
-
-            return differences.map(abs).allSatisfy { $0 < 4 }
-                && differences.map(\.signum).allSame
+            return check(differences(values))
         }
     }
 
     public static func part2(_ input: Input) throws -> Int {
-        0
+        try input.lines.count {
+            let values = try $0
+                .split(whereSeparator:(\.isWhitespace))
+                .map(Int.init)
+
+            if check(differences(values)) { return true }
+
+            return (0..<values.count).contains { index in
+                var new = values
+                new.remove(at: index)
+                return check(differences(new))
+            }
+        }
     }
+}
+
+fileprivate func differences(_ values: [Int]) -> [Int] {
+    zip(values.dropFirst(), values).map(-)
+}
+
+fileprivate func check(_ differences: [Int]) -> Bool {
+    differences.map(abs).allSatisfy { 0 < $0 && $0 < 4 }
+        && differences.map(\.signum).allSame
 }
