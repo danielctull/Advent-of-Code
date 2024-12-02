@@ -11,6 +11,9 @@ extension Collection where Element: Hashable {
 
     /// Returns whether all the elements in the collection are different.
     public var allDifferent: Bool { Set(self).count == count }
+
+    /// Returns whether all the elements in the collection are the same.
+    public var allSame: Bool { Set(self).count == 1 }
 }
 
 extension Collection {

@@ -23,6 +23,15 @@ extension Int {
         (self * (self + 1)) / 2
     }
 
+    /// Returns `-1` if this value is negative and `1` if it's positive;
+    /// otherwise, `0`.
+    ///
+    /// - Returns: The sign of this number, expressed as an integer of the same
+    ///   type.
+    public var signum: Int {
+        signum()
+    }
+
     public func power(_ power: Int) -> Int {
         Int(pow(Double(self), Double(power)))
     }
