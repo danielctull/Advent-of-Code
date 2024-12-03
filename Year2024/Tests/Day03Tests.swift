@@ -17,11 +17,13 @@ final class Day03Tests: XCTestCase {
     }
 
     func testPart2Examples() throws {
-        XCTAssertEqual(try Day03.part2([]), 0)
+        XCTAssertEqual(try Day03.part2([
+            "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+        ]), 48)
     }
 
     func testPart2Puzzle() throws {
         let input = try Bundle.module.input(named: "Day03")
-        XCTAssertEqual(try Day03.part2(input), 0)
+        XCTAssertEqual(try Day03.part2(input), 103811193)
     }
 }
